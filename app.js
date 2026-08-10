@@ -1,7 +1,7 @@
 (() => {
   if (window.__swedsnusV2Loaded) return;
   window.__swedsnusV2Loaded = true;
-  ['ui-components.css','mobile.css'].forEach(href => {
+  ['ui-components.css','product-images.css','mobile.css'].forEach(href => {
     if (!document.querySelector(`link[href="${href}"]`)) {
       const css = document.createElement('link');
       css.rel = 'stylesheet';
@@ -20,6 +20,7 @@
     document.body.append(drawer);
     await load('product-store.js');
     await load('catalog.js');
+    await load('product-images.js');
     await load('cart.js');
     await load('account.js');
     if(document.body.dataset.page==='checkout') await load('checkout.js');

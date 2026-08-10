@@ -5,9 +5,8 @@
 
   function selection(button) {
     const scope=button.closest('.product-card,.product-summary');
-    const select=scope?.querySelector('[data-pack-select]');
-    const option=select?.selectedOptions?.[0];
-    return { packQty:Number(select?.value||1), total:Number(option?.dataset.total||0), perDose:Number(option?.dataset.perDose||0) };
+    const picker=scope?.querySelector('[data-pack-picker]');
+    return { packQty:Number(picker?.dataset.packQty||1), total:Number(picker?.dataset.total||0), perDose:Number(picker?.dataset.perDose||0) };
   }
 
   function render() {
@@ -43,23 +42,40 @@
     document.querySelector('[data-cart-drawer]')?.classList.add('open');
   }
 
-  function syncSelect(select) {
-    const scope=select.closest('.product-card,.product-summary');
-    const option=select.selectedOptions?.[0];
-    if(!scope||!option) return;
+  function choosePack(option) {
+    const picker=option.closest('[data-pack-picker]');
+    if(!picker) return;
+    picker.dataset.packQty=option.dataset.packQty;
+    picker.dataset.total=option.dataset.total;
+    picker.dataset.perDose=option.dataset.perDose;
+    picker.querySelectorAll('[data-pack-option]').forEach(item=>item.classList.toggle('selected',item===option));
     const api=window.SwedsnusV2;
-    const row=api?.find(select.dataset.productId);
+    const row=api?.find(picker.dataset.productId);
     const suffix=row?.amount_dosor?'dosa':'st';
     const total=Number(option.dataset.total||0);
     const perDose=Number(option.dataset.perDose||0);
-    const totalEl=scope.querySelector('[data-selected-total]');
-    const perDoseEl=scope.querySelector('[data-selected-per-dose]');
-    if(totalEl) totalEl.textContent=api?.money?api.money(total):`${total} kr`;
-    if(perDoseEl) perDoseEl.textContent=`${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+    picker.querySelector('[data-pack-label]').textContent=`${option.dataset.packQty}-pack`;
+    picker.querySelector('[data-pack-summary]').textContent=`${api?.money?api.money(total):`${total} kr`} · ${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+    const scope=picker.closest('.product-card,.product-summary');
+    if(scope?.querySelector('[data-selected-total]')) scope.querySelector('[data-selected-total]').textContent=api?.money?api.money(total):`${total} kr`;
+    if(scope?.querySelector('[data-selected-per-dose]')) scope.querySelector('[data-selected-per-dose]').textContent=`${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+    const menu=picker.querySelector('[data-pack-menu]');
+    const trigger=picker.querySelector('[data-pack-toggle]');
+    if(menu) menu.hidden=true;
+    if(trigger) trigger.setAttribute('aria-expanded','false');
   }
 
-  document.addEventListener('change',event=>{ const select=event.target.closest('[data-pack-select]'); if(select) syncSelect(select); });
   document.addEventListener('click',event=>{
+    const packToggle=event.target.closest('[data-pack-toggle]');
+    if(packToggle){
+      const picker=packToggle.closest('[data-pack-picker]');
+      const menu=picker?.querySelector('[data-pack-menu]');
+      if(menu){ const opening=menu.hidden; document.querySelectorAll('[data-pack-menu]').forEach(other=>other.hidden=true); menu.hidden=!opening; packToggle.setAttribute('aria-expanded',String(opening)); }
+      return;
+    }
+    const packOption=event.target.closest('[data-pack-option]');
+    if(packOption){ choosePack(packOption); return; }
+    if(!event.target.closest('[data-pack-picker]')) document.querySelectorAll('[data-pack-menu]').forEach(menu=>menu.hidden=true);
     const addButton=event.target.closest('[data-add-cart]');
     if(addButton){ event.preventDefault(); add(addButton); }
     if(event.target.closest('[data-cart-toggle]')) document.querySelector('[data-cart-drawer]')?.classList.toggle('open');
@@ -67,6 +83,5 @@
     const removeButton=event.target.closest('[data-cart-remove]');
     if(removeButton) write(read().filter(item=>item.cartKey!==removeButton.dataset.cartRemove));
   });
-  document.addEventListener('swedsnus-v2:cards-rendered',()=>document.querySelectorAll('[data-pack-select]').forEach(syncSelect));
   render();
 })();

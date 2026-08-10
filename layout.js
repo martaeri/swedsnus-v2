@@ -4,7 +4,7 @@
   const theme = document.documentElement.dataset.theme || 'cool';
   const header = document.createElement('header');
   header.className = 'site-header';
-  header.innerHTML = `<div class="age-banner">18-årsgräns: Tobaksprodukter och tobaksfria nikotinprodukter får inte säljas eller lämnas ut till personer under 18 år.</div><div class="header-main"><a class="brand" href="index.html">Swedsnus<small>Tillverkat i Hemsjö</small></a><button class="mobile-menu-toggle" type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="main-navigation"><span></span><span></span><span></span><b>Meny</b></button><label class="header-search"><input type="search" data-product-search placeholder="Sök produkt, smak eller format" aria-label="Sök produkter"></label><div class="header-actions"><a class="header-action-link" href="bookmarks.html">Sparat <span class="header-count" data-bookmark-count>0</span></a><a class="header-account-link" href="account.html">Konto</a><button class="header-action-link" type="button" data-cart-toggle>Varukorg <span class="header-count" data-cart-count>0</span></button></div></div><nav class="nav-bar" id="main-navigation" data-mobile-navigation><div class="nav-inner"><a href="portion.html"${active('portion')}>Portionssnus</a><a href="los.html"${active('los')}>Lössnus</a><a href="gor-eget.html"${active('gor-eget')}>Gör eget</a><a href="vitt-snus.html"${active('vitt-snus')}>Vitt snus</a><a href="tillbehor.html"${active('tillbehor')}>Tillbehör</a><a href="guide.html"${active('guide')}>Guide</a><a href="faq.html"${active('faq')}>Vanliga frågor</a></div></nav>`;
+  header.innerHTML = `<div class="age-banner">18-årsgräns: Tobaksprodukter och tobaksfria nikotinprodukter får inte säljas eller lämnas ut till personer under 18 år.</div><div class="header-main"><a class="brand" href="index.html">Swedsnus<small>Tillverkat i Hemsjö</small></a><button class="mobile-menu-toggle" type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="main-navigation"><span></span><span></span><span></span><b>Meny</b></button><div class="header-actions"><a class="header-action-link" href="bookmarks.html">Sparade produkter <span class="header-count" data-bookmark-count hidden>0</span></a><a class="header-account-link" href="account.html">Konto</a><button class="header-action-link" type="button" data-cart-toggle>Varukorg <span class="header-count" data-cart-count>0</span></button></div><label class="header-search"><input type="search" data-product-search placeholder="Sök produkt, smak eller format" aria-label="Sök produkter"></label></div><nav class="nav-bar" id="main-navigation" data-mobile-navigation><div class="nav-inner"><a href="portion.html"${active('portion')}>Portionssnus</a><a href="los.html"${active('los')}>Lössnus</a><a href="gor-eget.html"${active('gor-eget')}>Gör eget</a><a href="vitt-snus.html"${active('vitt-snus')}>Vitt snus</a><a href="tillbehor.html"${active('tillbehor')}>Tillbehör</a><a href="guide.html"${active('guide')}>Guide</a><a href="faq.html"${active('faq')}>Vanliga frågor</a></div></nav>`;
   document.body.prepend(header);
 
   const themeOverlay = document.createElement('label');
@@ -25,8 +25,12 @@
     toggle.setAttribute('aria-expanded', String(open));
     document.body.classList.toggle('mobile-nav-open', open);
   };
-  toggle.addEventListener('click', () => setMenu(!nav.classList.contains('mobile-open')));
-  nav.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
+  toggle.addEventListener('click', event => { event.stopPropagation(); setMenu(!nav.classList.contains('mobile-open')); });
+  nav.addEventListener('click', event => { event.stopPropagation(); if (event.target.closest('a')) setMenu(false); });
+  document.addEventListener('click', event => {
+    if (!nav.classList.contains('mobile-open')) return;
+    if (!header.contains(event.target)) setMenu(false);
+  });
   window.addEventListener('resize', () => { if (window.innerWidth > 760) setMenu(false); });
 
   document.dispatchEvent(new CustomEvent('swedsnus-v2:layout-ready'));

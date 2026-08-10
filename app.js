@@ -1,12 +1,14 @@
 (() => {
   if (window.__swedsnusV2Loaded) return;
   window.__swedsnusV2Loaded = true;
-  if (!document.querySelector('link[href="ui-components.css"]')) {
-    const css = document.createElement('link');
-    css.rel = 'stylesheet';
-    css.href = 'ui-components.css';
-    document.head.appendChild(css);
-  }
+  ['ui-components.css','mobile.css'].forEach(href => {
+    if (!document.querySelector(`link[href="${href}"]`)) {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = href;
+      document.head.appendChild(css);
+    }
+  });
   function load(src) { return new Promise((resolve,reject)=>{ const s=document.createElement('script'); s.src=src; s.onload=resolve; s.onerror=reject; document.body.appendChild(s); }); }
   async function start() {
     await load('theme.js');

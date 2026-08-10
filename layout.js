@@ -1,0 +1,13 @@
+(() => {
+  const page = document.body.dataset.page || '';
+  const active = key => page === key ? ' class="active"' : '';
+  const header = document.createElement('header');
+  header.className = 'site-header';
+  header.innerHTML = `<div class="age-banner">18-årsgräns: Tobaksprodukter och tobaksfria nikotinprodukter får inte säljas eller lämnas ut till personer under 18 år.</div><div class="header-main"><a class="brand" href="index.html">Swedsnus<small>Tillverkat i Hemsjö</small></a><label class="header-search"><input type="search" data-product-search placeholder="Sök produkt, smak eller format" aria-label="Sök produkter"></label><div class="header-actions"><a href="faq.html">Hjälp</a><button type="button" data-cart-toggle>Varukorg <span data-cart-count>0</span></button></div></div><nav class="nav-bar"><div class="nav-inner"><a href="portion.html"${active('portion')}>Portionssnus</a><a href="los.html"${active('los')}>Lössnus</a><a href="gor-eget.html"${active('gor-eget')}>Gör eget</a><a href="vitt-snus.html"${active('vitt-snus')}>Vitt snus</a><a href="tillbehor.html"${active('tillbehor')}>Tillbehör</a><a href="guide.html"${active('guide')}>Guide</a></div></nav>`;
+  document.body.prepend(header);
+
+  const footer = document.createElement('footer');
+  footer.className = 'site-footer';
+  footer.innerHTML = `<div class="footer-grid"><div><h3>Swedsnus</h3><p>Produktinformation och prototyp för Swedsnus e-handel. Tillverkning i Hemsjö, Sverige.</p></div><div><h3>Sortiment</h3><a href="portion.html">Portionssnus</a><a href="los.html">Lössnus</a><a href="gor-eget.html">Gör eget</a><a href="vitt-snus.html">Vitt snus</a></div><div><h3>Information</h3><a href="guide.html">Beredningsguide</a><a href="faq.html">Vanliga frågor</a><a href="about.html">Om Swedsnus</a></div><div><h3>Kundservice</h3><a href="contact.html">Kontakt</a><p>Försäljning endast till personer som fyllt 18 år.</p></div></div><div class="footer-bottom">Tobaksprodukter och tobaksfria nikotinprodukter omfattas av olika svenska regelverk. Produktinformation och obligatoriska varningar ska anpassas efter produktkategori.</div>`;
+  document.body.append(footer);
+})();

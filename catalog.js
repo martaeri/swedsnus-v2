@@ -7,7 +7,7 @@
     tillbehor: row => row.product_family === 'Tillbehör'
   };
   const split = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
-  const unique = values => [...new Set(values.filter(Boolean).map(String))].sort((a,b)=>a.localeCompare(b,'sv'));
+  const unique = values => [...new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(String))].sort((a,b)=>a.localeCompare(b,'sv'));
   function currentPage() { return document.body.dataset.page || ''; }
   function renderFilters(rows) {
     const sidebar = document.querySelector('[data-filter-sidebar]');
@@ -61,6 +61,50 @@
     rail('[data-home-white]', routes['vitt-snus']);
     document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
   }
+
+  const variantDimensions = [
+    ['product_line','Typ'],
+    ['strength','Styrka'],
+    ['format','Format'],
+    ['grind','Malningsgrad'],
+    ['amount_dosor','Mängd'],
+    ['package_quantity','Antal']
+  ];
+  const variantValue = (row,field) => {
+    const value=row[field];
+    if(value===null||value===undefined||String(value).trim()==='') return '';
+    if(field==='amount_dosor') return `${value} dosor`;
+    if(field==='package_quantity') return `${value} st`;
+    return String(value);
+  };
+  const rawVariantValue = (row,field) => row[field]===null||row[field]===undefined?'':String(row[field]);
+
+  function renderVariantSelectors(row) {
+    const api=window.SwedsnusV2;
+    const group=api.group(row);
+    if(group.length<2) return '';
+    const dimensions=variantDimensions.map(([field,label])=>({field,label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
+    if(!dimensions.length) return '';
+    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field"><span>${label}</span><select data-variant-select data-variant-field="${field}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
+  }
+
+  function chooseVariant(select) {
+    const api=window.SwedsnusV2;
+    const currentId=new URLSearchParams(location.search).get('id');
+    const current=api.find(currentId);
+    if(!current) return;
+    const group=api.group(current);
+    const changedField=select.dataset.variantField;
+    const changedValue=select.value;
+    const selectors=[...document.querySelectorAll('[data-variant-select]')];
+    const desired=Object.fromEntries(selectors.map(item=>[item.dataset.variantField,item===select?changedValue:item.value]));
+    let candidates=group.filter(item=>rawVariantValue(item,changedField)===changedValue);
+    if(!candidates.length) return;
+    candidates=candidates.map(item=>({item,score:Object.entries(desired).reduce((sum,[field,value])=>sum+(rawVariantValue(item,field)===value?1:0),0)})).sort((a,b)=>b.score-a.score);
+    const target=candidates[0]?.item;
+    if(target && api.key(target)!==api.key(current)) location.href=api.url(target);
+  }
+
   function renderProduct() {
     if (currentPage() !== 'product') return;
     const api = window.SwedsnusV2;
@@ -72,7 +116,8 @@
     const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',row.strength],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
     const firstPack=api.packs(row)[0];
     const suffix=row.amount_dosor?'dosa':'st';
-    root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p><div class="product-pack-picker"><label for="product-pack-select">Flerpack</label><select id="product-pack-select" data-pack-select data-product-id="${api.escapeHtml(api.key(row))}">${api.packOptions(row)}</select></div><div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;
+    root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div><div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;
+    document.querySelectorAll('[data-variant-select]').forEach(select=>select.addEventListener('change',()=>chooseVariant(select)));
     const content = document.querySelector('[data-product-content]');
     if(content) content.innerHTML = `<article><p class="kicker">Produktinformation</p><h2>Om produkten</h2><p>Här kan en kortare faktabaserad text om produktens egenskaper, format och användningsområde ligga. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus.</p></article><article><p class="kicker">Hantering</p><h2>Förvaring och beredning</h2><p>Här kan relevant information om förvaring eller beredning ligga beroende på produkttyp. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p></article><article class="ingredients"><p class="kicker">Deklaration</p><h2>Innehållsförteckning</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></article>`;
     if(row.tobacco_type === 'Tobaksfri') document.querySelector('[data-product-warning]')?.removeAttribute('hidden');

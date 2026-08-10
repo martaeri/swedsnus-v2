@@ -11,7 +11,7 @@
     document.querySelector('[data-checkout-subtotal]').textContent=money(subtotal);
     document.querySelector('[data-checkout-total]').textContent=money(subtotal);
     if(!items.length) {
-      root.innerHTML='<div class="checkout-empty"><h3>Varukorgen är tom</h3><p>Lägg till produkter innan du går vidare till checkout.</p><a class="btn" href="portion.html">Till sortimentet</a></div>';
+      root.innerHTML='<div class="checkout-empty"><h3>Varukorgen är tom</h3><p>Lägg till produkter innan du går vidare till kassan.</p><a class="btn" href="portion.html">Till sortimentet</a></div>';
       return;
     }
     root.innerHTML=items.map(item=>`<article class="checkout-item" data-checkout-item="${item.cartKey}"><div class="checkout-item-image">Produktbild</div><div class="checkout-item-main"><h3>${window.SwedsnusV2.escapeHtml(item.name)}</h3><p>${item.packQty||1}-pack${item.perDose?` · ${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa`:''}</p><div class="checkout-quantity"><button type="button" data-checkout-minus="${item.cartKey}" aria-label="Minska antal">−</button><input type="number" min="1" value="${item.qty||1}" data-checkout-qty="${item.cartKey}" aria-label="Antal"><button type="button" data-checkout-plus="${item.cartKey}" aria-label="Öka antal">+</button></div></div><div class="checkout-item-side"><strong>${money((item.totalPrice||0)*(item.qty||1))}</strong><button type="button" class="checkout-remove" data-checkout-remove="${item.cartKey}">Ta bort</button></div></article>`).join('');

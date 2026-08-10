@@ -3,6 +3,7 @@
   window.__swedsnusV2Loaded = true;
   function load(src) { return new Promise((resolve,reject)=>{ const s=document.createElement('script'); s.src=src; s.onload=resolve; s.onerror=reject; document.body.appendChild(s); }); }
   async function start() {
+    await load('theme.js');
     await load('layout.js');
     const drawer = document.createElement('aside');
     drawer.className = 'cart-drawer';

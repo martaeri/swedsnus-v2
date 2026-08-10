@@ -2,8 +2,21 @@
   const AUTH_KEY = 'swedsnus-v2-session';
   const BOOKMARKS_KEY = 'swedsnus-v2-bookmarks';
   const loggedIn = () => sessionStorage.getItem(AUTH_KEY) === 'true';
-  const readBookmarks = () => { try { const value=JSON.parse(localStorage.getItem(BOOKMARKS_KEY)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; } };
-  const writeBookmarks = ids => { localStorage.setItem(BOOKMARKS_KEY,JSON.stringify(ids)); syncBookmarks(); document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed')); };
+  const readBookmarks = () => {
+    if (!loggedIn()) return [];
+    try { const value=JSON.parse(localStorage.getItem(BOOKMARKS_KEY)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; }
+  };
+  const writeBookmarks = ids => {
+    if (!loggedIn()) return;
+    localStorage.setItem(BOOKMARKS_KEY,JSON.stringify(ids));
+    syncBookmarks();
+    document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed'));
+  };
+  const clearBookmarks = () => {
+    localStorage.removeItem(BOOKMARKS_KEY);
+    syncBookmarks();
+    document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed'));
+  };
 
   function ensureModal() {
     if (document.querySelector('[data-login-modal]')) return;
@@ -29,10 +42,15 @@
   }
 
   function syncBookmarks() {
-    const ids=new Set(readBookmarks());
-    document.querySelectorAll('[data-bookmark-count]').forEach(el=>el.textContent=ids.size);
+    const authenticated=loggedIn();
+    if(!authenticated) localStorage.removeItem(BOOKMARKS_KEY);
+    const ids=new Set(authenticated?readBookmarks():[]);
+    document.querySelectorAll('[data-bookmark-count]').forEach(el=>{
+      el.textContent=ids.size;
+      el.hidden=!authenticated;
+    });
     document.querySelectorAll('[data-bookmark]').forEach(button=>{
-      const active=ids.has(button.dataset.bookmark);
+      const active=authenticated && ids.has(button.dataset.bookmark);
       button.classList.toggle('active',active);
       button.setAttribute('aria-pressed',String(active));
       button.setAttribute('aria-label',active?'Ta bort sparad produkt':'Spara produkt');
@@ -64,7 +82,7 @@
       root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Logga in</h1><p>Detta är ett prototypflöde. Den skarpa webbplatsen ska kopplas till vald identitets- och checkoutlösning.</p><button class="btn primary" type="button" data-demo-login>Demo-inloggning</button>`;
       return;
     }
-    root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Konto</h1><div class="knowledge-grid"><article><h3>Orderhistorik</h3><p>Orderhistorik kommer att hämtas från den slutliga orderintegrationen.</p></article><article><h3>Sparade produkter</h3><p>Produkter du sparar lokalt i prototypen finns på sidan Sparat.</p><a class="section-link" href="bookmarks.html">Visa sparade</a></article><article><h3>Kontouppgifter</h3><p>Kunddata ska hämtas från det system som blir master för kundinformationen.</p></article></div><div class="button-row"><button class="btn" type="button" data-demo-logout>Logga ut</button></div>`;
+    root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Konto</h1><div class="knowledge-grid"><article><h3>Orderhistorik</h3><p>Orderhistorik kommer att hämtas från den slutliga orderintegrationen.</p></article><article><h3>Sparade produkter</h3><p>Sparade produkter hör till den aktiva inloggningen i prototypen och töms när du loggar ut.</p><a class="section-link" href="bookmarks.html">Visa sparade produkter</a></article><article><h3>Kontouppgifter</h3><p>Kunddata ska hämtas från det system som blir master för kundinformationen.</p></article></div><div class="button-row"><button class="btn" type="button" data-demo-logout>Logga ut</button></div>`;
   }
 
   document.addEventListener('click',event=>{
@@ -75,13 +93,20 @@
     if(event.target.closest('[data-login-close]')) closeModal();
     if(event.target.closest('[data-demo-login], [data-demo-login-modal]')) {
       sessionStorage.setItem(AUTH_KEY,'true');
+      localStorage.removeItem(BOOKMARKS_KEY);
       const returnTo=document.querySelector('[data-login-modal]')?.dataset.returnTo || '';
       closeModal(); renderAccount(); syncBookmarks(); renderBookmarks();
       if(returnTo && !location.pathname.endsWith(returnTo)) location.href=returnTo;
     }
-    if(event.target.closest('[data-demo-logout]')) { sessionStorage.removeItem(AUTH_KEY); renderAccount(); }
+    if(event.target.closest('[data-demo-logout]')) {
+      clearBookmarks();
+      sessionStorage.removeItem(AUTH_KEY);
+      syncBookmarks();
+      renderAccount();
+      if(document.body.dataset.page==='bookmarks') openModal('bookmarks.html');
+    }
   });
   document.addEventListener('swedsnus-v2:products-ready',()=>{ renderBookmarks(); syncBookmarks(); });
   document.addEventListener('swedsnus-v2:cards-rendered',syncBookmarks);
-  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{ ensureModal(); renderAccount(); syncBookmarks(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); }):(()=>{ ensureModal(); renderAccount(); syncBookmarks(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); })();
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{ ensureModal(); syncBookmarks(); renderAccount(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); }):(()=>{ ensureModal(); syncBookmarks(); renderAccount(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); })();
 })();

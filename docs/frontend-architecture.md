@@ -7,15 +7,20 @@ V2 keeps the data-driven architecture of `martaeri/swedsnus` but replaces the vi
 - `app.js` — single browser entry point, dependency order and loading of shared interactive/responsive styles.
 - `theme.js` — global theme state and persistence. The cold blue/grey palette is the default; warm beige/brown and muted green are alternatives.
 - `layout.js` — shared age banner, one shared desktop/mobile header, navigation, counters, floating theme selector and footer.
-- `product-store.js` — product loading, IDs, URLs, product grouping, price/name normalization, prototype multipack calculations and the one product-card renderer.
+- `product-store.js` — product loading, IDs, URLs, product grouping, price/name normalization, product-image lookup, prototype multipack calculations and the one product-card renderer.
 - `catalog.js` — category routing, desktop/mobile filter behavior, catalog rendering, homepage product rails, product variant resolution and dynamic product-page rendering.
+- `product-images.js` — shared product-page image hydration using the same image lookup as product cards.
+- `product-images.css` — shared presentation for mapped product images and their placeholders.
 - `cart.js` — cart state, drawer rendering, selected multipack handling and add/remove actions.
 - `account.js` — authentication prototype, shared login modal, bookmark state, saved-product counters and saved-product page.
 - `styles.css` — global V2 visual system and all three palettes.
 - `ui-components.css` — shared richer interactive controls, including multipack dropdowns, product variant selectors, checkout components and component-level utility classes.
 - `mobile.css` — responsive composition for the existing shared components: mobile header/navigation, filter drawer, grids, product detail, cart, modals, information pages and floating theme control.
 - `tools/excel-to-products-json.py` — Excel-to-JSON export pipeline retained from the original prototype.
+- `tools/fetch-product-images.py` — verified product-image import from the centrally recorded source list.
 - `data/products.json` — deploy product manifest/snapshot.
+- `data/product-images.json` — active product-key-to-local-image mapping consumed by the storefront.
+- `data/product-image-sources.json` — verified source-page and source-filename mapping used by the image importer; it is not read by storefront components.
 
 ## Rules
 
@@ -34,6 +39,9 @@ V2 keeps the data-driven architecture of `martaeri/swedsnus` but replaces the vi
 13. Tobacco-free nicotine warnings may be placed by page layout, but their wording should remain consistent.
 14. SEO/information copy must remain visible to users and may not be hidden solely for crawlers.
 15. Customer-facing copy must read as storefront content. Implementation notes, architecture explanations, development status and references to the template/prototype belong in repository documentation, not the rendered site.
+16. Product images are assigned by product key in `data/product-images.json`; individual HTML pages and product-card callers must never hardcode image filenames.
+17. Only image matches that can be tied to a real product variant should enter the active mapping. Missing or ambiguous matches must retain the shared placeholder.
+18. Source-image provenance belongs in `data/product-image-sources.json` and the import report, not in individual product components.
 
 ## V2 visual direction
 

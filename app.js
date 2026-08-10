@@ -12,6 +12,7 @@
     await load('product-store.js');
     await load('catalog.js');
     await load('cart.js');
+    await load('account.js');
   }
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', start) : start();
 })();

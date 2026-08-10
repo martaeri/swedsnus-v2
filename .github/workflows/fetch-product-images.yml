@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - product-images-from-upload
+      - main
     paths:
       - data/product-image-sources.json
       - tools/fetch-product-images.py

@@ -63,21 +63,25 @@
   }
 
   const variantDimensions = [
-    ['product_line','Typ'],
     ['strength','Styrka'],
+    ['product_line','Typ'],
     ['format','Format'],
     ['grind','Malningsgrad'],
     ['amount_dosor','Mängd'],
     ['package_quantity','Antal']
   ];
+  const strengthLabels = { Normal: 'Normal', Strong: 'Stark', 'Extra Strong': 'Extra stark' };
   const variantValue = (row,field) => {
     const value=row[field];
     if(value===null||value===undefined||String(value).trim()==='') return '';
+    if(field==='strength') return strengthLabels[String(value)] || String(value);
     if(field==='amount_dosor') return `${value} dosor`;
     if(field==='package_quantity') return `${value} st`;
     return String(value);
   };
   const rawVariantValue = (row,field) => row[field]===null||row[field]===undefined?'':String(row[field]);
+  const strengthLevel = value => value === 'Extra Strong' ? 4 : value === 'Strong' ? 3 : value ? 2 : 0;
+  const strengthMeter = value => `<span class="variant-strength-meter" aria-hidden="true">${[1,2,3,4].map(index=>`<i${index<=strengthLevel(value)?' class="filled"':''}></i>`).join('')}</span>`;
 
   function renderVariantSelectors(row) {
     const api=window.SwedsnusV2;
@@ -85,7 +89,7 @@
     if(group.length<2) return '';
     const dimensions=variantDimensions.map(([field,label])=>({field,label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
     if(!dimensions.length) return '';
-    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field"><span>${label}</span><select data-variant-select data-variant-field="${field}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
+    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field${field==='strength'?' strength-variant-field':''}"><span>${label}${field==='strength'?strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
   }
 
   function chooseVariant(select) {
@@ -113,7 +117,7 @@
     const root = document.querySelector('[data-product-detail]');
     if (!row || !root) { if(root) root.innerHTML='<div class="product-summary"><h1>Produkt hittades inte</h1><p>Produktlänken kunde inte matchas mot produktdatan.</p></div>'; return; }
     document.title = `${api.name(row)} — Swedsnus`;
-    const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',row.strength],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
+    const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
     const firstPack=api.packs(row)[0];
     const suffix=row.amount_dosor?'dosa':'st';
     root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div><div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;

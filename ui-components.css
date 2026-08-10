@@ -32,6 +32,7 @@
 
 .header-count { min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; }
 .header-count[hidden] { display: none !important; }
+.cart-checkout-link { width: 100%; }
 
 .checkout-page { padding: 52px 0 84px; }
 .checkout-head { max-width: 760px; margin-bottom: 30px; }

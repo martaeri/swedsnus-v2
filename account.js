@@ -24,7 +24,7 @@
     modal.className='login-modal';
     modal.dataset.loginModal='';
     modal.hidden=true;
-    modal.innerHTML=`<div class="login-modal-backdrop" data-login-close></div><section class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="login-modal-title"><button class="login-modal-close" type="button" data-login-close aria-label="Stäng">×</button><p class="kicker">Mina sidor</p><h2 id="login-modal-title">Logga in för att fortsätta</h2><p>Sparade produkter hör till ditt konto. I prototypen används en demo-inloggning tills den slutliga identitetslösningen är kopplad.</p><button class="btn primary" type="button" data-demo-login-modal>Demo-inloggning</button></section>`;
+    modal.innerHTML=`<div class="login-modal-backdrop" data-login-close></div><section class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="login-modal-title"><button class="login-modal-close" type="button" data-login-close aria-label="Stäng">×</button><p class="kicker">Mina sidor</p><h2 id="login-modal-title">Logga in för att fortsätta</h2><p>Logga in för att komma åt dina sparade produkter och dina kontouppgifter.</p><button class="btn primary" type="button" data-demo-login-modal>Logga in</button></section>`;
     document.body.append(modal);
   }
 
@@ -79,10 +79,10 @@
     const root=document.querySelector('[data-account-root]');
     if(!root) return;
     if(!loggedIn()) {
-      root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Logga in</h1><p>Detta är ett prototypflöde. Den skarpa webbplatsen ska kopplas till vald identitets- och checkoutlösning.</p><button class="btn primary" type="button" data-demo-login>Demo-inloggning</button>`;
+      root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Logga in</h1><p>Logga in för att se sparade produkter, orderhistorik och kontouppgifter.</p><button class="btn primary" type="button" data-demo-login>Logga in</button>`;
       return;
     }
-    root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Konto</h1><div class="knowledge-grid"><article><h3>Orderhistorik</h3><p>Orderhistorik kommer att hämtas från den slutliga orderintegrationen.</p></article><article><h3>Sparade produkter</h3><p>Sparade produkter hör till den aktiva inloggningen i prototypen och töms när du loggar ut.</p><a class="section-link" href="bookmarks.html">Visa sparade produkter</a></article><article><h3>Kontouppgifter</h3><p>Kunddata ska hämtas från det system som blir master för kundinformationen.</p></article></div><div class="button-row"><button class="btn" type="button" data-demo-logout>Logga ut</button></div>`;
+    root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Konto</h1><div class="knowledge-grid"><article><h3>Orderhistorik</h3><p>Här visas dina tidigare beställningar och aktuell orderstatus.</p></article><article><h3>Sparade produkter</h3><p>Produkter som du sparar finns tillgängliga så länge du är inloggad.</p><a class="section-link" href="bookmarks.html">Visa sparade produkter</a></article><article><h3>Kontouppgifter</h3><p>Här visas kontaktuppgifter och annan information som hör till ditt konto.</p></article></div><div class="button-row"><button class="btn" type="button" data-demo-logout>Logga ut</button></div>`;
   }
 
   document.addEventListener('click',event=>{

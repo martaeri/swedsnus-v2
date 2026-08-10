@@ -1,7 +1,7 @@
 (() => {
   const KEY = 'swedsnus-v2-cart';
   const read = () => { try { const value=JSON.parse(localStorage.getItem(KEY)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; } };
-  const write = items => { localStorage.setItem(KEY,JSON.stringify(items)); render(); };
+  const write = items => { localStorage.setItem(KEY,JSON.stringify(items)); render(); document.dispatchEvent(new CustomEvent('swedsnus-v2:cart-changed')); };
 
   function selection(button) {
     const scope=button.closest('.product-card,.product-summary');
@@ -65,6 +65,19 @@
     if(trigger) trigger.setAttribute('aria-expanded','false');
   }
 
+  window.SwedsnusCart = {
+    read,
+    write,
+    remove: cartKey => write(read().filter(item=>item.cartKey!==cartKey)),
+    setQuantity: (cartKey,qty) => {
+      const items=read();
+      const item=items.find(entry=>entry.cartKey===cartKey);
+      if(!item) return;
+      item.qty=Math.max(1,Number(qty)||1);
+      write(items);
+    }
+  };
+
   document.addEventListener('click',event=>{
     const packToggle=event.target.closest('[data-pack-toggle]');
     if(packToggle){
@@ -81,7 +94,7 @@
     if(event.target.closest('[data-cart-toggle]')) document.querySelector('[data-cart-drawer]')?.classList.toggle('open');
     if(event.target.closest('[data-cart-close]')) document.querySelector('[data-cart-drawer]')?.classList.remove('open');
     const removeButton=event.target.closest('[data-cart-remove]');
-    if(removeButton) write(read().filter(item=>item.cartKey!==removeButton.dataset.cartRemove));
+    if(removeButton) window.SwedsnusCart.remove(removeButton.dataset.cartRemove);
   });
   render();
 })();

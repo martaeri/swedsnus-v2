@@ -15,7 +15,7 @@
     const groups = currentPage() === 'tillbehor'
       ? [['Typ','type',unique(rows.map(r=>r.accessory_type))],['Färg','color',unique(rows.map(r=>r.design_color || r.filter_color))]]
       : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type))],['Format','format',unique(rows.map(r=>r.format || r.grind))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
-    sidebar.innerHTML = `<div class="filter-title">Filtrera</div>${groups.filter(([, ,v])=>v.length).map(([title,key,values])=>`<div class="filter-group" data-filter-group="${key}"><h4>${title}</h4>${values.map(value=>`<label class="filter-option"><input type="checkbox" value="${window.SwedsnusV2.escapeHtml(value)}">${window.SwedsnusV2.escapeHtml(value)}</label>`).join('')}</div>`).join('')}`;
+    sidebar.innerHTML = `<div class="filter-title"><span>Filtrera</span><button type="button" data-mobile-filter-close aria-label="Stäng filter">×</button></div>${groups.filter(([, ,v])=>v.length).map(([title,key,values])=>`<div class="filter-group" data-filter-group="${key}"><h4>${title}</h4>${values.map(value=>`<label class="filter-option"><input type="checkbox" value="${window.SwedsnusV2.escapeHtml(value)}">${window.SwedsnusV2.escapeHtml(value)}</label>`).join('')}</div>`).join('')}`;
   }
   function applyFilters() {
     const cards = [...document.querySelectorAll('.catalog-main .product-card')];
@@ -47,9 +47,26 @@
     const rows = api.state.rows.filter(routes[key]);
     grid.innerHTML = rows.map(api.card).join('');
     renderFilters(rows);
-    document.querySelectorAll('[data-filter-group] input').forEach(i=>i.addEventListener('change', applyFilters));
+    const sidebar = document.querySelector('[data-filter-sidebar]');
+    if (sidebar && !document.querySelector('[data-mobile-filter-toggle]')) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'mobile-filter-toggle';
+      button.dataset.mobileFilterToggle = '';
+      button.innerHTML = `<span>Filter</span><b data-mobile-filter-count>0</b>`;
+      sidebar.before(button);
+    }
+    const updateFilterCount = () => {
+      const count = document.querySelectorAll('[data-filter-group] input:checked').length;
+      const el = document.querySelector('[data-mobile-filter-count]');
+      if (el) el.textContent = count;
+    };
+    document.querySelectorAll('[data-filter-group] input').forEach(i=>i.addEventListener('change',()=>{ applyFilters(); updateFilterCount(); }));
     document.querySelector('[data-product-search]')?.addEventListener('input', applyFilters);
+    document.querySelector('[data-mobile-filter-toggle]')?.addEventListener('click',()=>{ sidebar?.classList.add('mobile-open'); document.body.classList.add('mobile-filter-open'); });
+    sidebar?.querySelector('[data-mobile-filter-close]')?.addEventListener('click',()=>{ sidebar.classList.remove('mobile-open'); document.body.classList.remove('mobile-filter-open'); });
     applyFilters();
+    updateFilterCount();
     document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
   }
   function renderHome() {

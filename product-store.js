@@ -11,6 +11,12 @@
   const category = row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus' ? 'vitt-snus' : row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom' ? 'los' : row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' ? 'gor-eget' : row.product_family === 'Tillbehör' ? 'tillbehor' : 'portion';
   const image = row => state.images[key(row)] || '';
   const BOOKMARK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.75A1.75 1.75 0 0 1 8.25 3h7.5a1.75 1.75 0 0 1 1.75 1.75V21L12 17.35 6.5 21V4.75Z"/></svg>';
+  const IMAGE_MAP_URLS = [
+    'data/product-images.json',
+    'data/product-images-instant.json',
+    'data/product-images-express.json',
+    'data/product-images-accessories.json'
+  ];
 
   function media(row, className, eager = false) {
     const src = image(row);
@@ -58,13 +64,13 @@
 
   async function fetchJson(url) { const r = await fetch(url,{cache:'no-cache'}); if(!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }
   async function load() {
-    const [manifest, imageMap] = await Promise.all([
+    const [manifest, imageMaps] = await Promise.all([
       fetchJson('data/products.json'),
-      fetchJson('data/product-images.json').catch(() => ({}))
+      Promise.all(IMAGE_MAP_URLS.map(source => fetchJson(source).catch(() => ({}))))
     ]);
     const parts = Array.isArray(manifest.parts) ? await Promise.all(manifest.parts.map(fetchJson)) : [manifest];
     state.rows = parts.flat().filter(visible);
-    state.images = imageMap && typeof imageMap === 'object' && !Array.isArray(imageMap) ? imageMap : {};
+    state.images = Object.assign({}, ...imageMaps.filter(map => map && typeof map === 'object' && !Array.isArray(map)));
     state.ready = true;
     window.SwedsnusV2 = { state, visible, escapeHtml, slugify, name, key, url, money, price, category, image, media, packs, packMenu, group, card, find: id => state.rows.find(row => key(row) === id || row.product_id === id || row.variant_id === id) };
     document.dispatchEvent(new CustomEvent('swedsnus-v2:products-ready'));

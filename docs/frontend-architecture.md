@@ -7,7 +7,7 @@ V2 keeps the data-driven architecture of `martaeri/swedsnus` but replaces the vi
 - `app.js` — single browser entry point, dependency order and loading of shared interactive/responsive styles.
 - `theme.js` — global theme state and persistence. The cold blue/grey palette is the default; warm beige/brown and muted green are alternatives.
 - `layout.js` — shared age banner, one shared desktop/mobile header, navigation, counters, floating theme selector and footer.
-- `product-store.js` — product loading, IDs, URLs, product grouping, price/name normalization, product-image lookup, prototype multipack calculations and the one product-card renderer.
+- `product-store.js` — product loading, IDs, URLs, product grouping, price/name normalization, centralized product-image lookup, prototype multipack calculations and the one product-card renderer.
 - `catalog.js` — category routing, desktop/mobile filter behavior, catalog rendering, homepage product rails, product variant resolution and dynamic product-page rendering.
 - `product-images.js` — shared product-page image hydration using the same image lookup as product cards.
 - `product-images.css` — shared presentation for mapped product images and their placeholders.
@@ -19,7 +19,10 @@ V2 keeps the data-driven architecture of `martaeri/swedsnus` but replaces the vi
 - `tools/excel-to-products-json.py` — Excel-to-JSON export pipeline retained from the original prototype.
 - `tools/fetch-product-images.py` — verified product-image import from the centrally recorded source list.
 - `data/products.json` — deploy product manifest/snapshot.
-- `data/product-images.json` — active product-key-to-local-image mapping consumed by the storefront.
+- `data/product-images.json` — base product-key-to-image mapping consumed by the storefront.
+- `data/product-images-instant.json` — verified override images from `Swedsnus-bilder/Swedsnus-bilder/Instant`.
+- `data/product-images-express.json` — verified override images from `Swedsnus-bilder/Swedsnus-bilder/Express 2025`.
+- `data/product-images-accessories.json` — verified accessory images from `Swedsnus-bilder/Swedsnus-bilder/Tillbehor`.
 - `data/product-image-sources.json` — verified source-page and source-filename mapping used by the image importer; it is not read by storefront components.
 
 ## Rules
@@ -39,9 +42,12 @@ V2 keeps the data-driven architecture of `martaeri/swedsnus` but replaces the vi
 13. Tobacco-free nicotine warnings may be placed by page layout, but their wording should remain consistent.
 14. SEO/information copy must remain visible to users and may not be hidden solely for crawlers.
 15. Customer-facing copy must read as storefront content. Implementation notes, architecture explanations, development status and references to the template/prototype belong in repository documentation, not the rendered site.
-16. Product images are assigned by product key in `data/product-images.json`; individual HTML pages and product-card callers must never hardcode image filenames.
-17. Only image matches that can be tied to a real product variant should enter the active mapping. Missing or ambiguous matches must retain the shared placeholder.
-18. Source-image provenance belongs in `data/product-image-sources.json` and the import report, not in individual product components.
+16. Product images are assigned by product key through the centralized image maps loaded by `product-store.js`; individual HTML pages, product cards and product pages must never hardcode image filenames.
+17. Later image maps override earlier maps. Use a category-specific override file only when a previously mapped image has been verified against the supplied source folder.
+18. `Instant`, `Express 2025` and `Tillbehor` are the authoritative supplied folders for their corresponding override maps. Do not substitute category banners, promotional artwork, stickers or unrelated image folders for product imagery.
+19. Every rendered product image must represent one source product photograph. Do not use multi-image SVG sprites, stacked image layers or decorative overlays as product images.
+20. Missing or ambiguous image matches must retain the shared placeholder rather than use a best guess.
+21. Source-image provenance belongs in central mapping/import data, not in individual product components.
 
 ## V2 visual direction
 

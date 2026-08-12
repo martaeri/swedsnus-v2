@@ -89,6 +89,24 @@
   .text-page { padding: 38px 0 64px; }
   .text-page h1 { font-size: 44px; }
   .text-page h2 { font-size: 27px; margin-top: 34px; }
+  .account-page { padding: 18px 0 64px; }
+  .account-nav { gap: 20px; }
+  .account-hero, .order-detail-head { align-items: flex-start; padding: 35px 0 24px; }
+  .account-login h1, .account-hero h1, .order-detail-head h1 { font-size: 43px; }
+  .account-summary { grid-template-columns: 1fr; }
+  .account-section { padding-top: 42px; }
+  .account-section-head, .account-panel-head { align-items: flex-start; }
+  .order-actions { justify-content: stretch; }
+  .order-actions .btn { flex: 1 1 140px; }
+  .account-service-grid, .profile-layout, .order-detail-layout { grid-template-columns: 1fr; }
+  .account-service-grid article, .account-panel { padding: 20px 17px; }
+  .order-lines { margin: 0 -17px -20px; }
+  .order-line { grid-template-columns: 55px 1fr; padding: 14px 17px; }
+  .order-line > strong:last-child { grid-column: 2; }
+  .order-service { position: static; }
+  .form-grid { grid-template-columns: 1fr; }
+  .address-card { align-items: flex-start; flex-direction: column; }
+  .address-card > div:last-child { justify-content: flex-start; }
 
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px 18px; padding: 36px 16px 28px; }
   .footer-bottom { padding: 14px 16px 78px; }

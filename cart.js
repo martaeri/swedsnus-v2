@@ -68,6 +68,15 @@
   window.SwedsnusCart = {
     read,
     write,
+    addItems: incoming => {
+      const items=read();
+      incoming.forEach(next=>{
+        const existing=items.find(item=>item.cartKey===next.cartKey);
+        if(existing) existing.qty=(existing.qty||1)+(next.qty||1);
+        else items.push({...next,qty:next.qty||1});
+      });
+      write(items);
+    },
     remove: cartKey => write(read().filter(item=>item.cartKey!==cartKey)),
     setQuantity: (cartKey,qty) => {
       const items=read();

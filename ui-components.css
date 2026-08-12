@@ -63,6 +63,73 @@
 .checkout-summary .btn[disabled] { opacity: .45; cursor: not-allowed; }
 .checkout-note { margin: 18px 0 0; color: var(--muted); font-size: 10px; }
 .checkout-empty { padding: 36px 20px; }
+.account-page { padding: 34px 0 90px; }
+.account-nav { display: flex; gap: 28px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+.account-nav a { flex: 0 0 auto; padding: 13px 0 11px; border-bottom: 3px solid transparent; font: 700 13px 'Roboto Condensed'; text-transform: uppercase; }
+.account-nav a.active, .account-nav a:hover { border-bottom-color: var(--ink); }
+.account-login { max-width: 680px; padding: 42px 0; }
+.account-login h1, .account-hero h1, .order-detail-head h1 { font-size: 56px; line-height: .95; text-transform: uppercase; margin-bottom: 12px; }
+.account-login > p:not(.kicker), .account-hero p, .order-detail-head p { color: var(--muted); }
+.account-hero { display: flex; justify-content: space-between; gap: 32px; align-items: end; padding: 52px 0 32px; }
+.account-hero.compact { padding-bottom: 26px; }
+.account-hero .kicker, .order-detail-head .kicker { margin-bottom: 12px; }
+.account-summary { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--line); background: var(--line); gap: 1px; }
+.account-summary a { display: grid; background: var(--surface); padding: 22px; }
+.account-summary span, .account-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.account-summary strong { margin-top: 8px; font: 700 24px 'Roboto Condensed'; text-transform: uppercase; }
+.account-summary small { margin-top: 2px; color: var(--accent); }
+.account-section { padding: 58px 0 24px; }
+.account-section-head, .account-panel-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; }
+.account-section-head { margin-bottom: 18px; }
+.account-section-head h2, .account-panel h2, .account-service-grid h2 { margin: 0; font-size: 30px; text-transform: uppercase; }
+.account-section-head .kicker, .account-panel .kicker, .account-service-grid .kicker { margin-bottom: 7px; }
+.account-section-head > span { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+.order-list { display: grid; gap: 10px; }
+.order-card { background: var(--surface); border: 1px solid var(--line); padding: 22px; }
+.order-card-head { display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+.order-card h3 { margin: 4px 0 0; font-size: 22px; text-transform: uppercase; }
+.status-badge { display: inline-flex; min-height: 27px; align-items: center; border: 1px solid var(--line); padding: 0 9px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.status-badge.active { border-color: var(--accent); background: var(--accent); color: white; }
+.order-products { margin: 16px 0 10px; color: var(--muted); font-size: 12px; }
+.order-card-meta { display: flex; justify-content: space-between; gap: 20px; padding-top: 11px; border-top: 1px solid var(--line); font-size: 12px; }
+.order-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 16px; }
+.account-service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 34px; border: 1px solid var(--line); background: var(--line); }
+.account-service-grid article { background: var(--surface); padding: 28px; }
+.account-service-grid p:not(.kicker) { max-width: 620px; color: var(--muted); }
+.account-back { display: inline-block; margin-top: 25px; border-bottom: 1px solid currentColor; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.order-detail-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; padding: 38px 0 26px; }
+.order-detail-layout { display: grid; grid-template-columns: minmax(0,1fr) 370px; gap: 18px; align-items: start; }
+.order-detail-layout > div { display: grid; gap: 18px; }
+.account-panel { border: 1px solid var(--line); background: var(--surface); padding: 25px; }
+.account-panel-head { padding-bottom: 17px; border-bottom: 2px solid var(--ink); }
+.account-panel-head > span { color: var(--muted); font-size: 11px; }
+.tracking-steps { display: grid; grid-template-columns: repeat(4,1fr); margin: 28px 0 22px; }
+.tracking-step { position: relative; display: grid; gap: 8px; color: var(--muted); font-size: 10px; text-transform: uppercase; }
+.tracking-step::before { content: ''; position: absolute; top: 6px; left: 0; right: 0; height: 2px; background: var(--line); }
+.tracking-step i { position: relative; z-index: 1; width: 14px; height: 14px; border: 2px solid var(--line); border-radius: 50%; background: var(--surface); }
+.tracking-step.complete::before, .tracking-step.complete i { border-color: var(--accent); background: var(--accent); }
+.tracking-step.current { color: var(--ink); font-weight: 700; }
+.account-help { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
+.order-lines { margin: 0 -25px -25px; }
+.order-line { display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 14px; padding: 16px 25px; border-top: 1px solid var(--line); }
+.order-line-image { aspect-ratio: 1; display: grid; place-items: center; background: var(--media); color: var(--media-muted); font: 700 8px 'Roboto Condensed'; text-transform: uppercase; }
+.order-line span, .address-card span { display: block; color: var(--muted); font-size: 11px; }
+.order-service { position: sticky; top: 18px; }
+.order-service > p:not(.kicker) { color: var(--muted); }
+.order-service form, .profile-form, .address-form { display: grid; gap: 14px; margin-top: 20px; }
+.order-service label, .profile-form label, .address-form label { display: grid; gap: 6px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.order-service select, .order-service textarea, .profile-form input, .address-form input { width: 100%; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 10px; font-size: 13px; text-transform: none; }
+.order-service select, .profile-form input, .address-form input { min-height: 43px; }
+.form-feedback { min-height: 20px; margin: 0; color: var(--accent); font-size: 11px; }
+.profile-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 18px; align-items: start; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.address-list { display: grid; gap: 9px; margin-top: 20px; }
+.address-card { display: flex; justify-content: space-between; gap: 20px; align-items: center; border: 1px solid var(--line); padding: 16px; }
+.address-card.primary { border-left: 4px solid var(--accent); }
+.address-card strong { display: block; margin: 4px 0 2px; }
+.address-card > div:last-child { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.address-card button { border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--muted); padding: 0; font-size: 9px; text-transform: uppercase; }
+.address-card button:disabled { opacity: .45; cursor: default; }
 
 @media (max-width: 760px) {
   .pack-dropdown-option { grid-template-columns: 58px 1fr; }
@@ -77,4 +144,6 @@
   .checkout-summary { position: static; }
   .checkout-item { grid-template-columns: 72px 1fr; gap: 12px; }
   .checkout-item-side { grid-column: 2; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+  .account-summary, .account-service-grid, .profile-layout, .order-detail-layout { grid-template-columns: 1fr; }
+  .order-service { position: static; }
 }

@@ -1,112 +1,45 @@
 (() => {
-  const AUTH_KEY = 'swedsnus-v2-session';
-  const BOOKMARKS_KEY = 'swedsnus-v2-bookmarks';
-  const loggedIn = () => sessionStorage.getItem(AUTH_KEY) === 'true';
-  const readBookmarks = () => {
-    if (!loggedIn()) return [];
-    try { const value=JSON.parse(localStorage.getItem(BOOKMARKS_KEY)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; }
-  };
-  const writeBookmarks = ids => {
-    if (!loggedIn()) return;
-    localStorage.setItem(BOOKMARKS_KEY,JSON.stringify(ids));
-    syncBookmarks();
-    document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed'));
-  };
-  const clearBookmarks = () => {
-    localStorage.removeItem(BOOKMARKS_KEY);
-    syncBookmarks();
-    document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed'));
-  };
+  const AUTH_KEY='swedsnus-v2-session';
+  const BOOKMARKS_KEY='swedsnus-v2-bookmarks';
+  const PROFILE_KEY='swedsnus-v2-profile';
+  const CASES_KEY='swedsnus-v2-service-cases';
+  const defaultProfile={firstName:'Anna',lastName:'Andersson',email:'anna.andersson@example.se',phone:'070-123 45 67',addresses:[{id:'home',label:'Hem',street:'Hemsjövägen 12',postalCode:'441 96',city:'Alingsås',primary:true},{id:'work',label:'Arbete',street:'Industrigatan 4',postalCode:'412 50',city:'Göteborg',primary:false}]};
+  const orders=[
+    {id:'SW-10482',date:'2026-08-08',status:'På väg',total:657,delivery:'PostNord Service Point',tracking:'SE248104829',eta:'Beräknad leverans 13 augusti',progress:2,items:[{id:'original-white-portion__compact-20-dosor',packQty:2,qty:1},{id:'salmiak-instant-portion__instant-20-dosor',packQty:1,qty:1}]},
+    {id:'SW-10291',date:'2026-06-19',status:'Levererad',total:687,delivery:'Budbee Box',tracking:'BD10291574',eta:'Levererad 21 juni',progress:3,items:[{id:'pare-blue-white-portion__compact-20-dosor',packQty:3,qty:1}]},
+    {id:'SW-09974',date:'2026-03-04',status:'Levererad',total:627,delivery:'PostNord Service Point',tracking:'SE09974118',eta:'Levererad 7 mars',progress:3,items:[{id:'genuin-instant-portion__instant-20-dosor',packQty:2,qty:1},{id:'salmiak-instant-portion__instant-20-dosor',packQty:1,qty:1}]}
+  ];
+  const loggedIn=()=>sessionStorage.getItem(AUTH_KEY)==='true';
+  const readJson=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key)||'null');return value??fallback;}catch{return fallback;}};
+  const readBookmarks=()=>loggedIn()?readJson(BOOKMARKS_KEY,[]):[];
+  const writeBookmarks=ids=>{if(!loggedIn())return;localStorage.setItem(BOOKMARKS_KEY,JSON.stringify(ids));syncBookmarks();document.dispatchEvent(new CustomEvent('swedsnus-v2:bookmarks-changed'));};
+  const readProfile=()=>readJson(PROFILE_KEY,defaultProfile);
+  const money=value=>window.SwedsnusV2?.money(value)||`${Number(value).toLocaleString('sv-SE')} kr`;
+  const formatDate=value=>new Intl.DateTimeFormat('sv-SE',{day:'numeric',month:'long',year:'numeric'}).format(new Date(`${value}T12:00:00`));
+  const escape=value=>window.SwedsnusV2?.escapeHtml(value)||String(value);
 
-  function ensureModal() {
-    if (document.querySelector('[data-login-modal]')) return;
-    const modal=document.createElement('div');
-    modal.className='login-modal';
-    modal.dataset.loginModal='';
-    modal.hidden=true;
-    modal.innerHTML=`<div class="login-modal-backdrop" data-login-close></div><section class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="login-modal-title"><button class="login-modal-close" type="button" data-login-close aria-label="Stäng">×</button><p class="kicker">Mina sidor</p><h2 id="login-modal-title">Logga in för att fortsätta</h2><p>Logga in för att komma åt dina sparade produkter och dina kontouppgifter.</p><button class="btn primary" type="button" data-demo-login-modal>Logga in</button></section>`;
-    document.body.append(modal);
-  }
+  function ensureModal(){if(document.querySelector('[data-login-modal]'))return;const modal=document.createElement('div');modal.className='login-modal';modal.dataset.loginModal='';modal.hidden=true;modal.innerHTML=`<div class="login-modal-backdrop" data-login-close></div><section class="login-modal-card" role="dialog" aria-modal="true" aria-labelledby="login-modal-title"><button class="login-modal-close" type="button" data-login-close aria-label="Stäng">×</button><p class="kicker">Mina sidor</p><h2 id="login-modal-title">Logga in för att fortsätta</h2><p>Logga in för att komma åt orderhistorik, sparade produkter och dina kontouppgifter.</p><button class="btn primary" type="button" data-demo-login-modal>Logga in</button></section>`;document.body.append(modal);}
+  function openModal(returnTo=''){ensureModal();const modal=document.querySelector('[data-login-modal]');modal.dataset.returnTo=returnTo;modal.hidden=false;document.body.classList.add('modal-open');}
+  function closeModal(){const modal=document.querySelector('[data-login-modal]');if(modal)modal.hidden=true;document.body.classList.remove('modal-open');}
+  function syncBookmarks(){const authenticated=loggedIn();if(!authenticated)localStorage.removeItem(BOOKMARKS_KEY);const ids=new Set(authenticated?readBookmarks():[]);document.querySelectorAll('[data-bookmark-count]').forEach(el=>{el.textContent=ids.size;el.hidden=!authenticated;});document.querySelectorAll('[data-bookmark]').forEach(button=>{const active=authenticated&&ids.has(button.dataset.bookmark);button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-label',active?'Ta bort sparad produkt':'Spara produkt');});}
+  function toggleBookmark(id){if(!loggedIn()){openModal();return;}const ids=new Set(readBookmarks());ids.has(id)?ids.delete(id):ids.add(id);writeBookmarks([...ids]);renderBookmarks();}
+  function renderBookmarks(){const root=document.querySelector('[data-bookmark-grid]');if(!root||!window.SwedsnusV2?.state.ready)return;if(!loggedIn()){root.innerHTML='';openModal('bookmarks.html');return;}const rows=readBookmarks().map(id=>window.SwedsnusV2.find(id)).filter(Boolean);root.innerHTML=rows.length?rows.map(window.SwedsnusV2.card).join(''):'<p>Du har inga sparade produkter ännu.</p>';syncBookmarks();document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));}
+  function accountNav(active){return `<nav class="account-nav" aria-label="Mina sidor"><a href="account.html"${active==='overview'?' class="active"':''}>Översikt</a><a href="account.html#orders"${active==='orders'?' class="active"':''}>Beställningar</a><a href="profile.html"${active==='profile'?' class="active"':''}>Kunduppgifter</a><a href="bookmarks.html">Sparade produkter</a></nav>`;}
+  function loginView(root){root.innerHTML=`<div class="account-login"><p class="kicker">Mina sidor</p><h1>Logga in</h1><p>Logga in för att se orderhistorik, spåra leveranser och hantera dina kunduppgifter.</p><button class="btn primary" type="button" data-demo-login>Logga in</button></div>`;}
+  function itemDetails(item){const row=window.SwedsnusV2?.find(item.id);const pack=row?window.SwedsnusV2.packs(row).find(entry=>entry.packQty===item.packQty):null;return {row,name:row?window.SwedsnusV2.name(row):'Produkt',total:pack?.total||0,perDose:pack?.perDose||0};}
+  function orderCard(order){const names=order.items.map(item=>escape(itemDetails(item).name)).join(', ');return `<article class="order-card"><div class="order-card-head"><div><span class="account-label">Order ${order.id}</span><h3>${formatDate(order.date)}</h3></div><span class="status-badge${order.status==='På väg'?' active':''}">${order.status}</span></div><p class="order-products">${names}</p><div class="order-card-meta"><span>${order.items.reduce((sum,item)=>sum+item.packQty*item.qty,0)} förpackningar</span><strong>${money(order.total)}</strong></div><div class="order-actions"><a class="btn" href="order.html?id=${encodeURIComponent(order.id)}">Visa order</a>${order.status==='På väg'?`<a class="btn" href="order.html?id=${encodeURIComponent(order.id)}#tracking">Spåra order</a>`:''}<button class="btn primary" type="button" data-reorder="${order.id}">Beställ igen</button></div></article>`;}
+  function renderAccount(){const root=document.querySelector('[data-account-root]');if(!root)return;if(!loggedIn()){loginView(root);return;}const profile=readProfile();root.innerHTML=`${accountNav('overview')}<header class="account-hero"><div><p class="kicker">Mina sidor</p><h1>Hej ${escape(profile.firstName)}</h1><p>Här hittar du dina beställningar, leveranser och kunduppgifter på ett ställe.</p></div><button class="btn" type="button" data-demo-logout>Logga ut</button></header><section class="account-summary"><a href="#orders"><span>Senaste order</span><strong>${orders[0].id}</strong><small>${orders[0].status}</small></a><a href="order.html?id=${orders[0].id}#tracking"><span>Leverans</span><strong>På väg</strong><small>${orders[0].eta}</small></a><a href="profile.html"><span>Leveransadress</span><strong>${escape(profile.addresses.find(address=>address.primary)?.city||'Saknas')}</strong><small>Hantera adresser</small></a></section><section class="account-section" id="orders"><div class="account-section-head"><div><p class="kicker">Orderhistorik</p><h2>Dina beställningar</h2></div><span>${orders.length} ordrar</span></div><div class="order-list">${orders.map(orderCard).join('')}</div></section><section class="account-service-grid"><article><p class="kicker">Kundservice</p><h2>Retur eller reklamation</h2><p>Öppna den aktuella ordern och välj vilka produkter ärendet gäller. Du får ett ärendenummer direkt.</p><a class="btn" href="order.html?id=${orders[0].id}#service">Starta ett ärende</a></article><article><p class="kicker">Ditt konto</p><h2>Håll uppgifterna aktuella</h2><p>Ändra e-post, telefonnummer och hantera flera leveransadresser.</p><a class="btn" href="profile.html">Hantera kunduppgifter</a></article></section>`;}
+  function reorder(orderId){const order=orders.find(entry=>entry.id===orderId);if(!order||!window.SwedsnusCart||!window.SwedsnusV2)return;const items=order.items.map(item=>{const details=itemDetails(item);if(!details.row)return null;return {cartKey:`${item.id}::${item.packQty}`,id:item.id,name:details.name,packQty:item.packQty,totalPrice:details.total,perDose:details.perDose,qty:item.qty};}).filter(Boolean);window.SwedsnusCart.addItems(items);location.href='checkout.html?reordered='+encodeURIComponent(order.id);}
+  function renderOrder(){const root=document.querySelector('[data-order-root]');if(!root)return;if(!loggedIn()){loginView(root);return;}const id=new URLSearchParams(location.search).get('id');const order=orders.find(entry=>entry.id===id)||orders[0];const steps=['Beställning mottagen','Packad','På väg','Levererad'];root.innerHTML=`${accountNav('orders')}<a class="account-back" href="account.html#orders">← Till orderhistorik</a><header class="order-detail-head"><div><p class="kicker">Order ${order.id}</p><h1>${formatDate(order.date)}</h1><p>${order.delivery} · ${money(order.total)}</p></div><span class="status-badge${order.status==='På väg'?' active':''}">${order.status}</span></header><div class="order-detail-layout"><div><section class="account-panel" id="tracking"><div class="account-panel-head"><div><p class="kicker">Leverans</p><h2>Spåra din order</h2></div><span>${escape(order.tracking)}</span></div><div class="tracking-steps">${steps.map((step,index)=>`<div class="tracking-step${index<=order.progress?' complete':''}${index===order.progress?' current':''}"><i></i><span>${step}</span></div>`).join('')}</div><strong>${order.eta}</strong><p class="account-help">Spårningen visar exempeldata och kopplas senare till transportörens leveransstatus.</p></section><section class="account-panel"><div class="account-panel-head"><div><p class="kicker">Produkter</p><h2>Orderinnehåll</h2></div><button class="btn primary" type="button" data-reorder="${order.id}">Beställ igen</button></div><div class="order-lines">${order.items.map(item=>{const details=itemDetails(item);return `<div class="order-line"><div class="order-line-image">Produktbild</div><div><strong>${escape(details.name)}</strong><span>${item.packQty}-pack · ${item.qty} st</span></div><strong>${money(details.total*item.qty)}</strong></div>`;}).join('')}</div></section></div><aside class="account-panel order-service" id="service"><p class="kicker">Hjälp med ordern</p><h2>Retur eller reklamation</h2><p>Beskriv vad som har hänt så skapar vi ett serviceärende kopplat till ordern.</p><form data-service-form data-order-id="${order.id}"><label>Typ av ärende<select name="type" required><option value="">Välj</option><option>Retur</option><option>Reklamation</option><option>Fel i leveransen</option></select></label><label>Vilken produkt?<select name="product" required><option value="">Välj produkt</option>${order.items.map(item=>`<option>${escape(itemDetails(item).name)}</option>`).join('')}</select></label><label>Beskriv ärendet<textarea name="message" rows="5" required placeholder="Berätta kort vad som har hänt"></textarea></label><button class="btn primary" type="submit">Skicka ärende</button><p class="form-feedback" data-service-feedback role="status"></p></form></aside></div>`;}
+  function addressCard(address){return `<article class="address-card${address.primary?' primary':''}"><div><span class="account-label">${escape(address.label)}${address.primary?' · Förvald':''}</span><strong>${escape(address.street)}</strong><span>${escape(address.postalCode)} ${escape(address.city)}</span></div><div><button type="button" data-address-primary="${address.id}"${address.primary?' disabled':''}>Använd som förvald</button><button type="button" data-address-remove="${address.id}"${address.primary?' disabled':''}>Ta bort</button></div></article>`;}
+  function renderProfile(){const root=document.querySelector('[data-profile-root]');if(!root)return;if(!loggedIn()){loginView(root);return;}const profile=readProfile();root.innerHTML=`${accountNav('profile')}<header class="account-hero compact"><div><p class="kicker">Ditt konto</p><h1>Kunduppgifter</h1><p>Uppgifterna används för orderbekräftelser och leveranser.</p></div></header><div class="profile-layout"><section class="account-panel"><p class="kicker">Kontaktuppgifter</p><h2>Personuppgifter</h2><form class="profile-form" data-profile-form><div class="form-grid"><label>Förnamn<input name="firstName" value="${escape(profile.firstName)}" required></label><label>Efternamn<input name="lastName" value="${escape(profile.lastName)}" required></label><label>E-post<input name="email" type="email" value="${escape(profile.email)}" required></label><label>Telefonnummer<input name="phone" type="tel" value="${escape(profile.phone)}" required></label></div><button class="btn primary" type="submit">Spara uppgifter</button><p class="form-feedback" data-profile-feedback role="status"></p></form></section><section class="account-panel"><div class="account-panel-head"><div><p class="kicker">Leverans</p><h2>Sparade adresser</h2></div><button class="btn" type="button" data-address-toggle>Lägg till adress</button></div><div class="address-list">${profile.addresses.map(addressCard).join('')}</div><form class="address-form" data-address-form hidden><div class="form-grid"><label>Namn på adress<input name="label" placeholder="Till exempel Hem" required></label><label>Gatuadress<input name="street" required></label><label>Postnummer<input name="postalCode" required></label><label>Ort<input name="city" required></label></div><button class="btn primary" type="submit">Spara adress</button></form></section></div>`;}
+  function saveProfile(form){const profile=readProfile();const data=new FormData(form);['firstName','lastName','email','phone'].forEach(key=>profile[key]=String(data.get(key)||'').trim());localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));form.querySelector('[data-profile-feedback]').textContent='Dina uppgifter har sparats.';}
+  function saveAddress(form){const profile=readProfile();const data=new FormData(form);profile.addresses.push({id:`address-${Date.now()}`,label:String(data.get('label')).trim(),street:String(data.get('street')).trim(),postalCode:String(data.get('postalCode')).trim(),city:String(data.get('city')).trim(),primary:!profile.addresses.length});localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));renderProfile();}
+  function updateAddress(id,action){const profile=readProfile();if(action==='primary')profile.addresses.forEach(address=>address.primary=address.id===id);else profile.addresses=profile.addresses.filter(address=>address.id!==id);localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));renderProfile();}
+  function submitCase(form){const data=new FormData(form);const cases=readJson(CASES_KEY,[]);const caseId=`ÄR-${String(Date.now()).slice(-6)}`;cases.push({id:caseId,orderId:form.dataset.orderId,type:data.get('type'),product:data.get('product'),message:data.get('message'),createdAt:new Date().toISOString()});localStorage.setItem(CASES_KEY,JSON.stringify(cases));form.reset();form.querySelector('[data-service-feedback]').textContent=`Ärendet är registrerat med nummer ${caseId}.`;}
 
-  function openModal(returnTo='') {
-    ensureModal();
-    const modal=document.querySelector('[data-login-modal]');
-    modal.dataset.returnTo=returnTo;
-    modal.hidden=false;
-    document.body.classList.add('modal-open');
-  }
-  function closeModal() {
-    const modal=document.querySelector('[data-login-modal]');
-    if(modal) modal.hidden=true;
-    document.body.classList.remove('modal-open');
-  }
-
-  function syncBookmarks() {
-    const authenticated=loggedIn();
-    if(!authenticated) localStorage.removeItem(BOOKMARKS_KEY);
-    const ids=new Set(authenticated?readBookmarks():[]);
-    document.querySelectorAll('[data-bookmark-count]').forEach(el=>{
-      el.textContent=ids.size;
-      el.hidden=!authenticated;
-    });
-    document.querySelectorAll('[data-bookmark]').forEach(button=>{
-      const active=authenticated && ids.has(button.dataset.bookmark);
-      button.classList.toggle('active',active);
-      button.setAttribute('aria-pressed',String(active));
-      button.setAttribute('aria-label',active?'Ta bort sparad produkt':'Spara produkt');
-    });
-  }
-
-  function toggleBookmark(id) {
-    if(!loggedIn()) { openModal(); return; }
-    const ids=new Set(readBookmarks());
-    ids.has(id)?ids.delete(id):ids.add(id);
-    writeBookmarks([...ids]);
-    renderBookmarks();
-  }
-
-  function renderBookmarks() {
-    const root=document.querySelector('[data-bookmark-grid]');
-    if(!root || !window.SwedsnusV2?.state.ready) return;
-    if(!loggedIn()) { root.innerHTML=''; openModal('bookmarks.html'); return; }
-    const rows=readBookmarks().map(id=>window.SwedsnusV2.find(id)).filter(Boolean);
-    root.innerHTML=rows.length?rows.map(window.SwedsnusV2.card).join(''):'<p>Du har inga sparade produkter ännu.</p>';
-    syncBookmarks();
-    document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
-  }
-
-  function renderAccount() {
-    const root=document.querySelector('[data-account-root]');
-    if(!root) return;
-    if(!loggedIn()) {
-      root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Logga in</h1><p>Logga in för att se sparade produkter, orderhistorik och kontouppgifter.</p><button class="btn primary" type="button" data-demo-login>Logga in</button>`;
-      return;
-    }
-    root.innerHTML=`<p class="kicker">Mina sidor</p><h1>Konto</h1><div class="knowledge-grid"><article><h3>Orderhistorik</h3><p>Här visas dina tidigare beställningar och aktuell orderstatus.</p></article><article><h3>Sparade produkter</h3><p>Produkter som du sparar finns tillgängliga så länge du är inloggad.</p><a class="section-link" href="bookmarks.html">Visa sparade produkter</a></article><article><h3>Kontouppgifter</h3><p>Här visas kontaktuppgifter och annan information som hör till ditt konto.</p></article></div><div class="button-row"><button class="btn" type="button" data-demo-logout>Logga ut</button></div>`;
-  }
-
-  document.addEventListener('click',event=>{
-    const bookmarksLink=event.target.closest('a[href="bookmarks.html"]');
-    if(bookmarksLink && !loggedIn()) { event.preventDefault(); openModal('bookmarks.html'); return; }
-    const bookmark=event.target.closest('[data-bookmark]');
-    if(bookmark) { event.preventDefault(); toggleBookmark(bookmark.dataset.bookmark); return; }
-    if(event.target.closest('[data-login-close]')) closeModal();
-    if(event.target.closest('[data-demo-login], [data-demo-login-modal]')) {
-      sessionStorage.setItem(AUTH_KEY,'true');
-      localStorage.removeItem(BOOKMARKS_KEY);
-      const returnTo=document.querySelector('[data-login-modal]')?.dataset.returnTo || '';
-      closeModal(); renderAccount(); syncBookmarks(); renderBookmarks();
-      if(returnTo && !location.pathname.endsWith(returnTo)) location.href=returnTo;
-    }
-    if(event.target.closest('[data-demo-logout]')) {
-      clearBookmarks();
-      sessionStorage.removeItem(AUTH_KEY);
-      syncBookmarks();
-      renderAccount();
-      if(document.body.dataset.page==='bookmarks') openModal('bookmarks.html');
-    }
-  });
-  document.addEventListener('swedsnus-v2:products-ready',()=>{ renderBookmarks(); syncBookmarks(); });
-  document.addEventListener('swedsnus-v2:cards-rendered',syncBookmarks);
-  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{ ensureModal(); syncBookmarks(); renderAccount(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); }):(()=>{ ensureModal(); syncBookmarks(); renderAccount(); if(document.body.dataset.page==='bookmarks'&&!loggedIn()) openModal('bookmarks.html'); })();
+  document.addEventListener('click',event=>{const bookmarksLink=event.target.closest('a[href="bookmarks.html"]');if(bookmarksLink&&!loggedIn()){event.preventDefault();openModal('bookmarks.html');return;}const bookmark=event.target.closest('[data-bookmark]');if(bookmark){event.preventDefault();toggleBookmark(bookmark.dataset.bookmark);return;}if(event.target.closest('[data-login-close]'))closeModal();if(event.target.closest('[data-demo-login], [data-demo-login-modal]')){sessionStorage.setItem(AUTH_KEY,'true');const returnTo=document.querySelector('[data-login-modal]')?.dataset.returnTo||'';closeModal();renderAll();if(returnTo&&!location.pathname.endsWith(returnTo))location.href=returnTo;}if(event.target.closest('[data-demo-logout]')){localStorage.removeItem(BOOKMARKS_KEY);sessionStorage.removeItem(AUTH_KEY);syncBookmarks();renderAccount();}const reorderButton=event.target.closest('[data-reorder]');if(reorderButton)reorder(reorderButton.dataset.reorder);if(event.target.closest('[data-address-toggle]'))document.querySelector('[data-address-form]').hidden=!document.querySelector('[data-address-form]').hidden;const primary=event.target.closest('[data-address-primary]');if(primary)updateAddress(primary.dataset.addressPrimary,'primary');const remove=event.target.closest('[data-address-remove]');if(remove)updateAddress(remove.dataset.addressRemove,'remove');});
+  document.addEventListener('submit',event=>{if(event.target.matches('[data-profile-form]')){event.preventDefault();saveProfile(event.target);}if(event.target.matches('[data-address-form]')){event.preventDefault();saveAddress(event.target);}if(event.target.matches('[data-service-form]')){event.preventDefault();submitCase(event.target);}});
+  function renderAll(){syncBookmarks();renderBookmarks();renderAccount();renderOrder();renderProfile();}
+  document.addEventListener('swedsnus-v2:products-ready',renderAll);document.addEventListener('swedsnus-v2:cards-rendered',syncBookmarks);document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{ensureModal();renderAll();}):(()=>{ensureModal();renderAll();})();
 })();

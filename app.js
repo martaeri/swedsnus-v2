@@ -24,6 +24,7 @@
     await load('cart.js');
     await load('account.js');
     if(document.body.dataset.page==='checkout') await load('checkout.js');
+    if(document.body.dataset.page==='faq') await load('faq.js');
   }
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', start) : start();
 })();

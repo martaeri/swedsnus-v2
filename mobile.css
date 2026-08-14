@@ -89,6 +89,19 @@
   .text-page { padding: 38px 0 64px; }
   .text-page h1 { font-size: 44px; }
   .text-page h2 { font-size: 27px; margin-top: 34px; }
+  .faq-hero { padding: 38px 0 25px; }
+  .faq-hero h1 { font-size: 44px; }
+  .faq-search { margin-top: 24px; }
+  .faq-search input { height: 48px; }
+  .faq-categories { margin: 0 -14px; padding: 12px 14px; }
+  .faq-layout { grid-template-columns: 1fr; gap: 12px; padding: 28px 0 62px; }
+  .faq-group { margin-bottom: 38px; }
+  .faq-group-head { grid-template-columns: 34px 1fr; gap: 11px; }
+  .faq-group-head > span { width: 30px; height: 30px; }
+  .faq-group-head h2 { font-size: 24px; }
+  .faq-item summary { min-height: 61px; padding: 14px 2px; font-size: 16px; }
+  .faq-item > div { padding: 0 34px 17px 2px; }
+  .faq-help { position: static; padding: 21px 18px; }
   .account-page { padding: 18px 0 64px; }
   .account-nav { gap: 20px; }
   .account-hero, .order-detail-head { align-items: flex-start; padding: 35px 0 24px; }

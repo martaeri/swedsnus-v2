@@ -2,7 +2,7 @@
   const routes = {
     portion: row => row.product_family === 'Portionssnus' && row.site_section === 'Portionssnus' && row.tobacco_type !== 'Tobaksfri',
     los: row => row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom',
-    'gor-eget': row => row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom',
+    'gor-eget': row => row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' || String(row.product_line||'').toLowerCase()==='super dry',
     'vitt-snus': row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus',
     tillbehor: row => row.product_family === 'Tillbehör',
     subscribe: row => window.SwedsnusV2.subscriptionEligible(row)

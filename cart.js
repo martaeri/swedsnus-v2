@@ -18,7 +18,10 @@
     const api=window.SwedsnusV2;
     const body=drawer.querySelector('[data-cart-items]');
     const total=drawer.querySelector('[data-cart-total]');
-    body.innerHTML=items.length?items.map(item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">Prenumeration · ${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.perDose?`<br><small>${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`).join(''):'<p>Varukorgen är tom.</p>';
+    const itemHtml=item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.perDose?`<br><small>${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`;
+    const once=items.filter(item=>item.purchaseMode!=='subscription');
+    const recurring=items.filter(item=>item.purchaseMode==='subscription');
+    body.innerHTML=items.length?`${once.length?`<section class="cart-group"><h3>Engångsköp</h3>${once.map(itemHtml).join('')}</section>`:''}${recurring.length?`<section class="cart-group subscription-cart-group"><div class="cart-group-heading"><h3>Prenumerationer</h3><span>Återkommande</span></div>${recurring.map(itemHtml).join('')}</section>`:''}`:'<p>Varukorgen är tom.</p>';
     const sum=items.reduce((value,item)=>value+(item.totalPrice||0)*(item.qty||1),0);
     if(total) total.textContent=api?.money?api.money(sum):`${sum} kr`;
   }

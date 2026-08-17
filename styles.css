@@ -218,6 +218,10 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .cart-head { padding: 18px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .cart-items { padding: 20px; flex: 1; overflow: auto; }
 .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.cart-group > h3, .cart-group-heading h3 { margin: 0; font-size: 15px; text-transform: uppercase; }
+.cart-group-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.cart-group-heading span { color: var(--accent-dark); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.subscription-cart-group { margin-top: 24px; border-top: 3px solid var(--ink); padding-top: 18px; }
 .cart-foot { border-top: 1px solid var(--line); padding: 20px; }
 
 .login-modal[hidden] { display: none; }

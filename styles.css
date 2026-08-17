@@ -68,14 +68,23 @@
 :root[data-theme="cool-ochre"] {
   --accent: #80611c;
   --accent-dark: #5b430f;
+  --action-bg: var(--accent);
+  --action-hover: var(--accent-dark);
+  --selected-bg: var(--accent-dark);
 }
 :root[data-theme="cool-burgundy"] {
   --accent: #a03455;
   --accent-dark: #6f1f37;
+  --action-bg: var(--accent);
+  --action-hover: var(--accent-dark);
+  --selected-bg: var(--accent-dark);
 }
 :root[data-theme="cool-forest"] {
   --accent: #24704b;
   --accent-dark: #164a31;
+  --action-bg: var(--accent);
+  --action-hover: var(--accent-dark);
+  --selected-bg: var(--accent-dark);
 }
 
 * { box-sizing: border-box; }

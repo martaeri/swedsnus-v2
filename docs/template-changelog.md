@@ -4,7 +4,11 @@
 
 ## Lägg till en post
 
-Redigera `data/template-changelog.json` och lägg den senaste posten överst i `entries`. Varje `id` ska vara unikt och kan med fördel använda formatet `ÅÅÅÅ-MM-DD-kort-namn`.
+Öppna det dolda redigeringsverktyget med `Ctrl + Alt + Shift + L`. Fyll i formuläret och välj **Skapa förhandsvisning**. Verktyget skapar hela den uppdaterade JSON-filen, som du kopierar och klistrar in i `data/template-changelog.json` via länken till GitHub.
+
+Verktyget sparar ingenting automatiskt och innehåller inga inloggningsuppgifter till GitHub.
+
+Det går även att redigera `data/template-changelog.json` manuellt och lägga den senaste posten överst i `entries`. Varje `id` ska vara unikt och kan med fördel använda formatet `ÅÅÅÅ-MM-DD-kort-namn`.
 
 ```json
 {

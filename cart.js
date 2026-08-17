@@ -51,6 +51,7 @@
     picker.dataset.packQty=option.dataset.packQty;
     picker.dataset.total=option.dataset.total;
     picker.dataset.perDose=option.dataset.perDose;
+    picker.dataset.units=option.dataset.units;
     picker.querySelectorAll('[data-pack-option]').forEach(item=>item.classList.toggle('selected',item===option));
     const api=window.SwedsnusV2;
     const row=api?.find(picker.dataset.productId);
@@ -58,7 +59,8 @@
     const total=Number(option.dataset.total||0);
     const perDose=Number(option.dataset.perDose||0);
     picker.querySelector('[data-pack-label]').textContent=`${option.dataset.packQty}-pack`;
-    picker.querySelector('[data-pack-summary]').textContent=`${api?.money?api.money(total):`${total} kr`} · ${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+    const doseSummary=row?.amount_dosor?`${option.dataset.units} dosor · `:'';
+    picker.querySelector('[data-pack-summary]').textContent=`${doseSummary}${api?.money?api.money(total):`${total} kr`} · ${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
     const scope=picker.closest('.product-card,.product-summary');
     if(scope?.querySelector('[data-selected-total]')) scope.querySelector('[data-selected-total]').textContent=api?.money?api.money(total):`${total} kr`;
     if(scope?.querySelector('[data-selected-per-dose]')) scope.querySelector('[data-selected-per-dose]').textContent=`${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;

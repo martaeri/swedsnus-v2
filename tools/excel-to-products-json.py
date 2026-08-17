@@ -23,19 +23,26 @@ def clean_value(value: Any) -> Any:
 def sheet_rows(workbook_path: Path) -> list[dict[str, Any]]:
     workbook = load_workbook(workbook_path, data_only=True)
     products: list[dict[str, Any]] = []
-    for sheet_name in PRODUCT_SHEETS:
-        if sheet_name not in workbook.sheetnames:
-            continue
-        sheet = workbook[sheet_name]
-        headers = [clean_value(cell.value) for cell in sheet[1]]
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            record = {str(header): clean_value(value) for header, value in zip(headers, row) if header and clean_value(value) is not None}
-            if not record.get("product_id"):
+    try:
+        for sheet_name in PRODUCT_SHEETS:
+            if sheet_name not in workbook.sheetnames:
                 continue
-            if str(record.get("visible_on_site", "Yes")).lower() == "no":
-                continue
-            record["_sheet"] = sheet_name
-            products.append(record)
+            sheet = workbook[sheet_name]
+            headers = [clean_value(cell.value) for cell in sheet[1]]
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                record: dict[str, Any] = {}
+                for header, value in zip(headers, row):
+                    cleaned_value = clean_value(value)
+                    if header and cleaned_value is not None:
+                        record[str(header)] = cleaned_value
+                if not record.get("product_id"):
+                    continue
+                if str(record.get("visible_on_site", "Yes")).strip().casefold() == "no":
+                    continue
+                record["_sheet"] = sheet_name
+                products.append(record)
+    finally:
+        workbook.close()
     return products
 
 

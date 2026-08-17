@@ -31,6 +31,8 @@
 .product-summary .purchase-choice { max-width: 440px; margin-top: 16px; border: 1px solid var(--line); padding: 14px; }
 .product-summary .purchase-choice legend { padding: 0 5px; }
 .subscription-tag { display: inline-block; margin: 3px 0 9px; color: var(--accent-dark); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.subscription-reveal { width: 100%; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--accent-dark); padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.subscription-reveal:hover { background: color-mix(in srgb,var(--accent) 8%,var(--surface)); }
 
 .variant-panel { max-width: 520px; margin: 26px 0 6px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--line); }
 .variant-panel-head { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
@@ -158,6 +160,16 @@
 .subscription-lines { display: grid; gap: 8px; margin: 20px 0; border-block: 1px solid var(--line); padding: 16px 0; }
 .subscription-lines div { display: flex; justify-content: space-between; gap: 16px; }
 .subscription-lines span { color: var(--muted); font-size: 11px; }
+.subscription-line { display: grid !important; grid-template-columns: minmax(0,1fr) 90px auto; align-items: center; gap: 16px; }
+.subscription-line label { display: grid; gap: 3px; color: var(--muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.subscription-line input { width: 76px; min-height: 38px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0 8px; }
+.subscription-next { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin-top: 20px; border: 1px solid var(--line); }
+.subscription-next div { display: grid; gap: 4px; padding: 12px; border-right: 1px solid var(--line); }
+.subscription-next div:nth-child(3), .subscription-next div:last-child { border-right: 0; }
+.subscription-next div:nth-child(n+4) { grid-column: span 1; border-top: 1px solid var(--line); }
+.subscription-next span { color: var(--muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.subscription-next strong { font-size: 11px; }
+.subscription-reminder { margin: 18px 0 0; border-top: 1px solid var(--line); padding-top: 13px; color: var(--muted); font-size: 10px; }
 .subscription-settings { display: flex; justify-content: space-between; align-items: end; gap: 20px; }
 .subscription-settings label { display: grid; gap: 5px; color: var(--muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
 .subscription-settings select { min-height: 42px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0 32px 0 10px; }
@@ -180,5 +192,10 @@
   .account-summary, .account-service-grid, .profile-layout, .order-detail-layout { grid-template-columns: 1fr; }
   .subscription-card-head, .subscription-settings { align-items: stretch; flex-direction: column; }
   .subscription-actions { justify-content: flex-start; }
+  .subscription-next { grid-template-columns: 1fr; }
+  .subscription-next div, .subscription-next div:nth-child(n+4) { grid-column: auto; border-right: 0; border-top: 1px solid var(--line); }
+  .subscription-next div:first-child { border-top: 0; }
+  .subscription-line { grid-template-columns: 1fr auto; }
+  .subscription-line > strong { grid-column: 1/-1; }
   .order-service { position: static; }
 }

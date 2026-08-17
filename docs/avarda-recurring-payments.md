@@ -16,6 +16,13 @@ Templatesidan visar kundresan och sparar endast exempeldata lokalt. Produktionsl
 3. Spara det nya purchase-ID:t och fortsätt med ordinarie orderhantering i Avarda.
 4. Vid misslyckad auktorisering: skapa ingen leverans, markera försöket och informera kunden med möjlighet att uppdatera betalningssätt.
 
+## Varukorg och leveransplaner
+
+- Engångsrader levereras endast i den första ordern. Bara rader som kunden tydligt markerat som prenumeration sparas för framtida köp.
+- Prenumerationsrader med samma intervall kan grupperas i en leveransplan. Olika intervall ska bli separata planer med egna nästa-orderdatum.
+- Backend ska tillämpa centrala regler för vilka produkter och förpackningsstorlekar som får prenumereras på. Frontendmarkeringen är inte en säkerhetskontroll.
+- Kunden ska aviseras före varje order med aktuellt innehåll, beräknat pris och sista tid för ändring. Pris och lager valideras när ordern skapas.
+
 ## Säkerhet och ansvar
 
 - Avardas klienthemlighet, access-token och `recurringPaymentToken` får aldrig finnas i frontend eller `localStorage`.

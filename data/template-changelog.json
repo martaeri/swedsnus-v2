@@ -8,8 +8,8 @@
       "type": "Funktion",
       "title": "Prenumerationer på produkter",
       "pages": ["Produktkort", "Produktsida", "Kassa", "Mina sidor"],
-      "summary": "Kunden kan välja återkommande leverans, se prenumerationen i kassan och hantera intervall, paus och avslut på Mina sidor.",
-      "developerNote": "Frontendflödet är mallfunktionalitet. Avardas recurringPaymentToken och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
+      "summary": "Kunden kan välja återkommande leverans i sortimentet eller den separata prenumerationskatalogen och hantera mängd, intervall, nästa order, paus och avslut på Mina sidor.",
+      "developerNote": "Behörighet styrs centralt per produkt. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
       "important": true
     },
     {

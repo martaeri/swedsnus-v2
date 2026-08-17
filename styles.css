@@ -64,12 +64,12 @@
   --accent-dark: #5b430f;
 }
 :root[data-theme="cool-burgundy"] {
-  --accent: #83485c;
-  --accent-dark: #5e3040;
+  --accent: #a03455;
+  --accent-dark: #6f1f37;
 }
 :root[data-theme="cool-forest"] {
-  --accent: #466d5b;
-  --accent-dark: #304d3f;
+  --accent: #24704b;
+  --accent-dark: #164a31;
 }
 
 * { box-sizing: border-box; }

@@ -130,7 +130,7 @@
   .login-modal-card { padding: 28px 20px; }
   .theme-overlay { right: 10px; bottom: 10px; padding: 6px 8px; }
   .theme-overlay > span { display: none; }
-  .theme-overlay select { width: 108px; }
+  .theme-overlay select { width: 148px; }
 }
 
 @media (max-width: 440px) {
@@ -146,5 +146,5 @@
   .pack-dropdown-option small { grid-column: 2; }
   .info-band { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
-  .theme-overlay select { width: 94px; font-size: 10px; }
+  .theme-overlay select { width: 132px; font-size: 10px; }
 }

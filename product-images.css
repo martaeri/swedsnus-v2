@@ -1,5 +1,6 @@
 .product-image.has-product-image,
 .product-gallery.has-product-image {
+  background: #fff;
   padding: 0;
   overflow: hidden;
 }

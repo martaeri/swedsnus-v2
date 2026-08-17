@@ -8,7 +8,7 @@
   const url = row => `product.html?id=${encodeURIComponent(key(row))}`;
   const money = value => `${Number(value || 0).toLocaleString('sv-SE')} kr`;
   const price = row => row.price_sek ? money(row.price_sek) : 'Pris saknas';
-  const category = row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus' ? 'vitt-snus' : row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom' ? 'los' : row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' ? 'gor-eget' : row.product_family === 'Tillbehör' ? 'tillbehor' : 'portion';
+  const category = row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus' ? 'vitt-snus' : row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom' ? 'los' : row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' || String(row.product_line||'').toLowerCase()==='super dry' ? 'gor-eget' : row.product_family === 'Tillbehör' ? 'tillbehor' : 'portion';
   const image = row => state.images[key(row)] || '';
   const BOOKMARK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.75A1.75 1.75 0 0 1 8.25 3h7.5a1.75 1.75 0 0 1 1.75 1.75V21L12 17.35 6.5 21V4.75Z"/></svg>';
 

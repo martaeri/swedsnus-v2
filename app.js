@@ -19,6 +19,7 @@
     drawer.innerHTML = `<div class="cart-head"><strong>Varukorg</strong><button type="button" data-cart-close>Stäng</button></div><div class="cart-items" data-cart-items></div><div class="cart-foot"><div class="catalog-tools"><span>Totalt</span><strong data-cart-total>0 kr</strong></div><a class="btn primary cart-checkout-link" href="checkout.html">Till kassan</a></div>`;
     document.body.append(drawer);
     await load('product-store.js');
+    await load('subscriptions.js');
     await load('catalog.js');
     await load('product-images.js');
     await load('cart.js');

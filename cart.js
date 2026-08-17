@@ -6,7 +6,7 @@
   function selection(button) {
     const scope=button.closest('.product-card,.product-summary');
     const picker=scope?.querySelector('[data-pack-picker]');
-    return { packQty:Number(picker?.dataset.packQty||1), total:Number(picker?.dataset.total||0), perDose:Number(picker?.dataset.perDose||0) };
+    return { packQty:Number(picker?.dataset.packQty||1), total:Number(picker?.dataset.total||0), perDose:Number(picker?.dataset.perDose||0), ...(window.SwedsnusSubscriptions?.selection(scope)||{purchaseMode:'once',intervalWeeks:null}) };
   }
 
   function render() {
@@ -18,7 +18,7 @@
     const api=window.SwedsnusV2;
     const body=drawer.querySelector('[data-cart-items]');
     const total=drawer.querySelector('[data-cart-total]');
-    body.innerHTML=items.length?items.map(item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.perDose?`<br><small>${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`).join(''):'<p>Varukorgen är tom.</p>';
+    body.innerHTML=items.length?items.map(item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">Prenumeration · ${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.perDose?`<br><small>${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`).join(''):'<p>Varukorgen är tom.</p>';
     const sum=items.reduce((value,item)=>value+(item.totalPrice||0)*(item.qty||1),0);
     if(total) total.textContent=api?.money?api.money(sum):`${sum} kr`;
   }
@@ -33,11 +33,11 @@
     const totalPrice=selected.total||fallback.total;
     const perDose=selected.perDose||fallback.perDose;
     const id=api.key(row);
-    const cartKey=`${id}::${packQty}`;
+    const cartKey=`${id}::${packQty}::${selected.purchaseMode}::${selected.intervalWeeks||0}`;
     const items=read();
     const existing=items.find(item=>item.cartKey===cartKey);
     if(existing) existing.qty=(existing.qty||1)+1;
-    else items.push({cartKey,id,name:api.name(row),packQty,totalPrice,perDose,qty:1});
+    else items.push({cartKey,id,name:api.name(row),packQty,totalPrice,perDose,qty:1,purchaseMode:selected.purchaseMode,intervalWeeks:selected.intervalWeeks});
     write(items);
     document.querySelector('[data-cart-drawer]')?.classList.add('open');
   }

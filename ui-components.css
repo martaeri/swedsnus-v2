@@ -27,7 +27,7 @@
 .purchase-choice-options strong, .purchase-choice-options small { display: block; }
 .purchase-choice-options strong { font: 700 12px 'Roboto Condensed'; text-transform: uppercase; }
 .purchase-choice-options small { color: var(--muted); font-size: 9px; }
-.purchase-choice-options input:checked + span { border-color: var(--ink); box-shadow: inset 3px 0 0 var(--accent); }
+.purchase-choice-options input:checked + span { border-color: var(--selected-bg); box-shadow: inset 3px 0 0 var(--accent); }
 .subscription-interval { display: grid; gap: 5px; margin-top: 9px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .subscription-interval select { min-height: 38px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 9px; }
 .purchase-choice > p { margin: 9px 0 0; color: var(--muted); font-size: 9px; }

@@ -8,7 +8,7 @@
       "type": "Funktion",
       "title": "Prenumerationer på produkter",
       "pages": ["Produktkort", "Produktsida", "Kassa", "Mina sidor"],
-      "summary": "Prenumeration väljs i ett separat popupfönster med flerpack och intervall. Varukorgen delar tydligt upp engångsköp och prenumerationer, som sedan kan hanteras på Mina sidor.",
+      "summary": "Prenumeration väljs i ett separat popupfönster med flerpack och intervall. Prenumerationskatalogen erbjuder endast prenumerationsköp och varukorgen delar tydligt upp engångsköp och prenumerationer.",
       "developerNote": "Behörighet styrs centralt per produkt. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
       "important": true
     },

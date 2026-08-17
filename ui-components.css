@@ -31,8 +31,21 @@
 .product-summary .purchase-choice { max-width: 440px; margin-top: 16px; border: 1px solid var(--line); padding: 14px; }
 .product-summary .purchase-choice legend { padding: 0 5px; }
 .subscription-tag { display: inline-block; margin: 3px 0 9px; color: var(--accent-dark); font-size: 10px; font-weight: 700; text-transform: uppercase; }
-.subscription-reveal { width: 100%; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--accent-dark); padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-.subscription-reveal:hover { background: color-mix(in srgb,var(--accent) 8%,var(--surface)); }
+.subscription-reveal { width: calc(100% - 28px); min-height: 38px; margin: 0 14px 12px; border: 1px solid var(--accent-dark); background: color-mix(in srgb,var(--accent) 14%,var(--surface)); color: var(--ink); padding: 8px 11px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.subscription-reveal:hover { background: var(--accent-dark); color: white; }
+.subscription-modal[hidden] { display: none; }
+.subscription-modal { position: fixed; inset: 0; z-index: 1300; display: grid; place-items: center; padding: 22px; }
+.subscription-modal-backdrop { position: absolute; inset: 0; background: rgba(9,14,17,.68); }
+.subscription-modal-card { position: relative; z-index: 1; width: min(540px,100%); max-height: calc(100vh - 44px); overflow-y: auto; border: 1px solid var(--line); border-top: 5px solid var(--ink); background: var(--surface); padding: 32px; box-shadow: 0 24px 70px rgba(0,0,0,.28); }
+.subscription-modal-card h2 { margin-bottom: 8px; font-size: 34px; line-height: 1; text-transform: uppercase; }
+.subscription-modal-intro { color: var(--muted); font-size: 12px; }
+.subscription-modal-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 21px; }
+.subscription-modal-card form { display: grid; gap: 16px; margin-top: 22px; }
+.subscription-modal-card form > label { display: grid; gap: 6px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.subscription-modal-card select { width: 100%; min-height: 48px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 12px; }
+.subscription-modal-summary { display: flex; justify-content: space-between; gap: 16px; border-block: 1px solid var(--line); padding: 14px 0; font-size: 12px; }
+.subscription-modal-card form > .btn { width: 100%; }
+.subscription-modal-card form > p { margin: 0; color: var(--muted); font-size: 10px; }
 
 .variant-panel { max-width: 520px; margin: 26px 0 6px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--line); }
 .variant-panel-head { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }

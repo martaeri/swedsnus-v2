@@ -120,6 +120,9 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .product-price small, .product-summary .price small { display: block; margin-top: 2px; color: var(--muted); font-family: 'Archivo'; font-size: 9px; font-weight: 500; }
 .add-cart { border: 0; border-left: 1px solid var(--line); background: transparent; font-size: 20px; }
 .add-cart:hover { background: var(--ink); color: white; }
+.subscription-product-bottom { grid-template-columns: 1fr minmax(118px,auto); }
+.subscribe-card-add { border: 0; border-left: 1px solid var(--line); background: var(--ink); color: white; padding: 0 14px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.subscribe-card-add:hover { background: var(--accent-dark); }
 .bookmark { position: absolute; z-index: 2; top: 10px; right: 10px; border: 1px solid var(--line); background: var(--bookmark-bg); width: 34px; height: 34px; display: grid; place-items: center; color: var(--ink); }
 .bookmark svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; }
 .bookmark:hover, .bookmark.active { background: var(--ink); color: white; border-color: var(--ink); }
@@ -218,6 +221,10 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .cart-head { padding: 18px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .cart-items { padding: 20px; flex: 1; overflow: auto; }
 .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.cart-group > h3, .cart-group-heading h3 { margin: 0; font-size: 15px; text-transform: uppercase; }
+.cart-group-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.cart-group-heading span { color: var(--accent-dark); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.subscription-cart-group { margin-top: 24px; border-top: 3px solid var(--ink); padding-top: 18px; }
 .cart-foot { border-top: 1px solid var(--line); padding: 20px; }
 
 .login-modal[hidden] { display: none; }

@@ -9,7 +9,7 @@
       "title": "Prenumerationer på produkter",
       "pages": ["Produktkort", "Produktsida", "Kassa", "Mina sidor"],
       "summary": "Prenumeration väljs via samma popup från produktkort och produktsidor. Flerpacksval visar tydligt 1-pack, 2-pack eller 3-pack samt motsvarande antal dosor för snusprodukter.",
-      "developerNote": "Behörighet styrs centralt per produkt. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
+      "developerNote": "Alla produkter inklusive tomdosor är prenumererbara, förutom Swedsnuspåsen och Metalldosor. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
       "important": true
     },
     {

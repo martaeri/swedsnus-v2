@@ -3,3 +3,22 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": []
 }
+
+{
+  "title": "Mallens ändringslogg",
+  "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
+  "entries": [
+    {
+      "id": "2026-08-17-la-till-loggen",
+      "date": "2026-08-17",
+      "type": "Funktion",
+      "title": "La till loggen",
+      "pages": [
+        "-"
+      ],
+      "summary": "Testing testing",
+      "developerNote": "Jag är osäker på om man måste cleara cache och ladda om för att denna ska uppdateras?",
+      "important": true
+    }
+  ]
+}

@@ -98,16 +98,13 @@
     return String(value);
   };
   const rawVariantValue = (row,field) => row[field]===null||row[field]===undefined?'':String(row[field]);
-  const strengthLevel = value => value === 'Extra Strong' ? 4 : value === 'Strong' ? 3 : value ? 2 : 0;
-  const strengthMeter = value => `<span class="variant-strength-meter" aria-hidden="true">${[1,2,3,4].map(index=>`<i${index<=strengthLevel(value)?' class="filled"':''}></i>`).join('')}</span>`;
-
   function renderVariantSelectors(row) {
     const api=window.SwedsnusV2;
     const group=api.group(row);
     if(group.length<2) return '';
     const dimensions=variantDimensions.map(([field,label])=>({field,label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
     if(!dimensions.length) return '';
-    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field${field==='strength'?' strength-variant-field':''}"><span>${label}${field==='strength'?strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
+    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field${field==='strength'?' strength-variant-field':''}"><span>${label}${field==='strength'?api.strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
   }
 
   function chooseVariant(select) {

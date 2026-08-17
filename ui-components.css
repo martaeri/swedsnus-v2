@@ -65,6 +65,9 @@
 .variant-strength-meter { display: inline-flex; gap: 3px; margin-left: auto; }
 .variant-strength-meter i { width: 16px; height: 3px; background: var(--line); }
 .variant-strength-meter i.filled { background: var(--accent-dark); }
+.product-card-strength { display: flex; min-height: 14px; align-items: center; margin-top: 8px; }
+.product-card-strength .variant-strength-meter { margin-left: 0; }
+.product-card-strength .variant-strength-meter i { width: 22px; height: 4px; }
 
 .header-count { min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; }
 .header-count[hidden] { display: none !important; }

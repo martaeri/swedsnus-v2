@@ -39,7 +39,7 @@
   }
 
   function group(row) { return state.rows.filter(candidate => candidate.product_id === row.product_id); }
-  function subscriptionEligible(row) { const explicit=String(row.subscription_eligible||'').toLowerCase();const limited=['yes','true','ja'].includes(String(row.limited_edition||'').toLowerCase());return explicit==='yes'||(!explicit&&row.product_family!=='Tillbehör'&&!limited); }
+  function subscriptionEligible(row) { const explicit=String(row.subscription_eligible||'').toLowerCase();const excluded=row.product_id==='swedsnuspasen-konsistenspase'||row.accessory_type==='Metalldosa';if(excluded)return false;return explicit!=='no'; }
 
   function purchaseChoice(options={}) {
     const groupName = `purchase-${Math.random().toString(36).slice(2)}`;

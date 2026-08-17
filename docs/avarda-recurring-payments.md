@@ -20,7 +20,7 @@ Templatesidan visar kundresan och sparar endast exempeldata lokalt. Produktionsl
 
 - Engångsrader levereras endast i den första ordern. Bara rader som kunden tydligt markerat som prenumeration sparas för framtida köp.
 - Prenumerationsrader med samma intervall kan grupperas i en leveransplan. Olika intervall ska bli separata planer med egna nästa-orderdatum.
-- Backend ska tillämpa centrala regler för vilka produkter och förpackningsstorlekar som får prenumereras på. Frontendmarkeringen är inte en säkerhetskontroll.
+- Backend ska tillämpa centrala regler för vilka produkter och förpackningsstorlekar som får prenumereras på. I mallen är alla produkter inklusive tomdosor prenumererbara, förutom Swedsnuspåsen och tillbehör av typen Metalldosa. Frontendmarkeringen är inte en säkerhetskontroll.
 - Kunden ska aviseras före varje order med aktuellt innehåll, beräknat pris och sista tid för ändring. Pris och lager valideras när ordern skapas.
 
 ## Säkerhet och ansvar

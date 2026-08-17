@@ -1,0 +1,46 @@
+{
+  "title": "Mallens ändringslogg",
+  "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
+  "entries": [
+    {
+      "id": "2026-08-17-developer-log",
+      "date": "2026-08-17",
+      "type": "Funktion",
+      "title": "Inbyggd ändringslogg för utvecklare",
+      "pages": ["Alla sidor"],
+      "summary": "En gemensam panel visar väsentliga förändringar i webbplatsmallen. Panelen öppnas från sidfoten eller med Ctrl + Shift + L.",
+      "developerNote": "Innehållet hämtas från data/template-changelog.json. Funktionen är informationsbärande och ska inte betraktas som åtkomstskydd.",
+      "important": true
+    },
+    {
+      "id": "2026-08-14-expanded-faq",
+      "date": "2026-08-14",
+      "type": "Innehåll",
+      "title": "Vanliga frågor ombyggd till en hjälpyta",
+      "pages": ["faq.html"],
+      "summary": "FAQ-sidan har fått sex kategorier, 28 expanderbara frågor, fritextsökning och tydligare vägar till kundservice och Mina sidor.",
+      "developerNote": "Frågorna är Swedsnus-anpassade och sakligt formulerade. Företagsspecifika leveranstider, avgifter och betalningslöften ska hämtas från verkliga integrationer och köpvillkor.",
+      "important": true
+    },
+    {
+      "id": "2026-08-12-customer-account",
+      "date": "2026-08-12",
+      "type": "Funktion",
+      "title": "Ny struktur för Mina sidor",
+      "pages": ["account.html", "order.html", "profile.html", "checkout.html"],
+      "summary": "Kontoöversikten visar orderhistorik, leveransstatus, återköp, retur och reklamation samt kontaktuppgifter och flera leveransadresser.",
+      "developerNote": "Order-, kund-, spårnings- och serviceärendedata är demonstrationsdata. Flödena behöver kopplas till riktiga backend-, transportörs- och checkoutintegrationer.",
+      "important": true
+    },
+    {
+      "id": "2026-07-15-product-data",
+      "date": "2026-07-15",
+      "type": "Produktdata",
+      "title": "Produktdata centraliserad i JSON",
+      "pages": ["Produktlistor", "Produktsida", "Varukorg"],
+      "summary": "Produktkort och produktvyer hämtar gemensam information från filerna i data-katalogen i stället för duplicerad sidkod.",
+      "developerNote": "Behåll en gemensam produktnyckel och datakälla när mallen ersätts av PIM- och e-handelsintegrationer.",
+      "important": true
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+.developer-log[hidden] { display: none; }
+.developer-log { position: fixed; inset: 0; z-index: 1400; }
+.developer-log-backdrop { position: absolute; inset: 0; background: rgba(9,14,17,.62); }
+.developer-log-panel { position: absolute; inset: 0 0 0 auto; width: min(620px,100%); display: flex; flex-direction: column; background: var(--bg); border-left: 1px solid var(--line); box-shadow: -22px 0 55px rgba(0,0,0,.2); }
+.developer-log-head { display: flex; align-items: start; justify-content: space-between; gap: 22px; padding: 25px 28px 20px; border-bottom: 3px solid var(--ink); background: var(--surface); }
+.developer-log-head .kicker { margin-bottom: 5px; }
+.developer-log-head h2 { margin: 0; font-size: 31px; text-transform: uppercase; }
+.developer-log-head button { flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 23px; }
+.developer-log-intro { padding: 18px 28px 15px; background: var(--surface); }
+.developer-log-intro p { margin-bottom: 5px; color: var(--muted); font-size: 12px; }
+.developer-log-intro small { color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.developer-log-filters { display: flex; gap: 7px; overflow-x: auto; padding: 12px 28px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
+.developer-log-filters button { flex: 0 0 auto; min-height: 32px; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 0 10px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.developer-log-filters button.active { border-color: var(--ink); background: var(--ink); color: white; }
+.developer-log-entries { flex: 1; overflow-y: auto; padding: 20px 28px 30px; }
+.developer-log-entry { margin-bottom: 12px; border: 1px solid var(--line); background: var(--surface); padding: 20px; }
+.developer-log-entry.important { border-left: 4px solid var(--accent); }
+.developer-log-meta { display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.developer-log-meta > span { color: var(--accent); }
+.developer-log-entry h3 { margin: 9px 0 8px; font-size: 20px; text-transform: uppercase; }
+.developer-log-entry > p { margin-bottom: 14px; color: var(--muted); font-size: 12px; }
+.developer-log-pages { border-top: 1px solid var(--line); padding-top: 11px; font-size: 10px; }
+.developer-log-entry details { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.developer-log-entry summary { cursor: pointer; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.developer-log-entry details p { margin: 9px 0 0; color: var(--muted); font-size: 11px; }
+.developer-log-empty { color: var(--muted); }
+.developer-log-panel > footer { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 12px 18px; border-top: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.developer-log-panel kbd { border: 1px solid var(--line); background: var(--bg); padding: 2px 5px; color: var(--ink); font: inherit; }
+.developer-log-open { overflow: hidden; }
+.footer-devlog-link { display: flex; align-items: center; gap: 7px; margin: 7px 0; border: 0; background: transparent; color: var(--footer-muted); padding: 0; font-size: 12px; text-align: left; }
+.footer-devlog-link:hover { color: var(--footer-text); }
+.footer-devlog-link span { display: inline-grid; min-height: 18px; place-items: center; background: var(--accent); color: white; padding: 0 6px; font-size: 8px; font-weight: 700; text-transform: uppercase; }
+.footer-devlog-link span[hidden] { display: none; }
+@media (max-width: 760px) {
+  .developer-log-head { padding: 20px 17px 16px; }
+  .developer-log-head h2 { font-size: 26px; }
+  .developer-log-intro { padding: 15px 17px 13px; }
+  .developer-log-filters { padding: 10px 17px; }
+  .developer-log-entries { padding: 15px 17px 24px; }
+  .developer-log-entry { padding: 17px; }
+}

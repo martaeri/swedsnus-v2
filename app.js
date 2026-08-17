@@ -1,7 +1,7 @@
 (() => {
   if (window.__swedsnusV2Loaded) return;
   window.__swedsnusV2Loaded = true;
-  ['ui-components.css','product-images.css','mobile.css'].forEach(href => {
+  ['ui-components.css','product-images.css','developer-log.css','mobile.css'].forEach(href => {
     if (!document.querySelector(`link[href="${href}"]`)) {
       const css = document.createElement('link');
       css.rel = 'stylesheet';
@@ -23,6 +23,7 @@
     await load('product-images.js');
     await load('cart.js');
     await load('account.js');
+    await load('developer-log.js');
     if(document.body.dataset.page==='checkout') await load('checkout.js');
     if(document.body.dataset.page==='faq') await load('faq.js');
   }

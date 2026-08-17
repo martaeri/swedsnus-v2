@@ -1,12 +1,6 @@
 {
   "title": "Mallens ändringslogg",
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
-  "entries": []
-}
-
-{
-  "title": "Mallens ändringslogg",
-  "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
       "id": "2026-08-17-la-till-loggen",

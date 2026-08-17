@@ -26,7 +26,7 @@
       const unitPrice = Math.max(1, base - ((packQty - 1) * 10));
       const total = unitPrice * packQty;
       const units = Math.max(1, doseCount * packQty);
-      return { packQty, unitPrice, total, perDose: total / units, doseCount, label: `${packQty}-pack` };
+      return { packQty, unitPrice, total, perDose: total / units, doseCount, units, label: `${packQty}-pack` };
     });
   }
 
@@ -35,7 +35,7 @@
     const suffix = row.amount_dosor ? 'dosa' : 'st';
     const options = packs(row);
     const first = options[0];
-    return `<div class="pack-dropdown" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-per-dose="${first.perDose.toFixed(2)}"><button class="pack-dropdown-trigger" type="button" data-pack-toggle aria-expanded="false"><span><strong data-pack-label>${first.label}</strong><small data-pack-summary>${money(first.total)} · ${first.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></span><span aria-hidden="true">⌄</span></button><div class="pack-dropdown-menu" data-pack-menu hidden>${options.map(option => `<button type="button" class="pack-dropdown-option${option.packQty===1?' selected':''}" data-pack-option data-pack-qty="${option.packQty}" data-total="${option.total}" data-per-dose="${option.perDose.toFixed(2)}"><strong>${option.label}</strong><span>${money(option.total)}</span><small>${option.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></button>`).join('')}</div></div>`;
+    return `<div class="pack-dropdown" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-per-dose="${first.perDose.toFixed(2)}" data-units="${first.units}"><button class="pack-dropdown-trigger" type="button" data-pack-toggle aria-expanded="false"><span><strong data-pack-label>${first.label}</strong><small data-pack-summary>${row.amount_dosor?`${first.units} dosor · `:''}${money(first.total)} · ${first.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></span><span aria-hidden="true">⌄</span></button><div class="pack-dropdown-menu" data-pack-menu hidden>${options.map(option => `<button type="button" class="pack-dropdown-option${option.packQty===1?' selected':''}" data-pack-option data-pack-qty="${option.packQty}" data-total="${option.total}" data-per-dose="${option.perDose.toFixed(2)}" data-units="${option.units}"><strong>${option.label}</strong>${row.amount_dosor?`<span class="pack-dose-count">${option.units} dosor</span>`:'<span></span>'}<span class="pack-option-price"><b>${money(option.total)}</b><small>${option.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></span></button>`).join('')}</div></div>`;
   }
 
   function group(row) { return state.rows.filter(candidate => candidate.product_id === row.product_id); }

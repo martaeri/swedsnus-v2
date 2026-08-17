@@ -3,6 +3,16 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-08-17-accentteman",
+      "date": "2026-08-17",
+      "type": "Design",
+      "title": "Accentfärger på blå/grå bas",
+      "pages": ["Hela webbplatsen", "Temaväljaren"],
+      "summary": "Fyra nya blå/grå temavarianter lägger terrakotta, ockra, vinrött eller skogsgrönt på utvalda status-, navigations- och kontrollelement.",
+      "developerNote": "Alla varianter behåller samma baspalett och ändrar endast --accent och --accent-dark. Accentfärgerna är kontrollerade för vit text med minst 5,7:1 kontrast.",
+      "important": true
+    },
+    {
       "id": "2026-08-17-prenumerationer",
       "date": "2026-08-17",
       "type": "Funktion",

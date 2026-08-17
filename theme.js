@@ -1,6 +1,6 @@
 (() => {
   const KEY='swedsnus-v2-theme';
-  const allowed=new Set(['cool','warm','green']);
+  const allowed=new Set(['cool','warm','green','cool-terracotta','cool-ochre','cool-burgundy','cool-forest']);
   const saved=localStorage.getItem(KEY);
   const initial=allowed.has(saved)?saved:'cool';
   document.documentElement.dataset.theme=initial;

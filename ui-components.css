@@ -107,7 +107,8 @@
 .account-page { padding: 34px 0 90px; }
 .account-nav { display: flex; gap: 28px; overflow-x: auto; border-bottom: 1px solid var(--line); }
 .account-nav a { flex: 0 0 auto; padding: 13px 0 11px; border-bottom: 3px solid transparent; font: 700 13px 'Roboto Condensed'; text-transform: uppercase; }
-.account-nav a.active, .account-nav a:hover { border-bottom-color: var(--ink); }
+.account-nav a.active { border-bottom-color: var(--accent-dark); }
+.account-nav a:hover { border-bottom-color: var(--ink); }
 .account-login { max-width: 680px; padding: 42px 0; }
 .account-login h1, .account-hero h1, .order-detail-head h1 { font-size: 56px; line-height: .95; text-transform: uppercase; margin-bottom: 12px; }
 .account-login > p:not(.kicker), .account-hero p, .order-detail-head p { color: var(--muted); }

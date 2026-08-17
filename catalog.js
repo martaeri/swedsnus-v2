@@ -4,7 +4,8 @@
     los: row => row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom',
     'gor-eget': row => row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom',
     'vitt-snus': row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus',
-    tillbehor: row => row.product_family === 'Tillbehör'
+    tillbehor: row => row.product_family === 'Tillbehör',
+    subscribe: row => window.SwedsnusV2.subscriptionEligible(row)
   };
   const split = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
   const unique = values => [...new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(String))].sort((a,b)=>a.localeCompare(b,'sv'));
@@ -45,7 +46,7 @@
     const grid = document.querySelector('[data-catalog-grid]');
     if (!grid || !routes[key]) return;
     const rows = api.state.rows.filter(routes[key]);
-    grid.innerHTML = rows.map(api.card).join('');
+    grid.innerHTML = rows.map(row=>api.card(row,{subscription:key==='subscribe'})).join('');
     renderFilters(rows);
     const sidebar = document.querySelector('[data-filter-sidebar]');
     if (sidebar && !document.querySelector('[data-mobile-filter-toggle]')) {
@@ -137,7 +138,7 @@
     const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
     const firstPack=api.packs(row)[0];
     const suffix=row.amount_dosor?'dosa':'st';
-    root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div><div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;
+    root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div>${api.subscriptionEligible(row)?api.purchaseChoice():''}<div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;
     document.querySelectorAll('[data-variant-select]').forEach(select=>select.addEventListener('change',()=>chooseVariant(select)));
     const content = document.querySelector('[data-product-content]');
     if(content) content.innerHTML = `<article><p class="kicker">Produktinformation</p><h2>Om produkten</h2><p>Här kan en kortare faktabaserad text om produktens egenskaper, format och användningsområde ligga. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus.</p></article><article><p class="kicker">Hantering</p><h2>Förvaring och beredning</h2><p>Här kan relevant information om förvaring eller beredning ligga beroende på produkttyp. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p></article><article class="ingredients"><p class="kicker">Deklaration</p><h2>Innehållsförteckning</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></article>`;

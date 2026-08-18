@@ -9,7 +9,7 @@
       "title": "Tydligare köpknapp på produktkort",
       "pages": ["Produktlistor", "Startsidan", "Sortimentet"],
       "summary": "Produktkortens plusikon har ersatts av en tydlig knapp med texten Lägg i varukorg och det valda temats accentfärg.",
-      "developerNote": "Knappen använder de centrala variablerna --action-bg och --action-hover och har en kompakt mobilanpassning. Prenumerationskortens separata knapp påverkas inte.",
+      "developerNote": "Knappen använder de centrala variablerna --action-bg och --action-hover. I mobilformat placeras dos-/styckpriset till höger, smak och format döljs på korten och bildyta samt mellanrum komprimeras. Prenumerationskortens separata knapp påverkas inte.",
       "important": true
     },
     {

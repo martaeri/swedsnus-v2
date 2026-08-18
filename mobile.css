@@ -55,6 +55,8 @@
 
   .catalog-hero { padding: 34px 0 24px; }
   .catalog-hero h1 { font-size: 42px; }
+  .series-filter-pills { display: flex; gap: 8px; margin: 18px -14px 0; padding: 0 14px 4px; overflow-x: auto; scrollbar-width: thin; }
+  .series-filter-pill { flex: 0 0 210px; min-height: 54px; padding: 9px 18px; }
   .catalog-layout { grid-template-columns: 1fr; gap: 12px; padding: 18px 0 48px; }
   .mobile-filter-toggle { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: space-between; border: 1px solid var(--ink); background: var(--surface); color: var(--ink); padding: 0 13px; font-family: 'Roboto Condensed',sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; }
   .mobile-filter-toggle b { min-width: 22px; height: 22px; display: grid; place-items: center; background: var(--ink); color: white; font-size: 10px; }

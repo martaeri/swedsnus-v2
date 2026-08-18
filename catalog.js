@@ -7,33 +7,65 @@
     tillbehor: row => row.product_family === 'Tillbehör',
     subscribe: row => window.SwedsnusV2.subscriptionEligible(row)
   };
+  const seriesPills = {
+    portion: [
+      ['instant portion','Instant Portion','Smaksatta snussatser'],
+      ['white portion','White Portion','Färdig att snusa'],
+      ['super dry','Super Dry','Snussatser']
+    ],
+    los: [
+      ['lössnus instant','Instant Lös','Smaksatta snussatser'],
+      ['lössnus express','Express Lös','Snussatser'],
+      ['expressarom','Expressaromer','Smaksättning']
+    ],
+    'gor-eget': [
+      ['super dry','Super Dry','Snussatser'],
+      ['super dry arom','Super Dry Arom','Smaksättning']
+    ]
+  };
   const split = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
   const unique = values => [...new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(String))].sort((a,b)=>a.localeCompare(b,'sv'));
   function currentPage() { return document.body.dataset.page || ''; }
   function renderFilters(rows) {
     const sidebar = document.querySelector('[data-filter-sidebar]');
     if (!sidebar) return;
-    const groups = currentPage() === 'tillbehor'
+    const page = currentPage();
+    const groups = page === 'tillbehor'
       ? [['Typ','type',unique(rows.map(r=>r.accessory_type))],['Färg','color',unique(rows.map(r=>r.design_color || r.filter_color))]]
-      : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type))],['Format','format',unique(rows.map(r=>r.format || r.grind))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
+      : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],...(page === 'subscribe' ? [['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type || r.accessory_type))]] : []),['Format','format',unique(rows.map(r=>r.format || r.grind))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
     sidebar.innerHTML = `<div class="filter-title"><span>Filtrera</span><button type="button" data-mobile-filter-close aria-label="Stäng filter">×</button></div>${groups.filter(([, ,v])=>v.length).map(([title,key,values])=>`<div class="filter-group" data-filter-group="${key}"><h4>${title}</h4>${values.map(value=>`<label class="filter-option"><input type="checkbox" value="${window.SwedsnusV2.escapeHtml(value)}">${window.SwedsnusV2.escapeHtml(value)}</label>`).join('')}</div>`).join('')}`;
+  }
+  function renderSeriesPills(rows) {
+    document.querySelector('[data-series-filters]')?.remove();
+    const pills = seriesPills[currentPage()];
+    const layout = document.querySelector('.catalog-layout');
+    if (!pills || !layout) return;
+    const available = new Set(rows.map(row=>String(row.product_line || row.aroma_type || '').toLowerCase()));
+    const root = document.createElement('section');
+    root.className = 'series-filter-pills';
+    root.dataset.seriesFilters = '';
+    root.setAttribute('aria-label','Filtrera på produktserie');
+    root.innerHTML = pills.filter(([value])=>available.has(value)).map(([value,title,description])=>`<button type="button" class="series-filter-pill" data-series-filter="${value}" aria-pressed="false"><strong>${title}</strong><span>${description}</span></button>`).join('');
+    layout.before(root);
   }
   function applyFilters() {
     const cards = [...document.querySelectorAll('.catalog-main .product-card')];
     const query = (document.querySelector('[data-product-search]')?.value || '').trim().toLowerCase();
     const groups = [...document.querySelectorAll('[data-filter-group]')];
+    const selectedSeries = [...document.querySelectorAll('[data-series-filter][aria-pressed="true"]')].map(button=>button.dataset.seriesFilter);
     let count = 0;
     cards.forEach(card => {
-      const hay = `${card.dataset.name} ${card.dataset.taste} ${card.dataset.format} ${card.dataset.strength}`;
+      const hay = `${card.dataset.name} ${card.dataset.taste} ${card.dataset.type} ${card.dataset.color} ${card.dataset.format} ${card.dataset.strength}`;
       const matchesSearch = !query || hay.includes(query);
+      const matchesSeries = !selectedSeries.length || selectedSeries.includes(card.dataset.series);
       const matchesGroups = groups.every(group => {
         const checked = [...group.querySelectorAll('input:checked')].map(i=>i.value.toLowerCase());
         if (!checked.length) return true;
         const key = group.dataset.filterGroup;
-        const value = key === 'taste' ? card.dataset.taste : key === 'format' ? card.dataset.format : key === 'strength' ? card.dataset.strength : hay;
-        return checked.some(item => value.includes(item));
+        const values = key === 'taste' ? split(card.dataset[key]).map(value=>value.toLowerCase()) : [card.dataset[key] || ''];
+        return checked.some(item => values.includes(item));
       });
-      const show = matchesSearch && matchesGroups;
+      const show = matchesSearch && matchesSeries && matchesGroups;
       card.hidden = !show;
       if(show) count++;
     });
@@ -47,6 +79,7 @@
     if (!grid || !routes[key]) return;
     const rows = api.state.rows.filter(routes[key]);
     grid.innerHTML = rows.map(row=>api.card(row,{subscription:key==='subscribe'})).join('');
+    renderSeriesPills(rows);
     renderFilters(rows);
     const sidebar = document.querySelector('[data-filter-sidebar]');
     if (sidebar && !document.querySelector('[data-mobile-filter-toggle]')) {
@@ -63,6 +96,7 @@
       if (el) el.textContent = count;
     };
     document.querySelectorAll('[data-filter-group] input').forEach(i=>i.addEventListener('change',()=>{ applyFilters(); updateFilterCount(); }));
+    document.querySelectorAll('[data-series-filter]').forEach(button=>button.addEventListener('click',()=>{const active=button.getAttribute('aria-pressed')==='true';button.setAttribute('aria-pressed',String(!active));button.classList.toggle('active',!active);applyFilters();}));
     document.querySelector('[data-product-search]')?.addEventListener('input', applyFilters);
     document.querySelector('[data-mobile-filter-toggle]')?.addEventListener('click',()=>{ sidebar?.classList.add('mobile-open'); document.body.classList.add('mobile-filter-open'); });
     sidebar?.querySelector('[data-mobile-filter-close]')?.addEventListener('click',()=>{ sidebar.classList.remove('mobile-open'); document.body.classList.remove('mobile-filter-open'); });

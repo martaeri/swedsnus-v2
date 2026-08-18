@@ -6,10 +6,10 @@
       "id": "2026-08-18-produktseriefilter",
       "date": "2026-08-18",
       "type": "Katalog",
-      "title": "Snabbare filtrering av produkter",
+      "title": "Uppdaterat filter sortimentsidor",
       "pages": ["Portionssnus", "Lössnus", "Gör eget", "Vitt snus", "Tillbehör"],
-      "summary": "Det finns nu tydliga snabbval för produktserier på sidorna Portion, Lös, Gör eget och Tillbehör. De ligger i linje med produktkorten och gör det enklare att snabbt visa rätt sorts produkter.",
-      "developerNote": "Man kan välja ett snabbfilter åt gången och enkelt ta bort valet med krysset. På tillbehörssidan går det även att filtrera efter material och färg. På produktsidorna kan kunden byta motiv på tomdosor och färg på metalldosor. Tomdosor för lös och portion hålls isär så att rätt motiv alltid visas för rätt sorts dosa.",
+      "summary": "Gjort som tidigare version av template sidan i princip. Filter tagna från excelarket.",
+      "developerNote": "Större filter-pills med de gamla produktserie-namnen och lite finslip",
       "important": true
     },
     {
@@ -19,7 +19,7 @@
       "title": "Uppdaterade produktkort",
       "pages": ["Produktlistor", "Startsidan", "Sortimentet"],
       "summary": "Produktkorten har fått en tydligare köpknapp, bättre information om styrka och förpackningsstorlek samt en renare och mer sammanhållen layout.",
-      "developerNote": "På mobilen är korten mer kompakta, dos- eller styckpriset ligger till höger och mindre viktig information har plockats bort för att ge produkterna mer plats. Prenumerationskortens egna knappar fungerar som tidigare.",
+      "developerNote": "På mobilen är korten mer kompakta.",
       "important": true
     },
     {
@@ -28,8 +28,8 @@
       "type": "Design",
       "title": "Accentfärger på blå/grå bas",
       "pages": ["Hela webbplatsen", "Temaväljaren"],
-      "summary": "Fyra teman kombinerar sidans blågrå bas med klarblått, terrakotta, ockra eller skogsgrönt. Den klarblå varianten är sidans standardtema.",
-      "developerNote": "Accentfärgerna syns bland annat på knappar, aktiva val och statusmarkeringar. De äldre blågrå, beige och gröna temana finns kvar längst ner i temaväljaren. Alla accentfärger har kontrollerats så att vit text är lätt att läsa.",
+      "summary": "Nya fina snitsiga teman med accentfärger.",
+      "developerNote": "Borde eventuellt dubbelkolla att de inte är allt för säljande... KO är kinkig",
       "important": true
     },
     {
@@ -38,7 +38,7 @@
       "type": "Funktion",
       "title": "Prenumerationer på produkter",
       "pages": ["Produktkort", "Produktsida", "Kassa", "Mina sidor"],
-      "summary": "Prenumeration väljs via samma popup från produktkort och produktsidor. Flerpacksval visar tydligt 1-pack, 2-pack eller 3-pack samt motsvarande antal dosor för snusprodukter.",
+      "summary": "Prenumeration väljs via samma popup från produktkort och produktsidor.",
       "developerNote": "Alla produkter inklusive tomdosor är prenumererbara, förutom Swedsnuspåsen och Metalldosor. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
       "important": true
     },

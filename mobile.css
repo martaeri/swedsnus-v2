@@ -42,12 +42,14 @@
   .section-head { align-items: flex-start; margin-bottom: 18px; }
   .section-head h2 { font-size: 30px; }
   .product-grid, .product-rail, .catalog-main .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .product-card-main { padding: 0 11px 14px; }
-  .product-image { margin-left: -11px; margin-right: -11px; }
+  .product-card-main { padding: 0 11px 10px; }
+  .product-image { aspect-ratio: 1.12 / 1; margin: 0 -11px 12px; }
   .product-name { font-size: 16px; }
-  .product-meta { font-size: 10px; }
-  .pack-control { padding: 9px 10px; }
-  .product-price { padding: 10px; font-size: 16px; }
+  .product-card .product-meta { display: none; }
+  .pack-control { padding: 8px 10px; }
+  .pack-control label { margin-bottom: 3px; }
+  .product-price { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 9px 10px; font-size: 16px; }
+  .product-price small { margin-top: 0; line-height: 1.2; text-align: right; }
   .product-card-bottom { grid-template-columns: minmax(0,1fr) minmax(96px,auto); }
   .add-cart { padding-inline: 8px; font-size: 9px; }
 

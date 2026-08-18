@@ -9,7 +9,7 @@
 
   const themeOverlay = document.createElement('label');
   themeOverlay.className = 'theme-overlay';
-  themeOverlay.innerHTML = `<span>Tema</span><select data-theme-select aria-label="Välj färgtema"><option value="cool-terracotta"${theme==='cool-terracotta'?' selected':''}>Blå/grå + terrakotta (standard)</option><option value="cool-ochre"${theme==='cool-ochre'?' selected':''}>Blå/grå + ockra</option><option value="cool-burgundy"${theme==='cool-burgundy'?' selected':''}>Blå/grå + vinröd</option><option value="cool-forest"${theme==='cool-forest'?' selected':''}>Blå/grå + skogsgrön</option><option value="cool"${theme==='cool'?' selected':''}>Blå / grå</option><option value="warm"${theme==='warm'?' selected':''}>Beige / brun</option><option value="green"${theme==='green'?' selected':''}>Grön</option></select>`;
+  themeOverlay.innerHTML = `<span>Tema</span><select data-theme-select aria-label="Välj färgtema"><option value="cool-terracotta"${theme==='cool-terracotta'?' selected':''}>Blå/grå + terrakotta (standard)</option><option value="cool-ochre"${theme==='cool-ochre'?' selected':''}>Blå/grå + ockra</option><option value="cool-burgundy"${theme==='cool-burgundy'?' selected':''}>Blå/grå + vinröd</option><option value="cool-forest"${theme==='cool-forest'?' selected':''}>Blå/grå + skogsgrön</option><option value="cool-blue"${theme==='cool-blue'?' selected':''}>Blå/grå + klarblå</option><option value="cool"${theme==='cool'?' selected':''}>Blå / grå</option><option value="warm"${theme==='warm'?' selected':''}>Beige / brun</option><option value="green"${theme==='green'?' selected':''}>Grön</option></select>`;
   document.body.append(themeOverlay);
 
   const footer = document.createElement('footer');

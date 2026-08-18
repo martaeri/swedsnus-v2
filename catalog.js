@@ -45,8 +45,20 @@
     root.className = 'series-filter-pills';
     root.dataset.seriesFilters = '';
     root.setAttribute('aria-label','Filtrera på produktserie');
-    root.innerHTML = pills.filter(([value])=>available.has(value)).map(([value,title,description])=>`<button type="button" class="series-filter-pill" data-series-filter="${value}" aria-pressed="false"><strong>${title}</strong><span>${description}</span></button>`).join('');
+    root.innerHTML = pills.filter(([value])=>available.has(value)).map(([value,title,description])=>`<button type="button" class="series-filter-pill" data-series-filter="${value}" aria-pressed="false"><span class="series-filter-pill-copy"><strong>${title}</strong><span>${description}</span></span><span class="series-filter-pill-remove" aria-hidden="true">×</span></button>`).join('');
     layout.before(root);
+  }
+  function toggleSeriesFilter(button) {
+    const activate = button.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('[data-series-filter]').forEach(item=>{
+      item.setAttribute('aria-pressed','false');
+      item.classList.remove('active');
+    });
+    if (activate) {
+      button.setAttribute('aria-pressed','true');
+      button.classList.add('active');
+    }
+    applyFilters();
   }
   function applyFilters() {
     const cards = [...document.querySelectorAll('.catalog-main .product-card')];
@@ -96,7 +108,7 @@
       if (el) el.textContent = count;
     };
     document.querySelectorAll('[data-filter-group] input').forEach(i=>i.addEventListener('change',()=>{ applyFilters(); updateFilterCount(); }));
-    document.querySelectorAll('[data-series-filter]').forEach(button=>button.addEventListener('click',()=>{const active=button.getAttribute('aria-pressed')==='true';button.setAttribute('aria-pressed',String(!active));button.classList.toggle('active',!active);applyFilters();}));
+    document.querySelectorAll('[data-series-filter]').forEach(button=>button.addEventListener('click',()=>toggleSeriesFilter(button)));
     document.querySelector('[data-product-search]')?.addEventListener('input', applyFilters);
     document.querySelector('[data-mobile-filter-toggle]')?.addEventListener('click',()=>{ sidebar?.classList.add('mobile-open'); document.body.classList.add('mobile-filter-open'); });
     sidebar?.querySelector('[data-mobile-filter-close]')?.addEventListener('click',()=>{ sidebar.classList.remove('mobile-open'); document.body.classList.remove('mobile-filter-open'); });

@@ -21,6 +21,10 @@
     'gor-eget': [
       ['super dry','Super Dry','Snussatser'],
       ['super dry arom','Super Dry Arom','Smaksättning']
+    ],
+    tillbehor: [
+      ['portionssnus','Portion','Tillbehör till portionssnus'],
+      ['lössnus','Lös','Tillbehör lössnus']
     ]
   };
   const split = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
@@ -31,22 +35,22 @@
     if (!sidebar) return;
     const page = currentPage();
     const groups = page === 'tillbehor'
-      ? [['Typ','type',unique(rows.map(r=>r.accessory_type))],['Färg','color',unique(rows.map(r=>r.design_color || r.filter_color))]]
+      ? [['Typ','type',unique(rows.map(r=>r.accessory_type))],['Material','material',unique(rows.map(r=>r.material))],['Färg','color',unique(rows.map(r=>r.filter_color))]]
       : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],...(page === 'subscribe' ? [['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type || r.accessory_type))]] : []),['Format','format',unique(rows.map(r=>r.format || r.grind))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
     sidebar.innerHTML = `<div class="filter-title"><span>Filtrera</span><button type="button" data-mobile-filter-close aria-label="Stäng filter">×</button></div>${groups.filter(([, ,v])=>v.length).map(([title,key,values])=>`<div class="filter-group" data-filter-group="${key}"><h4>${title}</h4>${values.map(value=>`<label class="filter-option"><input type="checkbox" value="${window.SwedsnusV2.escapeHtml(value)}">${window.SwedsnusV2.escapeHtml(value)}</label>`).join('')}</div>`).join('')}`;
   }
   function renderSeriesPills(rows) {
     document.querySelector('[data-series-filters]')?.remove();
     const pills = seriesPills[currentPage()];
-    const layout = document.querySelector('.catalog-layout');
-    if (!pills || !layout) return;
-    const available = new Set(rows.map(row=>String(row.product_line || row.aroma_type || '').toLowerCase()));
+    const tools = document.querySelector('.catalog-main .catalog-tools');
+    if (!pills || !tools) return;
+    const available = new Set(rows.map(row=>String(row.compatible_with || row.product_line || row.aroma_type || '').toLowerCase()));
     const root = document.createElement('section');
     root.className = 'series-filter-pills';
     root.dataset.seriesFilters = '';
     root.setAttribute('aria-label','Filtrera på produktserie');
     root.innerHTML = pills.filter(([value])=>available.has(value)).map(([value,title,description])=>`<button type="button" class="series-filter-pill" data-series-filter="${value}" aria-pressed="false"><span class="series-filter-pill-copy"><strong>${title}</strong><span>${description}</span></span><span class="series-filter-pill-remove" aria-hidden="true">×</span></button>`).join('');
-    layout.before(root);
+    tools.before(root);
   }
   function toggleSeriesFilter(button) {
     const activate = button.getAttribute('aria-pressed') !== 'true';
@@ -67,7 +71,7 @@
     const selectedSeries = [...document.querySelectorAll('[data-series-filter][aria-pressed="true"]')].map(button=>button.dataset.seriesFilter);
     let count = 0;
     cards.forEach(card => {
-      const hay = `${card.dataset.name} ${card.dataset.taste} ${card.dataset.type} ${card.dataset.color} ${card.dataset.format} ${card.dataset.strength}`;
+      const hay = `${card.dataset.name} ${card.dataset.taste} ${card.dataset.type} ${card.dataset.material} ${card.dataset.color} ${card.dataset.design} ${card.dataset.format} ${card.dataset.strength}`;
       const matchesSearch = !query || hay.includes(query);
       const matchesSeries = !selectedSeries.length || selectedSeries.includes(card.dataset.series);
       const matchesGroups = groups.every(group => {
@@ -129,6 +133,7 @@
   const variantDimensions = [
     ['strength','Styrka'],
     ['product_line','Typ'],
+    ['design_color','Motiv'],
     ['format','Format'],
     ['grind','Malningsgrad'],
     ['amount_dosor','Mängd'],
@@ -148,7 +153,7 @@
     const api=window.SwedsnusV2;
     const group=api.group(row);
     if(group.length<2) return '';
-    const dimensions=variantDimensions.map(([field,label])=>({field,label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
+    const dimensions=variantDimensions.map(([field,label])=>({field,label:field==='design_color'&&row.accessory_type==='Metalldosa'?'Färg':label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
     if(!dimensions.length) return '';
     return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field${field==='strength'?' strength-variant-field':''}"><span>${label}${field==='strength'?api.strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
   }
@@ -178,7 +183,8 @@
     const root = document.querySelector('[data-product-detail]');
     if (!row || !root) { if(root) root.innerHTML='<div class="product-summary"><h1>Produkt hittades inte</h1><p>Produktlänken kunde inte matchas mot produktdatan.</p></div>'; return; }
     document.title = `${api.name(row)} — Swedsnus`;
-    const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
+    const designLabel=row.accessory_type==='Metalldosa'?'Färg':'Motiv';
+    const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Typ',row.accessory_type],['Passar till',row.compatible_with],['Material',row.material],[designLabel,row.design_color],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
     const firstPack=api.packs(row)[0];
     const suffix=row.amount_dosor?'dosa':'st';
     root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div>${api.subscriptionEligible(row)?`<button class="btn product-subscription-open" type="button" data-subscription-open="${api.escapeHtml(api.key(row))}">Prenumerera på produkten</button>`:''}<div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;

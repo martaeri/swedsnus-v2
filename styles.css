@@ -169,7 +169,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .catalog-hero { padding: 52px 0 34px; border-bottom: 1px solid var(--line); }
 .catalog-hero h1 { font-size: 58px; text-transform: uppercase; margin-bottom: 12px; }
 .catalog-hero p { max-width: 720px; color: var(--muted); }
-.series-filter-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.series-filter-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
 .series-filter-pill { flex: 0 0 auto; min-width: 190px; min-height: 54px; display: flex; align-items: stretch; justify-content: space-between; gap: 16px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 0 0 16px; text-align: left; }
 .series-filter-pill-copy { display: grid; align-content: center; gap: 1px; padding: 8px 0; }
 .series-filter-pill-copy strong { font: 700 14px 'Roboto Condensed',sans-serif; text-transform: uppercase; }

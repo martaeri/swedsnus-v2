@@ -18,8 +18,8 @@
       "type": "Köpupplevelse",
       "title": "Uppdaterade produktkort",
       "pages": ["Produktlistor", "Startsidan", "Sortimentet"],
-      "summary": "Produktkorten har fått en tydligare köpknapp, bättre information om styrka och förpackningsstorlek samt en renare och mer sammanhållen layout.",
-      "developerNote": "På mobilen är korten mer kompakta.",
+      "summary": "Produktkorten har fått en tydligare köpknapp, flyttade också upp styrkemarkören till overlay variant.",
+      "developerNote": "På mobilen är korten mer kompakta. Tog bort textinnehållet där så får man klicka in på produkten bara.",
       "important": true
     },
     {

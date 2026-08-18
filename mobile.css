@@ -44,9 +44,8 @@
   .product-grid, .product-rail, .catalog-main .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .product-card-main { padding: 0 11px 10px; }
   .product-image { aspect-ratio: 1.12 / 1; margin: 0 -11px 12px; }
-  .product-strength-badge { min-height: 40px; gap: 8px; padding: 5px 8px 5px 7px; border-left-width: 3px; }
-  .product-strength-copy small { font-size: 7px; }
-  .product-strength-copy strong { font-size: 11px; }
+  .product-strength-badge { left: 7px; bottom: 7px; gap: 5px; padding-bottom: 3px; }
+  .product-strength-badge > small { font-size: 7px; }
   .product-strength-badge .variant-strength-meter i { width: 3px; height: 13px; }
   .product-name { font-size: 16px; }
   .product-card .product-meta { display: none; }

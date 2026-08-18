@@ -147,11 +147,11 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .pack-control { padding: 10px 14px; border-top: 1px solid var(--line); }
 .pack-control label, .product-pack-picker label { display: block; margin-bottom: 5px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .pack-control select, .product-pack-picker select { width: 100%; min-height: 34px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 8px; font-size: 10px; }
-.product-card-bottom { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 46px; align-items: stretch; }
+.product-card-bottom { border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0,1fr) minmax(112px,auto); align-items: stretch; }
 .product-price { padding: 12px 14px; font-family: 'Roboto Condensed'; font-size: 18px; font-weight: 700; }
 .product-price small, .product-summary .price small { display: block; margin-top: 2px; color: var(--muted); font-family: 'Archivo'; font-size: 9px; font-weight: 500; }
-.add-cart { border: 0; border-left: 1px solid var(--line); background: transparent; font-size: 20px; }
-.add-cart:hover { background: var(--selected-bg); color: white; }
+.add-cart { border: 0; border-left: 1px solid var(--line); background: var(--action-bg); color: white; padding: 0 12px; font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.2; text-transform: uppercase; }
+.add-cart:hover { background: var(--action-hover); }
 .subscription-product-bottom { grid-template-columns: 1fr minmax(118px,auto); }
 .subscribe-card-add { border: 0; border-left: 1px solid var(--line); background: var(--action-bg); color: white; padding: 0 14px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .subscribe-card-add:hover { background: var(--action-hover); }

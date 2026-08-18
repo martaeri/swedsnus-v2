@@ -9,7 +9,7 @@
       "title": "Produktserier som filter-pills",
       "pages": ["Portionssnus", "Lössnus", "Gör eget", "Vitt snus", "Tillbehör"],
       "summary": "Portion, Lös och Gör eget har fått beskrivande filter-pills för sina produktserier. Typ har tagits bort ur sidofiltret där pillren ersätter det, och övriga filter använder nu produktdatans faktiska fält.",
-      "developerNote": "Pillren mappas centralt mot product_line och aroma_type. Produktkorten exponerar normaliserade dataattribut för smak, typ, serie, färg, format och styrka så att filter kan kombineras. Tillbehör behåller Typ och Färg; prenumerationssidan behåller sitt Typ-filter.",
+      "developerNote": "Pillren mappas centralt mot product_line och aroma_type och tillåter ett aktivt serieval åt gången. Aktivt pill har en tydlig kryssikon för återställning. Produktkorten exponerar normaliserade dataattribut för smak, typ, serie, färg, format och styrka; en explicit [hidden]-regel säkerställer att bortfiltrerade kort inte visas. Tillbehör behåller Typ och Färg; prenumerationssidan behåller sitt Typ-filter.",
       "important": true
     },
     {

@@ -141,7 +141,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .product-card { background: var(--surface); min-width: 0; position: relative; display: flex; flex-direction: column; }
 .product-card[hidden] { display: none; }
 .product-card-main { padding: 0 16px 18px; flex: 1; }
-.product-image { aspect-ratio: 1; background: var(--media); margin: 0 -16px 17px; display: grid; place-items: center; color: var(--media-muted); font-family: 'Roboto Condensed'; text-transform: uppercase; font-size: 12px; }
+.product-image { position: relative; aspect-ratio: 1; background: var(--media); margin: 0 -16px 17px; display: grid; place-items: center; color: var(--media-muted); font-family: 'Roboto Condensed'; text-transform: uppercase; font-size: 12px; }
 .product-tag { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 700; letter-spacing: .08em; }
 .product-name { font-family: 'Roboto Condensed'; font-size: 19px; font-weight: 700; text-transform: uppercase; line-height: 1.05; margin: 6px 0 12px; }
 .product-meta { color: var(--muted); font-size: 11px; margin: 2px 0; }

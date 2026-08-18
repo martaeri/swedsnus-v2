@@ -142,5 +142,12 @@
     if(row.tobacco_type === 'Tobaksfri') document.querySelector('[data-product-warning]')?.removeAttribute('hidden');
     document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
   }
-  document.addEventListener('swedsnus-v2:products-ready', () => { renderCatalog(); renderHome(); renderProduct(); });
+  function renderProductViews() {
+    renderCatalog();
+    renderHome();
+    renderProduct();
+  }
+
+  document.addEventListener('swedsnus-v2:products-ready', renderProductViews);
+  if (window.SwedsnusV2?.state.ready) renderProductViews();
 })();

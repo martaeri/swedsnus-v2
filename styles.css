@@ -86,6 +86,13 @@
   --action-hover: var(--accent-dark);
   --selected-bg: var(--accent-dark);
 }
+:root[data-theme="cool-blue"] {
+  --accent: #2866a3;
+  --accent-dark: #17466f;
+  --action-bg: var(--accent);
+  --action-hover: var(--accent-dark);
+  --selected-bg: var(--accent-dark);
+}
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }

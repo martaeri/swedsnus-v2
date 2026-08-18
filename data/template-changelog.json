@@ -28,8 +28,8 @@
       "type": "Design",
       "title": "Accentfärger på blå/grå bas",
       "pages": ["Hela webbplatsen", "Temaväljaren"],
-      "summary": "Fyra blå/grå temavarianter lägger terrakotta, ockra, vinrött eller skogsgrönt på status-, navigations-, urvals- och handlingselement. Terrakotta är sidans standardtema.",
-      "developerNote": "Accenttemana delar centrala variabler för primär handling, hover och aktivt val. De äldre blå/grå, beige/bruna och gröna helhetstemana finns kvar sist i temaväljaren. Accentfärgerna är kontrollerade för vit text med minst 5,7:1 kontrast.",
+      "summary": "Fem teman kombinerar sidans blågrå bas med terrakotta, ockra, vinrött, skogsgrönt eller klarblått. Terrakotta är fortfarande sidans standardtema.",
+      "developerNote": "Accentfärgerna syns bland annat på knappar, aktiva val och statusmarkeringar. De äldre blågrå, beige och gröna temana finns kvar längst ner i temaväljaren. Alla accentfärger har kontrollerats så att vit text är lätt att läsa.",
       "important": true
     },
     {

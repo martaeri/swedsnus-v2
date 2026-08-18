@@ -6,20 +6,20 @@
       "id": "2026-08-18-produktseriefilter",
       "date": "2026-08-18",
       "type": "Katalog",
-      "title": "Produktserier som filter-pills",
+      "title": "Snabbare filtrering av produkter",
       "pages": ["Portionssnus", "Lössnus", "Gör eget", "Vitt snus", "Tillbehör"],
-      "summary": "Portion, Lös, Gör eget och Tillbehör har fått beskrivande filter-pills placerade i produktkolumnen. Typ har tagits bort ur sidofiltret där pillren ersätter det, och övriga filter använder produktdatans faktiska fält.",
-      "developerNote": "Pillren mappas centralt mot product_line, aroma_type eller compatible_with och tillåter ett aktivt val åt gången. Tillbehör filtreras även på material och filter_color. design_color används i stället som variantval: metalldosor grupperas tillsammans, medan tomdosa lös och tomdosa portion hålls i separata variantgrupper. Produktkorten exponerar normaliserade dataattribut och en explicit [hidden]-regel säkerställer att bortfiltrerade kort inte visas.",
+      "summary": "Det finns nu tydliga snabbval för produktserier på sidorna Portion, Lös, Gör eget och Tillbehör. De ligger i linje med produktkorten och gör det enklare att snabbt visa rätt sorts produkter.",
+      "developerNote": "Man kan välja ett snabbfilter åt gången och enkelt ta bort valet med krysset. På tillbehörssidan går det även att filtrera efter material och färg. På produktsidorna kan kunden byta motiv på tomdosor och färg på metalldosor. Tomdosor för lös och portion hålls isär så att rätt motiv alltid visas för rätt sorts dosa.",
       "important": true
     },
     {
       "id": "2026-08-18-tydligare-kopknapp",
       "date": "2026-08-18",
       "type": "Köpupplevelse",
-      "title": "Tydligare köpknapp på produktkort",
+      "title": "Uppdaterade produktkort",
       "pages": ["Produktlistor", "Startsidan", "Sortimentet"],
-      "summary": "Produktkortens plusikon har ersatts av en tydlig knapp med texten Lägg i varukorg och det valda temats accentfärg.",
-      "developerNote": "Knappen använder de centrala variablerna --action-bg och --action-hover. I mobilformat placeras dos-/styckpriset till höger, smak och format döljs på korten och bildyta samt mellanrum komprimeras. Prenumerationskortens separata knapp påverkas inte.",
+      "summary": "Produktkorten har fått en tydligare köpknapp, bättre information om styrka och förpackningsstorlek samt en renare och mer sammanhållen layout.",
+      "developerNote": "På mobilen är korten mer kompakta, dos- eller styckpriset ligger till höger och mindre viktig information har plockats bort för att ge produkterna mer plats. Prenumerationskortens egna knappar fungerar som tidigare.",
       "important": true
     },
     {

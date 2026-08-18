@@ -168,6 +168,13 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .catalog-hero { padding: 52px 0 34px; border-bottom: 1px solid var(--line); }
 .catalog-hero h1 { font-size: 58px; text-transform: uppercase; margin-bottom: 12px; }
 .catalog-hero p { max-width: 720px; color: var(--muted); }
+.series-filter-pills { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 10px; margin-top: 26px; }
+.series-filter-pill { min-height: 58px; display: grid; align-content: center; gap: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); padding: 10px 22px; text-align: left; }
+.series-filter-pill strong { font: 700 14px 'Roboto Condensed',sans-serif; text-transform: uppercase; }
+.series-filter-pill span { color: var(--muted); font-size: 10px; }
+.series-filter-pill:hover { border-color: var(--accent-dark); }
+.series-filter-pill.active { border-color: var(--accent-dark); background: color-mix(in srgb,var(--accent) 14%,var(--surface)); box-shadow: inset 4px 0 0 var(--accent-dark); }
+.series-filter-pill.active span { color: var(--ink); }
 .catalog-layout { display: grid; grid-template-columns: var(--sidebar) minmax(0,var(--catalog)); gap: 34px; align-items: start; padding: 36px 0 72px; }
 .filter-sidebar { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--line); }
 .filter-title { font-family: 'Roboto Condensed'; font-size: 22px; text-transform: uppercase; padding: 15px 0 12px; border-bottom: 1px solid var(--line); }

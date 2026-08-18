@@ -3,6 +3,16 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-08-18-produktseriefilter",
+      "date": "2026-08-18",
+      "type": "Katalog",
+      "title": "Produktserier som filter-pills",
+      "pages": ["Portionssnus", "Lössnus", "Gör eget", "Vitt snus", "Tillbehör"],
+      "summary": "Portion, Lös och Gör eget har fått beskrivande filter-pills för sina produktserier. Typ har tagits bort ur sidofiltret där pillren ersätter det, och övriga filter använder nu produktdatans faktiska fält.",
+      "developerNote": "Pillren mappas centralt mot product_line och aroma_type. Produktkorten exponerar normaliserade dataattribut för smak, typ, serie, färg, format och styrka så att filter kan kombineras. Tillbehör behåller Typ och Färg; prenumerationssidan behåller sitt Typ-filter.",
+      "important": true
+    },
+    {
       "id": "2026-08-18-tydligare-kopknapp",
       "date": "2026-08-18",
       "type": "Köpupplevelse",

@@ -13,7 +13,7 @@
   const strengthLevel = value => value === 'Extra Strong' ? 4 : value === 'Strong' ? 3 : value ? 2 : 0;
   const strengthMeter = value => `<span class="variant-strength-meter" aria-hidden="true">${[1,2,3,4].map(index=>`<i${index<=strengthLevel(value)?' class="filled"':''}></i>`).join('')}</span>`;
   const strengthLabel = value => value === 'Extra Strong' ? 'Extra stark' : value === 'Strong' ? 'Stark' : value === 'Normal' ? 'Normal' : value;
-  const strengthBadge = value => value ? `<span class="product-strength-badge" aria-label="Styrka: ${escapeHtml(strengthLabel(value))}"><span class="product-strength-copy"><small>Styrka</small><strong>${escapeHtml(strengthLabel(value))}</strong></span>${strengthMeter(value)}</span>` : '';
+  const strengthBadge = value => value ? `<span class="product-strength-badge" aria-label="Styrka: ${escapeHtml(strengthLabel(value))}"><small>Styrka</small>${strengthMeter(value)}</span>` : '';
   const BOOKMARK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.75A1.75 1.75 0 0 1 8.25 3h7.5a1.75 1.75 0 0 1 1.75 1.75V21L12 17.35 6.5 21V4.75Z"/></svg>';
 
   function media(row, className, eager = false, overlay = '') {

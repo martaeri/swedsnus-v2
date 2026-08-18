@@ -48,7 +48,8 @@
   .product-meta { font-size: 10px; }
   .pack-control { padding: 9px 10px; }
   .product-price { padding: 10px; font-size: 16px; }
-  .product-card-bottom { grid-template-columns: 1fr 42px; }
+  .product-card-bottom { grid-template-columns: minmax(0,1fr) minmax(96px,auto); }
+  .add-cart { padding-inline: 8px; font-size: 9px; }
 
   .catalog-hero { padding: 34px 0 24px; }
   .catalog-hero h1 { font-size: 42px; }
@@ -139,6 +140,8 @@
   .product-grid, .product-rail, .catalog-main .product-grid { grid-template-columns: 1fr 1fr; }
   .product-name { font-size: 15px; }
   .product-tag { font-size: 9px; }
+  .product-card-bottom:not(.subscription-product-bottom) { grid-template-columns: 1fr; }
+  .add-cart { min-height: 38px; border-top: 1px solid var(--line); border-left: 0; }
   .pack-dropdown-trigger { min-height: 42px; padding: 6px 8px; }
   .pack-dropdown-trigger > span:first-child { display: block; }
   .pack-dropdown-trigger small { display: block; margin-top: 2px; }

@@ -1,7 +1,7 @@
 (() => {
   const page = document.body.dataset.page || '';
   const active = key => page === key ? ' class="active"' : '';
-  const theme = document.documentElement.dataset.theme || 'cool';
+  const theme = document.documentElement.dataset.theme || 'cool-terracotta';
   const header = document.createElement('header');
   header.className = 'site-header';
   header.innerHTML = `<div class="age-banner">18-årsgräns: Tobaksprodukter och tobaksfria nikotinprodukter får inte säljas eller lämnas ut till personer under 18 år.</div><div class="header-main"><a class="brand" href="index.html">Swedsnus<small>Tillverkat i Hemsjö</small></a><label class="header-search"><input type="search" data-product-search placeholder="Sök produkt, smak eller format" aria-label="Sök produkter"></label><div class="header-actions"><a class="header-action-link" href="bookmarks.html">Sparade produkter <span class="header-count" data-bookmark-count hidden>0</span></a><a class="header-account-link" href="account.html">Konto</a><button class="header-action-link" type="button" data-cart-toggle>Varukorg <span class="header-count" data-cart-count>0</span></button></div><button class="mobile-menu-toggle" type="button" data-mobile-menu-toggle aria-expanded="false" aria-controls="main-navigation"><span></span><span></span><span></span><b>Meny</b></button></div><nav class="nav-bar" id="main-navigation" data-mobile-navigation><div class="nav-inner"><a href="index.html"${active('home')}>Hem</a><a href="portion.html"${active('portion')}>Portionssnus</a><a href="los.html"${active('los')}>Lössnus</a><a href="gor-eget.html"${active('gor-eget')}>Gör eget</a><a href="vitt-snus.html"${active('vitt-snus')}>Vitt snus</a><a href="tillbehor.html"${active('tillbehor')}>Tillbehör</a><a href="subscribe.html"${active('subscribe')}>Prenumerera</a><a href="guide.html"${active('guide')}>Guide</a><a href="faq.html"${active('faq')}>Vanliga frågor</a></div></nav>`;
@@ -9,7 +9,7 @@
 
   const themeOverlay = document.createElement('label');
   themeOverlay.className = 'theme-overlay';
-  themeOverlay.innerHTML = `<span>Tema</span><select data-theme-select aria-label="Välj färgtema"><option value="cool"${theme==='cool'?' selected':''}>Blå / grå</option><option value="warm"${theme==='warm'?' selected':''}>Beige / brun</option><option value="green"${theme==='green'?' selected':''}>Grön</option><option value="cool-terracotta"${theme==='cool-terracotta'?' selected':''}>Blå/grå + terrakotta</option><option value="cool-ochre"${theme==='cool-ochre'?' selected':''}>Blå/grå + ockra</option><option value="cool-burgundy"${theme==='cool-burgundy'?' selected':''}>Blå/grå + vinröd</option><option value="cool-forest"${theme==='cool-forest'?' selected':''}>Blå/grå + skogsgrön</option></select>`;
+  themeOverlay.innerHTML = `<span>Tema</span><select data-theme-select aria-label="Välj färgtema"><option value="cool-terracotta"${theme==='cool-terracotta'?' selected':''}>Blå/grå + terrakotta (standard)</option><option value="cool-ochre"${theme==='cool-ochre'?' selected':''}>Blå/grå + ockra</option><option value="cool-burgundy"${theme==='cool-burgundy'?' selected':''}>Blå/grå + vinröd</option><option value="cool-forest"${theme==='cool-forest'?' selected':''}>Blå/grå + skogsgrön</option><option value="cool"${theme==='cool'?' selected':''}>Blå / grå</option><option value="warm"${theme==='warm'?' selected':''}>Beige / brun</option><option value="green"${theme==='green'?' selected':''}>Grön</option></select>`;
   document.body.append(themeOverlay);
 
   const footer = document.createElement('footer');

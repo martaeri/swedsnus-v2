@@ -8,10 +8,12 @@
   background: color-mix(in srgb,var(--line) 70%,var(--surface));
 }
 
+.pack-control { padding-bottom: 8px; }
+.subscription-reveal { margin-bottom: 8px; }
 .product-card-bottom {
   display: block;
   border-top: 0;
-  padding: 0 14px 12px;
+  padding: 0 14px 10px;
 }
 .product-card-bottom .add-cart,
 .product-card-bottom .subscribe-card-add {

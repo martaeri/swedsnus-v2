@@ -90,19 +90,29 @@
 
 @media (max-width: 760px) {
   .product-strength-badge {
+    width: 44px;
     display: grid;
     grid-template-columns: 1fr;
     align-items: start;
-    justify-items: start;
+    justify-items: stretch;
     gap: 4px;
     filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
   }
   .product-strength-badge > small {
     display: block;
+    width: 100%;
+    text-align: left;
   }
   .product-strength-badge .variant-strength-meter {
+    width: 100%;
     display: flex;
+    gap: 2px;
     margin-left: 0;
+  }
+  .product-strength-badge .variant-strength-meter i {
+    width: auto;
+    height: 13px;
+    flex: 1 1 0;
   }
   .subscription-reveal {
     min-height: 32px;

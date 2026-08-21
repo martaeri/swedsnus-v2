@@ -111,7 +111,7 @@
   }
   .product-strength-badge .variant-strength-meter i {
     width: auto;
-    height: 10px;
+    height: 8px;
     flex: 1 1 0;
   }
   .subscription-reveal {

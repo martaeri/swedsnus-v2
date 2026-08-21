@@ -27,7 +27,7 @@
 }
 .home-product-carousel-track::-webkit-scrollbar { display: none; }
 .home-product-carousel-track > .product-card {
-  flex: 0 0 calc((100% - 4px) / 5.2);
+  flex: 0 0 calc((100% - 4px) / 5.3);
   scroll-snap-align: start;
 }
 .home-product-carousel-controls {
@@ -150,7 +150,7 @@
     touch-action: pan-y pan-x;
   }
   .home-product-carousel-track > .product-card {
-    flex: 0 0 calc((100% - 1px) / 2);
+    flex: 0 0 calc((100% - 1px) / 2.1);
   }
   .home-carousel-arrow {
     width: 30px;

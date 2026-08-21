@@ -11,6 +11,58 @@
   background: color-mix(in srgb,var(--line) 70%,var(--surface));
 }
 
+.home-product-carousel-viewport {
+  position: relative;
+}
+.home-product-carousel-track {
+  display: flex;
+  grid-template-columns: none;
+  gap: 1px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.home-product-carousel-track::-webkit-scrollbar { display: none; }
+.home-product-carousel-track > .product-card {
+  flex: 0 0 calc((100% - 4px) / 5);
+  scroll-snap-align: start;
+}
+.home-product-carousel-controls {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home-carousel-arrow {
+  pointer-events: auto;
+  width: 36px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb,var(--surface) 94%,transparent);
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+.home-carousel-arrow.prev { transform: translateX(-50%); }
+.home-carousel-arrow.next { transform: translateX(50%); }
+.home-carousel-arrow:hover:not(:disabled) {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+.home-carousel-arrow:disabled {
+  opacity: .28;
+  cursor: default;
+}
+
 .pack-control { padding-bottom: 8px; }
 .subscription-reveal { margin-bottom: 8px; }
 .product-card-bottom {
@@ -94,6 +146,19 @@
 @media (max-width: 760px) {
   body[data-page="home"] .hero-media { min-height: 190px; }
   body[data-page="home"] .hero-copy { padding-top: 34px; padding-bottom: 30px; }
+  .home-product-carousel-track {
+    touch-action: pan-y pan-x;
+  }
+  .home-product-carousel-track > .product-card {
+    flex: 0 0 calc((100% - 1px) / 2);
+  }
+  .home-carousel-arrow {
+    width: 30px;
+    height: 44px;
+    font-size: 24px;
+  }
+  .home-carousel-arrow.prev { transform: translateX(-22%); }
+  .home-carousel-arrow.next { transform: translateX(22%); }
   .product-strength-badge {
     width: 34px;
     display: grid;

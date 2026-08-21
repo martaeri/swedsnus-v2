@@ -98,7 +98,7 @@
     gap: 3px;
     border-bottom: 0;
     padding-bottom: 0;
-    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 0 8px rgba(255,255,255,.95));
   }
   .product-strength-badge > small {
     display: block;

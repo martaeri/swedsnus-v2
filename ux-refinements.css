@@ -90,12 +90,12 @@
 
 @media (max-width: 760px) {
   .product-strength-badge {
-    width: 44px;
+    width: 36px;
     display: grid;
     grid-template-columns: 1fr;
     align-items: start;
     justify-items: stretch;
-    gap: 4px;
+    gap: 3px;
     filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
   }
   .product-strength-badge > small {
@@ -111,7 +111,7 @@
   }
   .product-strength-badge .variant-strength-meter i {
     width: auto;
-    height: 13px;
+    height: 10px;
     flex: 1 1 0;
   }
   .subscription-reveal {

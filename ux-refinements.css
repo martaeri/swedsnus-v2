@@ -96,6 +96,8 @@
     align-items: start;
     justify-items: stretch;
     gap: 3px;
+    border-bottom: 0;
+    padding-bottom: 0;
     filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
   }
   .product-strength-badge > small {

@@ -1,9 +1,13 @@
 @media (min-width: 761px) {
   .nav-inner { justify-content: flex-start; }
   .nav-inner a { padding: 13px 18px 12px; margin: 0 8px; text-align: center; }
-  body[data-page="home"] .hero { min-height: 420px; }
-  body[data-page="home"] .hero-media { min-height: 340px; }
-  body[data-page="home"] .hero-copy { padding-top: 58px; padding-bottom: 54px; }
+  body[data-page="home"] .page { max-width: none; padding-left: 0; padding-right: 0; }
+  body[data-page="home"] .hero { min-height: 320px; display: block; border-left: 0; border-right: 0; background: var(--surface); }
+  body[data-page="home"] .hero-copy { max-width: var(--content); margin: 0 auto; padding: 46px 82px 42px; }
+  body[data-page="home"] .info-band,
+  body[data-page="home"] .section,
+  body[data-page="home"] .split-feature,
+  body[data-page="home"] .nicotine-warning { max-width: calc(var(--content) - 56px); margin-left: auto; margin-right: auto; }
 }
 
 .product-grid, .product-rail {
@@ -144,8 +148,13 @@
 }
 
 @media (max-width: 760px) {
-  body[data-page="home"] .hero-media { min-height: 190px; }
-  body[data-page="home"] .hero-copy { padding-top: 34px; padding-bottom: 30px; }
+  body[data-page="home"] .page { padding-left: 0; padding-right: 0; }
+  body[data-page="home"] .hero { min-height: 0; display: block; background: var(--surface); }
+  body[data-page="home"] .hero-copy { padding: 28px 34px 26px; }
+  body[data-page="home"] .info-band,
+  body[data-page="home"] .section,
+  body[data-page="home"] .split-feature,
+  body[data-page="home"] .nicotine-warning { margin-left: 14px; margin-right: 14px; }
   .home-product-carousel-track {
     touch-action: pan-y pan-x;
   }

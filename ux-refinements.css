@@ -90,7 +90,7 @@
 
 @media (max-width: 760px) {
   .product-strength-badge {
-    width: 36px;
+    width: 34px;
     display: grid;
     grid-template-columns: 1fr;
     align-items: start;

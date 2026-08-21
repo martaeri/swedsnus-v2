@@ -88,6 +88,40 @@
   border-right: 0;
 }
 
+@media (max-width: 760px) {
+  .product-strength-badge {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    justify-items: start;
+    gap: 4px;
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
+  }
+  .product-strength-badge > small {
+    display: block;
+  }
+  .product-strength-badge .variant-strength-meter {
+    display: flex;
+    margin-left: 0;
+  }
+  .subscription-reveal {
+    min-height: 32px;
+    padding: 5px 10px;
+    font-size: 0;
+  }
+  .subscription-reveal::after {
+    content: 'Prenumerera';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .product-card-bottom .add-cart,
+  .product-card-bottom .subscribe-card-add {
+    min-height: 32px;
+    padding: 5px 10px;
+  }
+}
+
 @media (max-width: 440px) {
   .pack-dropdown-trigger > span:first-child {
     display: grid;

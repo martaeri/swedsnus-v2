@@ -3,6 +3,26 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-08-24-variantvaljare",
+      "date": "2026-08-24",
+      "type": "Produktsida",
+      "title": "Hierarkiska variantval på produktsidor",
+      "pages": ["Produktsidor", "Desktop", "Mobil"],
+      "summary": "Gjort om variantvalen site-wide så att Format ligger högst i hierarkin och styr vilka alternativ som går att välja längre ner. Kombinationer som inte finns för valt format visas utgråade och går inte att klicka på.",
+      "developerNote": "Gäller den generella variantlogiken för alla produkter. På portionsprodukter är Mängd borttagen som separat dropdown eftersom mängden redan följer formatet. Format visas före Styrka och dropdownsen har fått samma font, storlek och styling.",
+      "important": true
+    },
+    {
+      "id": "2026-08-18-produktkort-teman",
+      "date": "2026-08-18",
+      "type": "Design",
+      "title": "Uppdaterade produktkort och teman",
+      "pages": ["Hela webbplatsen", "Produktkort", "Temaväljaren"],
+      "summary": "Gjort produktkorten renare och mer enhetliga. Bakgrunden bakom korten följer nu sidans bakgrund och styrka visas som en diskret overlay på produktbilden. Klarblått är nu huvudtemat och det vinröda temat är borttaget.",
+      "developerNote": "Styrkemarkören visar bara Styrka och fyra visuella nivåer för att inte täcka produktbilden. Full styrkeinformation finns fortfarande tillgänglig för skärmläsare.",
+      "important": true
+    },
+    {
       "id": "2026-08-18-produktseriefilter",
       "date": "2026-08-18",
       "type": "Katalog",

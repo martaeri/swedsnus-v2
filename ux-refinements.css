@@ -144,10 +144,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 48px;
+  margin: 0 0 16px;
   border: 2px solid #000;
   border-radius: 6px;
-  background: transparent;
+  background: #fff;
   color: #000;
   padding: 12px 8px;
   text-align: center;
@@ -195,10 +195,6 @@
 
 @media (min-width: 640px) {
   .nicotine-warning { padding: 16px; }
-}
-
-@media (min-width: 768px) {
-  .nicotine-warning { margin-bottom: 64px; }
 }
 
 @media (min-width: 1024px) {
@@ -393,7 +389,9 @@
     display: block;
     width: 100%;
     text-align: left;
-    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff, 1px 0 0 #fff;
+    text-shadow: none;
+    -webkit-text-stroke: 1px #fff;
+    paint-order: stroke fill;
   }
   .product-strength-badge .variant-strength-meter {
     width: 100%;
@@ -405,9 +403,10 @@
     width: auto;
     height: 8px;
     flex: 1 1 0;
+    border: 1px solid #fff;
     background: var(--line);
     filter: none;
-    box-shadow: 0 0 0 1px #fff;
+    box-shadow: none;
   }
   .product-strength-badge .variant-strength-meter i.filled { background: var(--accent-dark); }
   .subscription-reveal {

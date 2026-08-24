@@ -19,6 +19,7 @@
       ['expressarom','Expressaromer','Smaksättning']
     ],
     'gor-eget': [
+      ['instant portion','Instant Portion','Smaksatta snussatser'],
       ['super dry','Super Dry','Snussatser'],
       ['super dry arom','Super Dry Arom','Smaksättning']
     ],

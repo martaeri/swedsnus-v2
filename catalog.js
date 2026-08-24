@@ -131,15 +131,17 @@
   }
 
   const variantDimensions = [
+    ['format','Format'],
+    ['grind','Malningsgrad'],
     ['strength','Styrka'],
     ['product_line','Typ'],
     ['design_color','Motiv'],
-    ['format','Format'],
-    ['grind','Malningsgrad'],
     ['amount_dosor','Mängd'],
     ['package_quantity','Antal']
   ];
   const strengthLabels = { Normal: 'Normal', Strong: 'Stark', 'Extra Strong': 'Extra stark' };
+  const strengthOrder = ['Normal','Strong','Extra Strong'];
+  const formatOrder = ['Premium','Rebell','Compact','RX Slim','Mini'];
   const variantValue = (row,field) => {
     const value=row[field];
     if(value===null||value===undefined||String(value).trim()==='') return '';
@@ -149,13 +151,38 @@
     return String(value);
   };
   const rawVariantValue = (row,field) => row[field]===null||row[field]===undefined?'':String(row[field]);
+  const orderedVariantValues = (field,values) => {
+    const order = field === 'strength' ? strengthOrder : field === 'format' ? formatOrder : null;
+    if(!order) return values;
+    return [...values].sort((a,b)=>{
+      const ai=order.indexOf(a), bi=order.indexOf(b);
+      if(ai===-1 && bi===-1) return a.localeCompare(b,'sv');
+      if(ai===-1) return 1;
+      if(bi===-1) return -1;
+      return ai-bi;
+    });
+  };
+  function variantDimensionsFor(row,group) {
+    return variantDimensions
+      .filter(([field])=>!(row.product_family==='Portionssnus' && field==='amount_dosor'))
+      .map(([field,label])=>({
+        field,
+        label:field==='design_color'&&row.accessory_type==='Metalldosa'?'Färg':label,
+        values:orderedVariantValues(field,unique(group.map(item=>rawVariantValue(item,field))))
+      }))
+      .filter(item=>item.values.length>1);
+  }
+  function optionAvailable(group,dimensions,index,row,value) {
+    const prior=dimensions.slice(0,index);
+    return group.some(item=>prior.every(dimension=>rawVariantValue(item,dimension.field)===rawVariantValue(row,dimension.field)) && rawVariantValue(item,dimensions[index].field)===value);
+  }
   function renderVariantSelectors(row) {
     const api=window.SwedsnusV2;
     const group=api.group(row);
     if(group.length<2) return '';
-    const dimensions=variantDimensions.map(([field,label])=>({field,label:field==='design_color'&&row.accessory_type==='Metalldosa'?'Färg':label,values:unique(group.map(item=>rawVariantValue(item,field)))})).filter(item=>item.values.length>1);
+    const dimensions=variantDimensionsFor(row,group);
     if(!dimensions.length) return '';
-    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values})=>`<label class="variant-field${field==='strength'?' strength-variant-field':''}"><span>${label}${field==='strength'?api.strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
+    return `<div class="variant-panel"><div class="variant-panel-head"><span>Välj variant</span><small>${group.length} alternativ i samma produktserie</small></div><div class="variant-selectors">${dimensions.map(({field,label,values},index)=>`<label class="variant-field" data-variant-level="${index}"><span>${label}${field==='strength'?api.strengthMeter(row.strength):''}</span><select data-variant-select data-variant-field="${field}" data-variant-level="${index}" aria-label="Välj ${label.toLowerCase()}">${values.map(value=>{const source=group.find(item=>rawVariantValue(item,field)===value);const display=source?variantValue(source,field):value;const available=optionAvailable(group,dimensions,index,row,value);return `<option value="${api.escapeHtml(value)}"${rawVariantValue(row,field)===value?' selected':''}${available?'':' disabled'}>${api.escapeHtml(display)}</option>`;}).join('')}</select></label>`).join('')}</div></div>`;
   }
 
   function chooseVariant(select) {
@@ -164,12 +191,14 @@
     const current=api.find(currentId);
     if(!current) return;
     const group=api.group(current);
+    const selectors=[...document.querySelectorAll('[data-variant-select]')];
+    const changedIndex=selectors.indexOf(select);
     const changedField=select.dataset.variantField;
     const changedValue=select.value;
-    const selectors=[...document.querySelectorAll('[data-variant-select]')];
-    const desired=Object.fromEntries(selectors.map(item=>[item.dataset.variantField,item===select?changedValue:item.value]));
-    let candidates=group.filter(item=>rawVariantValue(item,changedField)===changedValue);
+    const priorSelections=selectors.slice(0,changedIndex).map(item=>[item.dataset.variantField,item.value]);
+    let candidates=group.filter(item=>priorSelections.every(([field,value])=>rawVariantValue(item,field)===value) && rawVariantValue(item,changedField)===changedValue);
     if(!candidates.length) return;
+    const desired=Object.fromEntries(selectors.map(item=>[item.dataset.variantField,item===select?changedValue:item.value]));
     candidates=candidates.map(item=>({item,score:Object.entries(desired).reduce((sum,[field,value])=>sum+(rawVariantValue(item,field)===value?1:0),0)})).sort((a,b)=>b.score-a.score);
     const target=candidates[0]?.item;
     if(target && api.key(target)!==api.key(current)) location.href=api.url(target);

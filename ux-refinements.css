@@ -143,6 +143,23 @@
   background: color-mix(in srgb,var(--line) 28%,var(--surface));
 }
 
+.nicotine-warning {
+  width: 100%;
+  margin: 24px 0;
+  border: 0;
+  background: #fff;
+  color: #000;
+  padding: 12px 18px;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+  box-shadow: none;
+}
+
 .theme-overlay {
   right: 0;
   bottom: 18px;
@@ -300,6 +317,12 @@
   .catalog-hero { padding-top: 28px; padding-bottom: 18px; }
   .catalog-layout { gap: 10px; padding-top: 12px; padding-bottom: 42px; }
   .catalog-tools { margin-bottom: 10px; }
+  .nicotine-warning {
+    margin: 18px 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.25;
+  }
 
   body[data-page="home"] .hero-media { min-height: 190px; }
   body[data-page="home"] .hero-copy { padding-top: 34px; padding-bottom: 30px; }

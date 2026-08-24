@@ -193,6 +193,12 @@
     font-size: 15px;
     font-weight: 700;
   }
+  .nav-inner > .nav-main-link:first-child {
+    border-bottom: 0;
+  }
+  .nav-inner > .nav-main-link:nth-last-child(3) {
+    border-bottom: 0;
+  }
   .mobile-nav-group {
     display: grid;
     margin: 4px 0 8px;

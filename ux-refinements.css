@@ -279,12 +279,13 @@
     gap: 3px;
     border-bottom: 0;
     padding-bottom: 0;
-    filter: drop-shadow(0 0 1px rgba(255,255,255,1)) drop-shadow(0 0 2px rgba(255,255,255,1));
+    filter: none;
   }
   .product-strength-badge > small {
     display: block;
     width: 100%;
     text-align: left;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff, 1px 0 0 #fff;
   }
   .product-strength-badge .variant-strength-meter {
     width: 100%;
@@ -296,7 +297,8 @@
     width: auto;
     height: 8px;
     flex: 1 1 0;
-    filter: drop-shadow(0 0 1px rgba(255,255,255,1)) drop-shadow(0 0 2px rgba(255,255,255,1));
+    filter: none;
+    box-shadow: 0 0 0 1px #fff;
   }
   .subscription-reveal {
     min-height: 32px;

@@ -297,8 +297,12 @@
     width: auto;
     height: 8px;
     flex: 1 1 0;
+    background: var(--line);
     filter: none;
     box-shadow: 0 0 0 1px #fff;
+  }
+  .product-strength-badge .variant-strength-meter i.filled {
+    background: var(--accent-dark);
   }
   .subscription-reveal {
     min-height: 32px;

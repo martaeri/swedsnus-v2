@@ -1,9 +1,6 @@
 (() => {
   if (document.body.dataset.page !== 'home') return;
 
-  const api = window.SwedsnusV2;
-  if (!api?.state?.ready) return;
-
   const groups = [
     {
       selector: '[data-home-portion]',
@@ -19,10 +16,11 @@
     }
   ];
 
-  function createCarousel(selector, filter) {
+  function createCarousel(api, selector, filter) {
     const rail = document.querySelector(selector);
-    if (!rail) return;
+    if (!rail || rail.dataset.carouselReady === 'true') return;
 
+    rail.dataset.carouselReady = 'true';
     rail.innerHTML = api.state.rows.filter(filter).slice(0, 10).map(api.card).join('');
     rail.classList.add('home-product-carousel-track');
 
@@ -41,7 +39,6 @@
 
     const prev = controls.querySelector('.prev');
     const next = controls.querySelector('.next');
-
     const scrollAmount = () => Math.max(rail.clientWidth * 0.82, 260);
     const update = () => {
       const max = rail.scrollWidth - rail.clientWidth - 2;
@@ -53,9 +50,16 @@
     next.addEventListener('click', () => rail.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
     rail.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
-    update();
+    requestAnimationFrame(update);
   }
 
-  groups.forEach(group => createCarousel(group.selector, group.filter));
-  document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
+  function init() {
+    const api = window.SwedsnusV2;
+    if (!api?.state?.ready) return;
+    groups.forEach(group => createCarousel(api, group.selector, group.filter));
+    document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
+  }
+
+  document.addEventListener('swedsnus-v2:products-ready', init, { once: true });
+  init();
 })();

@@ -1,7 +1,7 @@
 (() => {
   if (window.__swedsnusV2Loaded) return;
   window.__swedsnusV2Loaded = true;
-  ['ui-components.css','product-images.css','developer-log.css','mobile.css','ux-refinements.css','mobile-portion-pills.css'].forEach(href => {
+  ['ui-components.css','product-images.css','developer-log.css','mobile.css','ux-refinements.css','mobile-filter-pills.css'].forEach(href => {
     if (!document.querySelector(`link[href="${href}"]`)) {
       const css = document.createElement('link');
       css.rel = 'stylesheet';

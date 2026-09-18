@@ -9,7 +9,28 @@
   const money = value => `${Number(value || 0).toLocaleString('sv-SE')} kr`;
   const price = row => row.price_sek ? money(row.price_sek) : 'Pris saknas';
   const category = row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus' ? 'vitt-snus' : row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom' ? 'los' : row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' || String(row.product_line||'').toLowerCase()==='super dry' ? 'gor-eget' : row.product_family === 'Tillbehör' ? 'tillbehor' : 'portion';
-  const image = row => state.images[key(row)] || '';
+  function image(row) {
+    const current = state.images[key(row)];
+    if (current) return current;
+    const variant = String(row.variant_id || '');
+    const legacyCandidates = [
+      `${row.product_id}__${variant}-dosor`,
+      `${row.product_id}__${variant.replace(/-(\\d+)$/, '-$1-dosor')}`,
+      `${row.product_id}__${variant.replace(/^(.+)-(\\d+)$/, '$1-$2-dosor')}`
+    ];
+    if (/^\\d+$/.test(variant)) legacyCandidates.push(`${row.product_id}__${variant}-dosor`);
+    const accessoryLegacy = {
+      'metalldosa__gra': 'swedsnus-metalldosa-gra-metalldosa__product',
+      'metalldosa__rod': 'swedsnus-metalldosa-rod-metalldosa__product',
+      'metalldosa__svart': 'swedsnus-metalldosa-svart-metalldosa__product',
+      'tomdosa-los__swedsnus': 'tomdosa-swedsnus-los-tomdosa-lossnus__product',
+      'tomdosa-los__jag-alskar-snus': 'tomdosa-jag-alskar-snus-los-tomdosa-lossnus__product',
+      'tomdosa-portion__swedsnus': 'tomdosa-swedsnus-portion-tomdosa-portionssnus__product'
+    };
+    const accessoryKey = accessoryLegacy[`${row.product_id}__${variant}`];
+    if (accessoryKey) legacyCandidates.push(accessoryKey);
+    return legacyCandidates.map(candidate => state.images[candidate]).find(Boolean) || '';
+  }
   const strengthLevel = value => value === 'Extra Strong' ? 4 : value === 'Strong' ? 3 : value ? 2 : 0;
   const strengthMeter = value => `<span class="variant-strength-meter" aria-hidden="true">${[1,2,3,4].map(index=>`<i${index<=strengthLevel(value)?' class="filled"':''}></i>`).join('')}</span>`;
   const strengthLabel = value => value === 'Extra Strong' ? 'Extra stark' : value === 'Strong' ? 'Stark' : value === 'Normal' ? 'Normal' : value;

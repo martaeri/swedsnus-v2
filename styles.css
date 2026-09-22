@@ -79,6 +79,13 @@
   --action-hover: var(--accent-dark);
   --selected-bg: var(--accent-dark);
 }
+:root[data-theme="swedsnus-blue"] {
+  --accent: #0a5a7d;
+  --accent-dark: #06435e;
+  --action-bg: var(--accent);
+  --action-hover: var(--accent-dark);
+  --selected-bg: var(--accent-dark);
+}
 :root[data-theme="cool-blue"] {
   --accent: #2866a3;
   --accent-dark: #17466f;

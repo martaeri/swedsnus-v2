@@ -1,12 +1,12 @@
 .pack-dropdown { position: relative; width: 100%; }
 .pack-dropdown-trigger { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 7px 10px; text-align: left; }
 .pack-dropdown-trigger > span:first-child { min-width: 0; display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 8px; }
-.pack-dropdown-trigger strong { font-family: 'Roboto Condensed', sans-serif; font-size: 14px; text-transform: uppercase; white-space: nowrap; }
+.pack-dropdown-trigger strong { font-family: 'Montserrat', sans-serif; font-size: 14px; text-transform: uppercase; white-space: nowrap; }
 .pack-dropdown-trigger small { color: var(--muted); font-size: 10px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pack-dropdown-menu { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 4px); border: 1px solid var(--ink); background: var(--surface); box-shadow: 0 12px 30px rgba(0,0,0,.12); }
 .pack-dropdown-option { width: 100%; display: grid; grid-template-columns: 64px 1fr auto; align-items: baseline; gap: 10px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); padding: 10px 11px; text-align: left; }
 .pack-dropdown-option:last-child { border-bottom: 0; }
-.pack-dropdown-option strong { font-family: 'Roboto Condensed', sans-serif; font-size: 14px; text-transform: uppercase; }
+.pack-dropdown-option strong { font-family: 'Montserrat', sans-serif; font-size: 14px; text-transform: uppercase; }
 .pack-dropdown-option span { font-size: 12px; font-weight: 700; }
 .pack-dropdown-option small { color: var(--muted); font-size: 10px; }
 .pack-dose-count { color: var(--muted); font-weight: 600 !important; }
@@ -25,7 +25,7 @@
 .purchase-choice-options input { position: absolute; opacity: 0; }
 .purchase-choice-options span { min-height: 48px; display: grid; align-content: center; border: 1px solid var(--line); padding: 7px 9px; cursor: pointer; }
 .purchase-choice-options strong, .purchase-choice-options small { display: block; }
-.purchase-choice-options strong { font: 700 12px 'Roboto Condensed'; text-transform: uppercase; }
+.purchase-choice-options strong { font: 700 12px 'Montserrat'; text-transform: uppercase; }
 .purchase-choice-options small { color: var(--muted); font-size: 9px; }
 .purchase-choice-options input:checked + span { border-color: var(--selected-bg); box-shadow: inset 3px 0 0 var(--accent); }
 .subscription-interval { display: grid; gap: 5px; margin-top: 9px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
@@ -53,7 +53,7 @@
 
 .variant-panel { max-width: 520px; margin: 26px 0 6px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--line); }
 .variant-panel-head { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
-.variant-panel-head > span { font-family: 'Roboto Condensed', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; }
+.variant-panel-head > span { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; }
 .variant-panel-head small { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .05em; text-align: right; }
 .variant-selectors { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; padding: 14px 0 16px; }
 .variant-field { display: block; min-width: 0; }
@@ -61,7 +61,7 @@
 .variant-field select { width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 30px 0 10px; font-size: 12px; font-weight: 600; }
 .variant-field select:hover, .variant-field select:focus { border-color: var(--ink); outline: none; }
 .strength-variant-field { grid-column: 1/-1; }
-.strength-variant-field select { height: 46px; border-color: color-mix(in srgb,var(--accent) 55%,var(--line)); font-family: 'Roboto Condensed', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; }
+.strength-variant-field select { height: 46px; border-color: color-mix(in srgb,var(--accent) 55%,var(--line)); font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; }
 .variant-strength-meter { display: inline-flex; gap: 3px; margin-left: auto; }
 .variant-strength-meter i { width: 16px; height: 3px; background: var(--line); }
 .variant-strength-meter i.filled { background: var(--accent-dark); }
@@ -86,7 +86,7 @@
 .checkout-section-head span { color: var(--muted); font-size: 11px; text-transform: uppercase; }
 .checkout-item { display: grid; grid-template-columns: 104px 1fr auto; gap: 18px; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
 .checkout-item:last-child { border-bottom: 0; }
-.checkout-item-image { aspect-ratio: 1; display: grid; place-items: center; background: var(--media); color: var(--media-muted); font: 700 10px 'Roboto Condensed'; text-transform: uppercase; }
+.checkout-item-image { aspect-ratio: 1; display: grid; place-items: center; background: var(--media); color: var(--media-muted); font: 700 10px 'Montserrat'; text-transform: uppercase; }
 .checkout-item h3 { margin-bottom: 4px; font-size: 19px; text-transform: uppercase; }
 .checkout-item p { margin-bottom: 10px; color: var(--muted); font-size: 11px; }
 .checkout-quantity { display: inline-grid; grid-template-columns: 34px 48px 34px; border: 1px solid var(--line); }
@@ -95,7 +95,7 @@
 .checkout-quantity button:last-child { border-left: 1px solid var(--line); }
 .checkout-quantity input { width: 48px; appearance: textfield; }
 .checkout-item-side { min-width: 110px; text-align: right; }
-.checkout-item-side strong { display: block; font: 700 18px 'Roboto Condensed'; }
+.checkout-item-side strong { display: block; font: 700 18px 'Montserrat'; }
 .checkout-remove { margin-top: 10px; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--muted); padding: 0; font-size: 10px; text-transform: uppercase; }
 .checkout-summary { padding: 24px; position: sticky; top: 18px; }
 .checkout-summary-row { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
@@ -108,7 +108,7 @@
 .checkout-empty { padding: 36px 20px; }
 .account-page { padding: 34px 0 90px; }
 .account-nav { display: flex; gap: 28px; overflow-x: auto; border-bottom: 1px solid var(--line); }
-.account-nav a { flex: 0 0 auto; padding: 13px 0 11px; border-bottom: 3px solid transparent; font: 700 13px 'Roboto Condensed'; text-transform: uppercase; }
+.account-nav a { flex: 0 0 auto; padding: 13px 0 11px; border-bottom: 3px solid transparent; font: 700 13px 'Montserrat'; text-transform: uppercase; }
 .account-nav a.active { border-bottom-color: var(--accent-dark); }
 .account-nav a:hover { border-bottom-color: var(--ink); }
 .account-login { max-width: 680px; padding: 42px 0; }
@@ -120,7 +120,7 @@
 .account-summary { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--line); background: var(--line); gap: 1px; }
 .account-summary a { display: grid; background: var(--surface); padding: 22px; }
 .account-summary span, .account-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.account-summary strong { margin-top: 8px; font: 700 24px 'Roboto Condensed'; text-transform: uppercase; }
+.account-summary strong { margin-top: 8px; font: 700 24px 'Montserrat'; text-transform: uppercase; }
 .account-summary small { margin-top: 2px; color: var(--accent); }
 .account-section { padding: 58px 0 24px; }
 .account-section-head, .account-panel-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; }
@@ -156,7 +156,7 @@
 .account-help { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
 .order-lines { margin: 0 -25px -25px; }
 .order-line { display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 14px; padding: 16px 25px; border-top: 1px solid var(--line); }
-.order-line-image { aspect-ratio: 1; display: grid; place-items: center; background: var(--media); color: var(--media-muted); font: 700 8px 'Roboto Condensed'; text-transform: uppercase; }
+.order-line-image { aspect-ratio: 1; display: grid; place-items: center; background: var(--media); color: var(--media-muted); font: 700 8px 'Montserrat'; text-transform: uppercase; }
 .order-line span, .address-card span { display: block; color: var(--muted); font-size: 11px; }
 .order-service { position: sticky; top: 18px; }
 .order-service > p:not(.kicker) { color: var(--muted); }

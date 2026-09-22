@@ -102,7 +102,7 @@ button, input, select { font: inherit; }
 button { cursor: pointer; }
 img { max-width: 100%; display: block; }
 h1,h2,h3,h4,p { margin-top: 0; }
-h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing: -.02em; }
+h1,h2,h3,h4 { font-family: 'Montserrat', Arial, sans-serif; letter-spacing: -.02em; }
 
 .age-banner { background: var(--ink); color: white; text-align: center; padding: 6px 20px; font-size: 12px; letter-spacing: .02em; }
 .site-header { background: var(--surface); border-bottom: 1px solid var(--line); }
@@ -119,7 +119,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .theme-control select { height: 30px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0 24px 0 8px; font-size: 11px; }
 .nav-bar { border-top: 1px solid var(--line); }
 .nav-inner { max-width: var(--content); margin: 0 auto; padding: 0 28px; display: flex; gap: 0; overflow-x: auto; }
-.nav-inner a { padding: 13px 26px 12px 0; margin-right: 26px; font-family: 'Roboto Condensed'; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; border-bottom: 3px solid transparent; }
+.nav-inner a { padding: 13px 26px 12px 0; margin-right: 26px; font-family: 'Montserrat'; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; border-bottom: 3px solid transparent; }
 .nav-inner a.active { border-bottom-color: var(--accent-dark); }
 .nav-inner a:hover { border-bottom-color: var(--ink); }
 
@@ -138,7 +138,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .info-band { display: grid; grid-template-columns: repeat(4,1fr); border: 1px solid var(--line); border-top: 0; background: var(--surface); }
 .info-band article { padding: 22px 24px; border-right: 1px solid var(--line); }
 .info-band article:last-child { border-right: 0; }
-.info-band strong { display: block; font-family: 'Roboto Condensed'; text-transform: uppercase; font-size: 15px; }
+.info-band strong { display: block; font-family: 'Montserrat'; text-transform: uppercase; font-size: 15px; }
 .info-band span { color: var(--muted); font-size: 12px; }
 
 .section { padding: 64px 0; border-bottom: 1px solid var(--line); }
@@ -151,13 +151,13 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .product-card-main { padding: 0 16px 18px; flex: 1; }
 .product-image { position: relative; aspect-ratio: 1; background: var(--media); margin: 0 -16px 17px; display: grid; place-items: center; color: var(--media-muted); font-family: 'Roboto Condensed'; text-transform: uppercase; font-size: 12px; }
 .product-tag { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 700; letter-spacing: .08em; }
-.product-name { font-family: 'Roboto Condensed'; font-size: 19px; font-weight: 700; text-transform: uppercase; line-height: 1.05; margin: 6px 0 12px; }
+.product-name { font-family: 'Montserrat'; font-size: 19px; font-weight: 700; text-transform: uppercase; line-height: 1.05; margin: 6px 0 12px; }
 .product-meta { color: var(--muted); font-size: 11px; margin: 2px 0; }
 .pack-control { padding: 10px 14px; border-top: 1px solid var(--line); }
 .pack-control label, .product-pack-picker label { display: block; margin-bottom: 5px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .pack-control select, .product-pack-picker select { width: 100%; min-height: 34px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 8px; font-size: 10px; }
 .product-card-bottom { border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0,1fr) minmax(112px,auto); align-items: stretch; }
-.product-price { padding: 12px 14px; font-family: 'Roboto Condensed'; font-size: 18px; font-weight: 700; }
+.product-price { padding: 12px 14px; font-family: 'Montserrat'; font-size: 18px; font-weight: 700; }
 .product-price small, .product-summary .price small { display: block; margin-top: 2px; color: var(--muted); font-family: 'Archivo'; font-size: 9px; font-weight: 500; }
 .add-cart { border: 0; border-left: 1px solid var(--line); background: var(--action-bg); color: white; padding: 0 12px; font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.2; text-transform: uppercase; }
 .add-cart:hover { background: var(--action-hover); }
@@ -180,7 +180,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .series-filter-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
 .series-filter-pill { flex: 0 0 auto; min-width: 190px; min-height: 54px; display: flex; align-items: stretch; justify-content: space-between; gap: 16px; border: 1px solid var(--line); border-radius: 0; background: var(--surface); color: var(--ink); padding: 0 0 0 16px; text-align: left; }
 .series-filter-pill-copy { display: grid; align-content: center; gap: 1px; padding: 8px 0; }
-.series-filter-pill-copy strong { font: 700 14px 'Roboto Condensed',sans-serif; text-transform: uppercase; }
+.series-filter-pill-copy strong { font: 700 14px 'Montserrat',sans-serif; text-transform: uppercase; }
 .series-filter-pill-copy > span { color: var(--muted); font-size: 10px; }
 .series-filter-pill-remove { width: 42px; display: none; place-items: center; border-left: 1px solid rgba(255,255,255,.35); color: white; font-size: 20px; line-height: 1; }
 .series-filter-pill:hover { border-color: var(--accent-dark); box-shadow: inset 3px 0 0 var(--accent-dark); }
@@ -209,7 +209,7 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .product-summary h1 { font-size: 52px; text-transform: uppercase; line-height: .95; }
 .product-pack-picker { max-width: 440px; margin-top: 24px; }
 .product-pack-picker select { min-height: 42px; font-size: 12px; }
-.product-summary .price { font: 700 32px 'Roboto Condensed'; margin: 18px 0; }
+.product-summary .price { font: 700 32px 'Montserrat'; margin: 18px 0; }
 .product-bookmark { margin-left: 7px; }
 .spec-list { border-top: 1px solid var(--line); margin-top: 28px; }
 .spec-row { display: grid; grid-template-columns: 145px 1fr; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
@@ -240,11 +240,11 @@ h1,h2,h3,h4 { font-family: 'Roboto Condensed', Arial, sans-serif; letter-spacing
 .faq-group { scroll-margin-top: 20px; margin-bottom: 52px; }
 .faq-group[hidden], .faq-item[hidden], .faq-empty[hidden] { display: none; }
 .faq-group-head { display: grid; grid-template-columns: 42px 1fr; gap: 16px; align-items: start; padding-bottom: 17px; border-bottom: 3px solid var(--ink); }
-.faq-group-head > span { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid var(--line); color: var(--muted); font: 700 11px 'Roboto Condensed'; }
+.faq-group-head > span { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid var(--line); color: var(--muted); font: 700 11px 'Montserrat'; }
 .faq-group-head .kicker { margin-bottom: 4px; }
 .faq-group-head h2 { margin: 0; font-size: 29px; text-transform: uppercase; }
 .faq-item { border-bottom: 1px solid var(--line); background: transparent; }
-.faq-item summary { position: relative; display: flex; min-height: 66px; align-items: center; justify-content: space-between; gap: 22px; padding: 16px 4px; cursor: pointer; list-style: none; font: 700 18px 'Roboto Condensed'; text-transform: uppercase; }
+.faq-item summary { position: relative; display: flex; min-height: 66px; align-items: center; justify-content: space-between; gap: 22px; padding: 16px 4px; cursor: pointer; list-style: none; font: 700 18px 'Montserrat'; text-transform: uppercase; }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary > span { position: relative; flex: 0 0 24px; width: 24px; height: 24px; }
 .faq-item summary > span::before, .faq-item summary > span::after { content: ''; position: absolute; top: 11px; left: 4px; width: 16px; height: 1px; background: currentColor; }

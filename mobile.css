@@ -61,7 +61,7 @@
   .series-filter-pills { display: flex; flex-wrap: nowrap; gap: 8px; margin: 0 0 14px; padding: 0 0 4px; overflow-x: auto; scrollbar-width: thin; }
   .series-filter-pill { flex: 0 0 auto; min-width: 190px; min-height: 52px; }
   .catalog-layout { grid-template-columns: 1fr; gap: 12px; padding: 18px 0 48px; }
-  .mobile-filter-toggle { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: space-between; border: 1px solid var(--ink); background: var(--surface); color: var(--ink); padding: 0 13px; font-family: 'Roboto Condensed',sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; }
+  .mobile-filter-toggle { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: space-between; border: 1px solid var(--ink); background: var(--surface); color: var(--ink); padding: 0 13px; font-family: 'Montserrat',sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; }
   .mobile-filter-toggle b { min-width: 22px; height: 22px; display: grid; place-items: center; background: var(--ink); color: white; font-size: 10px; }
   .filter-sidebar { display: none; position: fixed; inset: 0 0 0 auto; z-index: 1250; width: min(88vw,360px); height: 100dvh; overflow: auto; padding: 0 18px 26px; background: var(--surface); border: 0; border-left: 1px solid var(--line); box-shadow: -20px 0 50px rgba(0,0,0,.2); }
   .filter-sidebar.mobile-open { display: block; }

@@ -3,11 +3,31 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-09-28-dosmarkor-produktkort",
+      "date": "2026-09-28",
+      "type": "Design",
+      "title": "Grafisk markering av antal dosor",
+      "pages": [
+        "Produktkort",
+        "Produktlistor",
+        "Startsidan",
+        "Sortimentet",
+        "Mobil"
+      ],
+      "summary": "Lagt till en grafisk dosmarkör nere till höger på produktbilden. Markören visar antal dosor direkt från amount_dosor och produktnamnen visar inte längre dosantalet.",
+      "developerNote": "Dosmarkören använder amount_dosor och visas bara för produkter där fältet finns. Produktnamn och fallback-namn har rensats från exempelvis 20 dosor så mängden i stället kommuniceras visuellt på bilden. Mobilversionen använder en mindre variant av samma markör.",
+      "important": true
+    },
+    {
       "id": "2026-08-24-variantvaljare",
       "date": "2026-08-24",
       "type": "Produktsida",
       "title": "Hierarkiska variantval på produktsidor",
-      "pages": ["Produktsidor", "Desktop", "Mobil"],
+      "pages": [
+        "Produktsidor",
+        "Desktop",
+        "Mobil"
+      ],
       "summary": "Gjort om variantvalen site-wide så att Format ligger högst i hierarkin och styr vilka alternativ som går att välja längre ner. Kombinationer som inte finns för valt format visas utgråade och går inte att klicka på.",
       "developerNote": "Gäller den generella variantlogiken för alla produkter. På portionsprodukter är Mängd borttagen som separat dropdown eftersom mängden redan följer formatet. Format visas före Styrka och dropdownsen har fått samma font, storlek och styling.",
       "important": true
@@ -17,7 +37,11 @@
       "date": "2026-08-18",
       "type": "Design",
       "title": "Uppdaterade produktkort och teman",
-      "pages": ["Hela webbplatsen", "Produktkort", "Temaväljaren"],
+      "pages": [
+        "Hela webbplatsen",
+        "Produktkort",
+        "Temaväljaren"
+      ],
       "summary": "Gjort produktkorten renare och mer enhetliga. Bakgrunden bakom korten följer nu sidans bakgrund och styrka visas som en diskret overlay på produktbilden. Klarblått är nu huvudtemat och det vinröda temat är borttaget.",
       "developerNote": "Styrkemarkören visar bara Styrka och fyra visuella nivåer för att inte täcka produktbilden. Full styrkeinformation finns fortfarande tillgänglig för skärmläsare.",
       "important": true
@@ -27,7 +51,13 @@
       "date": "2026-08-18",
       "type": "Katalog",
       "title": "Uppdaterat filter sortimentsidor",
-      "pages": ["Portionssnus", "Lössnus", "Gör eget", "Vitt snus", "Tillbehör"],
+      "pages": [
+        "Portionssnus",
+        "Lössnus",
+        "Gör eget",
+        "Vitt snus",
+        "Tillbehör"
+      ],
       "summary": "Gjort som tidigare version av template sidan i princip. Filter tagna från excelarket.",
       "developerNote": "Större filter-pills med de gamla produktserie-namnen och lite finslip",
       "important": true
@@ -37,7 +67,11 @@
       "date": "2026-08-18",
       "type": "Köpupplevelse",
       "title": "Uppdaterade produktkort",
-      "pages": ["Produktlistor", "Startsidan", "Sortimentet"],
+      "pages": [
+        "Produktlistor",
+        "Startsidan",
+        "Sortimentet"
+      ],
       "summary": "Produktkorten har fått en tydligare köpknapp, flyttade också upp styrkemarkören till overlay variant.",
       "developerNote": "På mobilen är korten mer kompakta. Tog bort textinnehållet där så får man klicka in på produkten bara. Kan se om jag kan lösa mer visuella smakprofiler utan trubbel med herr KO.",
       "important": true
@@ -47,7 +81,10 @@
       "date": "2026-08-17",
       "type": "Design",
       "title": "Accentfärger på blå/grå bas",
-      "pages": ["Hela webbplatsen", "Temaväljaren"],
+      "pages": [
+        "Hela webbplatsen",
+        "Temaväljaren"
+      ],
       "summary": "Nya fina snitsiga teman med accentfärger.",
       "developerNote": "Borde eventuellt dubbelkolla att de inte är allt för säljande... KO är kinkig",
       "important": true
@@ -57,7 +94,12 @@
       "date": "2026-08-17",
       "type": "Funktion",
       "title": "Prenumerationer på produkter",
-      "pages": ["Produktkort", "Produktsida", "Kassa", "Mina sidor"],
+      "pages": [
+        "Produktkort",
+        "Produktsida",
+        "Kassa",
+        "Mina sidor"
+      ],
       "summary": "Prenumeration väljs via samma popup från produktkort och produktsidor.",
       "developerNote": "Alla produkter inklusive tomdosor är prenumererbara, förutom Swedsnuspåsen och Metalldosor. Frontendflödet är mallfunktionalitet; Avardas recurringPaymentToken, aviseringar och framtida debiteringar ska implementeras server-side enligt docs/avarda-recurring-payments.md.",
       "important": true

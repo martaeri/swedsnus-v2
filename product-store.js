@@ -3,7 +3,7 @@
   const visible = row => row.product_id && String(row.visible_on_site || 'Yes').toLowerCase() !== 'no';
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
   const slugify = value => String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'produkt';
-  const name = row => row.generated_name || [row.taste_name,row.product_line,row.strength !== 'Normal' ? row.strength : '',row.format,row.amount_dosor ? `${row.amount_dosor} dosor` : ''].filter(Boolean).join(' ');
+  const name = row => row.generated_name || [row.taste_name,row.product_line,row.strength !== 'Normal' ? row.strength : '',row.format].filter(Boolean).join(' ');
   const key = row => `${row.product_id}__${row.variant_id || row.article_number || slugify(name(row))}`;
   const url = row => `product.html?id=${encodeURIComponent(key(row))}`;
   const money = value => `${Number(value || 0).toLocaleString('sv-SE')} kr`;

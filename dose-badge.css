@@ -2,18 +2,20 @@
   position: absolute;
   right: 12px;
   bottom: 0;
-  min-width: 40px;
+  min-width: 50px;
   height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0;
   border: 0;
-  padding: 0 3px;
+  padding: 0 5px;
+  box-sizing: border-box;
   background: var(--accent-dark);
   color: #fff;
   text-shadow: none;
   font-family: 'Montserrat', Arial, sans-serif;
+  white-space: nowrap;
 }
 
 .product-dose-badge img {
@@ -25,6 +27,7 @@
 }
 
 .product-dose-badge strong {
+  flex: 0 0 auto;
   font-family: 'Montserrat', Arial, sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -35,10 +38,10 @@
   .product-dose-badge {
     right: 9px;
     bottom: 0;
-    min-width: 34px;
+    min-width: 44px;
     height: 24px;
     gap: 0;
-    padding: 0 2px;
+    padding: 0 4px;
   }
 
   .product-dose-badge img {

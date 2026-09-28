@@ -7,9 +7,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: 1px;
   border: 0;
-  padding: 0 7px;
+  padding: 0 6px;
   box-sizing: border-box;
   background: var(--action-bg);
   color: #fff;
@@ -20,11 +20,14 @@
 }
 
 .product-dose-badge img {
-  width: 11px;
-  height: 14px;
-  object-fit: contain;
-  flex: 0 0 auto;
-  margin-right: -1px;
+  display: block;
+  width: 9px;
+  height: 11px;
+  max-width: none;
+  object-fit: fill;
+  flex: 0 0 9px;
+  margin: 0;
+  padding: 0;
 }
 
 .product-dose-badge strong {
@@ -43,14 +46,14 @@
     bottom: 0;
     min-width: 54px;
     height: 24px;
-    gap: 0;
-    padding: 0 6px;
+    gap: 1px;
+    padding: 0 5px;
   }
 
   .product-dose-badge img {
-    width: 9px;
-    height: 12px;
-    margin-right: -1px;
+    width: 8px;
+    height: 10px;
+    flex-basis: 8px;
   }
 
   .product-dose-badge strong {

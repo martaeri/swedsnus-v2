@@ -15,10 +15,10 @@
     const variant = String(row.variant_id || '');
     const legacyCandidates = [
       `${row.product_id}__${variant}-dosor`,
-      `${row.product_id}__${variant.replace(/-(\\d+)$/, '-$1-dosor')}`,
-      `${row.product_id}__${variant.replace(/^(.+)-(\\d+)$/, '$1-$2-dosor')}`
+      `${row.product_id}__${variant.replace(/-(\d+)$/, '-$1-dosor')}`,
+      `${row.product_id}__${variant.replace(/^(.+)-(\d+)$/, '$1-$2-dosor')}`
     ];
-    if (/^\\d+$/.test(variant)) legacyCandidates.push(`${row.product_id}__${variant}-dosor`);
+    if (/^\d+$/.test(variant)) legacyCandidates.push(`${row.product_id}__${variant}-dosor`);
     const accessoryLegacy = {
       'metalldosa__gra': 'swedsnus-metalldosa-gra-metalldosa__product',
       'metalldosa__rod': 'swedsnus-metalldosa-rod-metalldosa__product',
@@ -35,8 +35,7 @@
   const strengthMeter = value => `<span class="variant-strength-meter" aria-hidden="true">${[1,2,3,4].map(index=>`<i${index<=strengthLevel(value)?' class="filled"':''}></i>`).join('')}</span>`;
   const strengthLabel = value => value === 'Extra Strong' ? 'Extra stark' : value === 'Strong' ? 'Stark' : value === 'Normal' ? 'Normal' : value;
   const strengthBadge = value => value ? `<span class="product-strength-badge" aria-label="Styrka: ${escapeHtml(strengthLabel(value))}"><small>Styrka</small>${strengthMeter(value)}</span>` : '';
-  const DOSE_ICON = '<svg viewBox="0 0 32 20" aria-hidden="true"><ellipse cx="16" cy="5" rx="12" ry="4"/><path d="M4 5v10c0 2.2 5.4 4 12 4s12-1.8 12-4V5"/><ellipse cx="16" cy="15" rx="12" ry="4"/></svg>';
-  const doseBadge = row => row.amount_dosor ? `<span class="product-dose-badge" aria-label="${escapeHtml(row.amount_dosor)} dosor"><strong>${escapeHtml(row.amount_dosor)}</strong>${DOSE_ICON}</span>` : '';
+  const doseBadge = row => row.amount_dosor ? `<span class="product-dose-badge" aria-label="${escapeHtml(row.amount_dosor)} dosor"><img src="assets/dosor-icon.svg" alt="" aria-hidden="true"><strong>${escapeHtml(row.amount_dosor)}</strong></span>` : '';
   const BOOKMARK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.75A1.75 1.75 0 0 1 8.25 3h7.5a1.75 1.75 0 0 1 1.75 1.75V21L12 17.35 6.5 21V4.75Z"/></svg>';
 
   function media(row, className, eager = false, overlay = '') {

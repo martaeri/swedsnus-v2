@@ -47,6 +47,9 @@
   .product-strength-badge { left: 7px; bottom: 7px; gap: 5px; padding-bottom: 3px; }
   .product-strength-badge > small { font-size: 7px; }
   .product-strength-badge .variant-strength-meter i { width: 3px; height: 13px; }
+  .product-dose-badge { right: 7px; bottom: 7px; gap: 4px; padding-bottom: 3px; }
+  .product-dose-badge strong { font-size: 12px; }
+  .product-dose-badge svg { width: 20px; height: 13px; }
   .product-name { font-size: 16px; }
   .product-card .product-meta { display: none; }
   .pack-control { padding: 8px 10px; }

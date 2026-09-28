@@ -1,0 +1,46 @@
+.product-dose-reference-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 96px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
+  background: var(--accent-dark);
+  color: #fff;
+}
+
+.product-dose-reference-badge img {
+  width: 20px;
+  height: 25px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.product-dose-reference-badge strong {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .product-dose-reference-badge {
+    min-width: 72px;
+    height: 38px;
+    gap: 7px;
+    padding: 0 11px;
+  }
+
+  .product-dose-reference-badge img {
+    width: 15px;
+    height: 19px;
+  }
+
+  .product-dose-reference-badge strong {
+    font-size: 17px;
+  }
+}

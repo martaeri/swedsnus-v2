@@ -2,20 +2,21 @@
   position: absolute;
   right: 12px;
   bottom: 0;
-  min-width: 50px;
+  min-width: 62px;
   height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0;
   border: 0;
-  padding: 0 5px;
+  padding: 0 7px;
   box-sizing: border-box;
-  background: var(--accent-dark);
+  background: var(--action-bg);
   color: #fff;
   text-shadow: none;
   font-family: 'Montserrat', Arial, sans-serif;
   white-space: nowrap;
+  overflow: visible;
 }
 
 .product-dose-badge img {
@@ -28,20 +29,22 @@
 
 .product-dose-badge strong {
   flex: 0 0 auto;
+  min-width: 2ch;
   font-family: 'Montserrat', Arial, sans-serif;
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
+  text-align: center;
 }
 
 @media (max-width: 760px) {
   .product-dose-badge {
     right: 9px;
     bottom: 0;
-    min-width: 44px;
+    min-width: 54px;
     height: 24px;
     gap: 0;
-    padding: 0 4px;
+    padding: 0 6px;
   }
 
   .product-dose-badge img {
@@ -51,6 +54,7 @@
   }
 
   .product-dose-badge strong {
+    min-width: 2ch;
     font-size: 11px;
   }
 }

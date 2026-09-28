@@ -1,11 +1,16 @@
 (() => {
   const routes = {
-    portion: row => row.product_family === 'Portionssnus' && row.site_section === 'Portionssnus' && row.tobacco_type !== 'Tobaksfri',
-    los: row => row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom',
-    'gor-eget': row => row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' || String(row.product_line||'').toLowerCase()==='super dry',
-    'vitt-snus': row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus',
-    tillbehor: row => row.product_family === 'Tillbehör',
+    portion: row => row.site_section === 'Portionssnus',
+    los: row => row.site_section === 'Lössnus',
+    'gor-eget': row => row.site_section === 'Gör Eget',
+    'vitt-snus': row => row.site_section === 'Vitt snus',
+    tillbehor: row => row.site_section === 'Tillbehör',
     subscribe: row => window.SwedsnusV2.subscriptionEligible(row)
+  };
+  const homeRoutes = {
+    portion: row => row.product_family === 'Portionssnus' && row.tobacco_type !== 'Tobaksfri',
+    los: row => row.product_family === 'Lössnus',
+    'vitt-snus': row => row.tobacco_type === 'Tobaksfri' || row.product_family === 'Vitt snus'
   };
   const seriesPills = {
     portion: [
@@ -125,9 +130,9 @@
     if (currentPage() !== 'home') return;
     const api = window.SwedsnusV2;
     const rail = (selector, filter) => { const el=document.querySelector(selector); if(el) el.innerHTML=api.state.rows.filter(filter).slice(0,5).map(api.card).join(''); };
-    rail('[data-home-portion]', routes.portion);
-    rail('[data-home-los]', routes.los);
-    rail('[data-home-white]', routes['vitt-snus']);
+    rail('[data-home-portion]', homeRoutes.portion);
+    rail('[data-home-los]', homeRoutes.los);
+    rail('[data-home-white]', homeRoutes['vitt-snus']);
     document.dispatchEvent(new CustomEvent('swedsnus-v2:cards-rendered'));
   }
 

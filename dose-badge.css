@@ -1,15 +1,15 @@
 .product-dose-badge {
   position: absolute;
-  right: 5px;
+  right: 12px;
   bottom: 0;
-  min-width: 46px;
+  min-width: 40px;
   height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 0;
   border: 0;
-  padding: 0 5px;
+  padding: 0 3px;
   background: var(--accent-dark);
   color: #fff;
   text-shadow: none;
@@ -21,6 +21,7 @@
   height: 14px;
   object-fit: contain;
   flex: 0 0 auto;
+  margin-right: -1px;
 }
 
 .product-dose-badge strong {
@@ -32,17 +33,18 @@
 
 @media (max-width: 760px) {
   .product-dose-badge {
-    right: 4px;
+    right: 9px;
     bottom: 0;
-    min-width: 40px;
+    min-width: 34px;
     height: 24px;
-    gap: 2px;
-    padding: 0 4px;
+    gap: 0;
+    padding: 0 2px;
   }
 
   .product-dose-badge img {
     width: 9px;
     height: 12px;
+    margin-right: -1px;
   }
 
   .product-dose-badge strong {

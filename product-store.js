@@ -1,14 +1,21 @@
 (() => {
   const state = { rows: [], images: {}, ready: false };
   const visible = row => row.product_id && String(row.visible_on_site || 'Yes').toLowerCase() !== 'no';
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[char]));
   const slugify = value => String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'produkt';
   const name = row => row.generated_name || [row.taste_name,row.product_line,row.strength !== 'Normal' ? row.strength : '',row.format].filter(Boolean).join(' ');
   const key = row => `${row.product_id}__${row.variant_id || row.article_number || slugify(name(row))}`;
   const url = row => `product.html?id=${encodeURIComponent(key(row))}`;
   const money = value => `${Number(value || 0).toLocaleString('sv-SE')} kr`;
   const price = row => row.price_sek ? money(row.price_sek) : 'Pris saknas';
-  const category = row => row.tobacco_type === 'Tobaksfri' || row.site_section === 'Vitt snus' ? 'vitt-snus' : row.product_family === 'Lössnus' || row.aroma_type === 'Expressarom' ? 'los' : row.site_section === 'Gör eget' || row.aroma_type === 'Super Dry Arom' || String(row.product_line||'').toLowerCase()==='super dry' ? 'gor-eget' : row.product_family === 'Tillbehör' ? 'tillbehor' : 'portion';
+  const categoryBySiteSection = {
+    'Portionssnus': 'portion',
+    'Lössnus': 'los',
+    'Gör Eget': 'gor-eget',
+    'Vitt snus': 'vitt-snus',
+    'Tillbehör': 'tillbehor'
+  };
+  const category = row => categoryBySiteSection[row.site_section] || '';
   function image(row) {
     const current = state.images[key(row)];
     if (current) return current;

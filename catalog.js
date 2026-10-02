@@ -35,6 +35,7 @@
   };
   const split = value => String(value || '').split(',').map(x => x.trim()).filter(Boolean);
   const unique = values => [...new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(String))].sort((a,b)=>a.localeCompare(b,'sv'));
+  const filterFormat = row => row.product_family === 'Portionssnus' ? row.format_filter : (row.format || row.grind);
   function currentPage() { return document.body.dataset.page || ''; }
   function renderFilters(rows) {
     const sidebar = document.querySelector('[data-filter-sidebar]');
@@ -42,7 +43,7 @@
     const page = currentPage();
     const groups = page === 'tillbehor'
       ? [['Typ','type',unique(rows.map(r=>r.accessory_type))],['Material','material',unique(rows.map(r=>r.material))],['Färg','color',unique(rows.map(r=>r.filter_color))]]
-      : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],...(page === 'subscribe' ? [['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type || r.accessory_type))]] : []),['Format','format',unique(rows.map(r=>r.format || r.grind))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
+      : [['Smak','taste',unique(rows.flatMap(r=>split(r.taste_variables)))],...(page === 'subscribe' ? [['Typ','type',unique(rows.map(r=>r.product_line || r.aroma_type || r.accessory_type))]] : []),['Format','format',unique(rows.map(filterFormat))],['Styrka','strength',unique(rows.map(r=>r.strength))]];
     sidebar.innerHTML = `<div class="filter-title"><span>Filtrera</span><button type="button" data-mobile-filter-close aria-label="Stäng filter">×</button></div>${groups.filter(([, ,v])=>v.length).map(([title,key,values])=>`<div class="filter-group" data-filter-group="${key}"><h4>${title}</h4>${values.map(value=>`<label class="filter-option"><input type="checkbox" value="${window.SwedsnusV2.escapeHtml(value)}">${window.SwedsnusV2.escapeHtml(value)}</label>`).join('')}</div>`).join('')}`;
   }
   function renderSeriesPills(rows) {

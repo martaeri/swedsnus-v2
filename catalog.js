@@ -233,7 +233,30 @@
     if (!row || !root) { if(root) root.innerHTML='<div class="product-summary"><h1>Produkt hittades inte</h1><p>Produktlänken kunde inte matchas mot produktdatan.</p></div>'; return; }
     document.title = `${api.name(row)} — Swedsnus`;
     const designLabel=row.accessory_type==='Metalldosa'?'Färg':'Motiv';
-    const specs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Typ',row.accessory_type],['Passar till',row.compatible_with],['Material',row.material],[designLabel,row.design_color],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]].filter(([,v])=>v);
+    const hasValue = value => value !== null && value !== undefined && String(value).trim() !== '';
+    const portionNicotineNote = ['Super Dry','Instant portion'].includes(row.product_line) ? ', OBS! Gäller fuktad portion' : '';
+    const portionSpecs = [
+      ['Produktlinje', row.product_line],
+      ['Smaktoner', row.taste_display],
+      ['Portionsformat', [row.format,row.format_dimensions].filter(hasValue).join(', ')],
+      ['Styrka', row.strength],
+      ['Nikotinhalt mg/g', hasValue(row.strength_mg_g) ? `${row.strength_mg_g} mg/g${portionNicotineNote}` : ''],
+      ['Nikotinhalt per portion', hasValue(row.nicotine_per_portion) ? `${row.nicotine_per_portion} mg/portion` : ''],
+      ['Mängd i enpack', hasValue(row.amount_dosor) && hasValue(row.portions_total) ? `${row.amount_dosor} dosor, ${row.portions_total} portioner` : (hasValue(row.amount_dosor) ? `${row.amount_dosor} dosor` : '')],
+      ['Tillverkare', row.manufacturer],
+      ['Tillverkningsort', row.manufacturing_location]
+    ];
+    const losSpecs = [
+      ['Produktlinje', row.product_line],
+      ['Smaktoner', row.taste_display],
+      ['Styrka', row.strength],
+      ['Nikotinhalt mg/g', hasValue(row.strength_mg_g) ? `${row.strength_mg_g} mg/g, OBS! Gäller fuktad produkt` : ''],
+      ['Mängd i enpack', hasValue(row.amount_dosor) ? `${row.amount_dosor} dosor` : ''],
+      ['Tillverkare', row.manufacturer],
+      ['Tillverkningsort', row.manufacturing_location]
+    ];
+    const defaultSpecs = [['Produktfamilj',row.product_family],['Produktlinje',row.product_line || row.aroma_type],['Typ',row.accessory_type],['Passar till',row.compatible_with],['Material',row.material],[designLabel,row.design_color],['Smak',row.taste_display],['Format',row.format],['Malningsgrad',row.grind],['Styrka',variantValue(row,'strength')],['Förpackning',row.amount_dosor ? `${row.amount_dosor} dosor` : row.package_quantity],['Tillverkning',row.manufacturing_location]];
+    const specs = (row.product_family === 'Portionssnus' ? portionSpecs : row.product_family === 'Lössnus' ? losSpecs : defaultSpecs).filter(([,v])=>hasValue(v));
     const firstPack=api.packs(row)[0];
     const suffix=row.amount_dosor?'dosa':'st';
     root.innerHTML = `<div class="product-gallery">Produktbild</div><section class="product-summary"><p class="kicker">${api.escapeHtml(row.product_line || row.product_family)}</p><h1>${api.escapeHtml(api.name(row))}</h1><p>${api.escapeHtml(row.short_description || 'Kort produktbeskrivning hämtas från den centrala produktdatan när den finns tillgänglig.')}</p>${renderVariantSelectors(row)}<div class="product-pack-picker"><label>Flerpack</label>${api.packMenu(row)}</div>${api.subscriptionEligible(row)?`<button class="btn product-subscription-open" type="button" data-subscription-open="${api.escapeHtml(api.key(row))}">Prenumerera på produkten</button>`:''}<div class="price"><span data-selected-total>${api.money(firstPack.total)}</span><small data-selected-per-dose>${firstPack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></div><button class="btn primary" data-add-cart="${api.escapeHtml(api.key(row))}">Lägg i varukorg</button><button class="btn product-bookmark" type="button" data-bookmark="${api.escapeHtml(api.key(row))}">Spara produkt</button><dl class="spec-list">${specs.map(([k,v])=>`<div class="spec-row"><dt>${api.escapeHtml(k)}</dt><dd>${api.escapeHtml(v)}</dd></div>`).join('')}</dl></section>`;

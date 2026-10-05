@@ -57,11 +57,16 @@
     });
   }
 
-  function packMenu(row) {
+  function packMenu(row, layout = {}) {
     const id = escapeHtml(key(row));
     const suffix = row.amount_dosor ? 'dosa' : 'st';
     const options = packs(row);
     const first = options[0];
+    if (layout.detail) {
+      const summary = pack => `${row.amount_dosor ? `${pack.units} dosor · ` : ''}${pack.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+      return `<div class="pack-dropdown product-detail-pack" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-per-dose="${first.perDose.toFixed(2)}" data-units="${first.units}"><button class="pack-dropdown-trigger" type="button" data-pack-toggle aria-expanded="false"><span class="detail-pack-values"><strong data-pack-label>${first.label}</strong><small data-pack-summary>${summary(first)}</small><b data-pack-total>${money(first.total)}</b></span><span aria-hidden="true">⌄</span></button><div class="pack-dropdown-menu" data-pack-menu hidden>${options.map(option => `<button type="button" class="pack-dropdown-option${option.packQty===1?' selected':''}" data-pack-option data-pack-qty="${option.packQty}" data-total="${option.total}" data-per-dose="${option.perDose.toFixed(2)}" data-units="${option.units}"><strong>${option.label}</strong><small>${summary(option)}</small><b>${money(option.total)}</b></button>`).join('')}</div></div>`;
+    }
+
     return `<div class="pack-dropdown" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-per-dose="${first.perDose.toFixed(2)}" data-units="${first.units}"><button class="pack-dropdown-trigger" type="button" data-pack-toggle aria-expanded="false"><span><strong data-pack-label>${first.label}</strong><span class="pack-trigger-price"><b data-pack-total>${money(first.total)}</b><small data-pack-summary>${row.amount_dosor?`${first.units} dosor · `:''}${first.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></span></span><span aria-hidden="true">⌄</span></button><div class="pack-dropdown-menu" data-pack-menu hidden>${options.map(option => `<button type="button" class="pack-dropdown-option${option.packQty===1?' selected':''}" data-pack-option data-pack-qty="${option.packQty}" data-total="${option.total}" data-per-dose="${option.perDose.toFixed(2)}" data-units="${option.units}"><strong>${option.label}</strong>${row.amount_dosor?`<span class="pack-dose-count">${option.units} dosor</span>`:'<span></span>'}<span class="pack-option-price"><b>${money(option.total)}</b><small>${option.perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}</small></span></button>`).join('')}</div></div>`;
   }
 
@@ -105,7 +110,7 @@
     state.rows = parts.flat().filter(visible);
     state.images = imageMap && typeof imageMap === 'object' && !Array.isArray(imageMap) ? imageMap : {};
     state.ready = true;
-    window.SwedsnusV2 = { state, visible, escapeHtml, slugify, name, key, url, money, price, category, image, media, packs, packMenu, purchaseChoice, subscriptionEligible, strengthLevel, strengthMeter, variantGroup, group, card, find: id => state.rows.find(row => key(row) === id || row.product_id === id || row.variant_id === id) };
+    window.SwedsnusV2 = { state, visible, escapeHtml, slugify, name, key, url, money, price, category, image, media, packs, packMenu, purchaseChoice, subscriptionEligible, strengthLevel, strengthMeter, strengthBadge, variantGroup, group, card, find: id => state.rows.find(row => key(row) === id || row.product_id === id || row.variant_id === id) };
     document.dispatchEvent(new CustomEvent('swedsnus-v2:products-ready'));
   }
   document.addEventListener('error', handleImageError, true);

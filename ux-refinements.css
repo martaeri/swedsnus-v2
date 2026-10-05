@@ -536,3 +536,16 @@
   .product-gallery-bookmark { top: 12px; left: 12px; }
 }
 .product-gallery-bookmark.active { background: var(--selected-bg); color: #fff; border-color: var(--selected-bg); }
+
+/* Align all product purchase controls with the variant selectors. */
+.product-summary > .variant-panel,
+.product-summary > .product-pack-picker,
+.product-summary > .product-purchase-actions {
+  width: 100%;
+  max-width: 520px;
+}
+@media (max-width: 760px) {
+  .product-summary > .variant-panel,
+  .product-summary > .product-pack-picker,
+  .product-summary > .product-purchase-actions { max-width: none; }
+}

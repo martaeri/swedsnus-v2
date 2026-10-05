@@ -69,9 +69,6 @@
 .product-strength-badge > small { font: 700 9px 'Archivo',sans-serif; letter-spacing: .08em; line-height: 1; text-transform: uppercase; }
 .product-strength-badge .variant-strength-meter { align-items: end; gap: 2px; margin-left: 0; }
 .product-strength-badge .variant-strength-meter i { width: 5px; height: 18px; background: color-mix(in srgb,var(--ink) 20%,transparent); box-shadow: 0 1px 1px color-mix(in srgb,var(--surface) 80%,transparent); }
-.product-dose-badge { position: absolute; right: 10px; bottom: 9px; display: inline-flex; align-items: center; gap: 5px; min-height: 24px; border-bottom: 2px solid var(--accent); padding: 0 1px 4px; color: var(--ink); text-shadow: 0 1px 2px var(--surface); }
-.product-dose-badge strong { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; line-height: 1; }
-.product-dose-badge svg { width: 24px; height: 15px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .product-strength-badge .variant-strength-meter i.filled { background: var(--accent-dark); }
 
 .header-count { min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; }

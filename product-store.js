@@ -36,7 +36,7 @@
   const strengthLabel = value => value === 'Extra Strong' ? 'Extra stark' : value === 'Strong' ? 'Stark' : value === 'Normal' ? 'Normal' : value;
   const strengthBadge = value => value ? `<span class="product-strength-dots" role="img" aria-label="Styrka: ${escapeHtml(strengthLabel(value))}" title="Styrka: ${escapeHtml(strengthLabel(value))}">${strengthMeter(value)}</span>` : '';
   const strengthTextBadge = value => ['Strong','Extra Strong'].includes(value) ? `<span class="product-strength-label${value === 'Extra Strong' ? ' product-strength-label-extra' : ''}">${escapeHtml(value)}</span>` : '';
-  const doseBadge = row => row.amount_dosor ? `<span class="product-dose-badge" aria-label="${escapeHtml(row.amount_dosor)} dosor"><img src="assets/dosor-icon.svg" alt="" aria-hidden="true"><strong>${escapeHtml(row.amount_dosor)}</strong></span>` : '';
+  const doseBadge = row => row.amount_dosor ? `<span class="product-quantity-label">${row.product_family === 'Aromer' ? '<span>Till</span>' : ''}<strong>${escapeHtml(row.amount_dosor)}</strong><span>${Number(row.amount_dosor) === 1 ? 'dosa' : 'dosor'}</span></span>` : '';
   const BOOKMARK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.75A1.75 1.75 0 0 1 8.25 3h7.5a1.75 1.75 0 0 1 1.75 1.75V21L12 17.35 6.5 21V4.75Z"/></svg>';
 
   function media(row, className, eager = false, overlay = '') {

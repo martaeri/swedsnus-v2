@@ -1,68 +1,29 @@
-.product-dose-badge {
+.product-quantity-label {
   position: absolute;
-  right: 12px;
-  bottom: 0;
-  min-width: 62px;
-  height: 28px;
+  right: 10px;
+  bottom: 10px;
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  border: 0;
-  padding: 0 6px;
-  box-sizing: border-box;
-  background: var(--action-bg);
-  color: #fff;
-  text-shadow: none;
+  align-items: baseline;
+  gap: 5px;
+  max-width: calc(100% - 20px);
+  border: 1px solid var(--line);
+  padding: 5px 8px;
+  background: #fff;
+  color: var(--ink);
   font-family: 'Montserrat', Arial, sans-serif;
+  line-height: 1.2;
   white-space: nowrap;
-  overflow: visible;
 }
-
-.product-dose-badge img {
-  display: block !important;
-  width: 10.4px !important;
-  height: 13px !important;
-  min-width: 10.4px;
-  max-width: 10.4px !important;
-  object-fit: contain;
-  flex: 0 0 10.4px;
-  margin: 0;
-  padding: 0;
-  opacity: 1;
-  visibility: visible;
-}
-
-.product-dose-badge strong {
-  flex: 0 0 auto;
-  min-width: 2ch;
-  font-family: 'Montserrat', Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-}
-
+.product-quantity-label strong { font-size: 18px; font-weight: 700; }
+.product-quantity-label > span { font-size: 11px; font-weight: 600; text-transform: none; }
 @media (max-width: 760px) {
-  .product-dose-badge {
-    right: 9px;
-    bottom: 0;
-    min-width: 54px;
-    height: 24px;
-    gap: 1px;
-    padding: 0 5px;
+  .product-quantity-label {
+    right: 7px;
+    bottom: 7px;
+    max-width: calc(100% - 14px);
+    padding: 4px 6px;
+    gap: 4px;
   }
-
-  .product-dose-badge img {
-    width: 8.8px !important;
-    height: 11px !important;
-    min-width: 8.8px;
-    max-width: 8.8px !important;
-    flex-basis: 8.8px;
-  }
-
-  .product-dose-badge strong {
-    min-width: 2ch;
-    font-size: 11px;
-  }
+  .product-quantity-label strong { font-size: 15px; }
+  .product-quantity-label > span { font-size: 10px; }
 }

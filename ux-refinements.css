@@ -549,3 +549,12 @@
   .product-summary > .product-pack-picker,
   .product-summary > .product-purchase-actions { max-width: none; }
 }
+
+.product-spec-panel { margin-top: 26px; border-top: 3px solid var(--ink); }
+.product-spec-panel .variant-panel-head h2 {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-transform: uppercase;
+}

@@ -518,21 +518,7 @@
 .product-gallery-bookmark { position: absolute; z-index: 2; top: 16px; left: 16px; margin: 0; background: var(--surface); }
 .product-purchase-actions { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),1fr)); gap: 10px; margin-top: 16px; }
 .product-purchase-actions > .btn { width: 100%; min-height: 48px; margin: 0; padding: 12px; }
-.product-detail-pack .pack-dropdown-trigger > .detail-pack-values,
-.product-detail-pack .pack-dropdown-option {
-  display: grid;
-  grid-template-columns: auto minmax(0,1fr) auto;
-  align-items: center;
-  gap: 12px;
-}
-.product-detail-pack .pack-dropdown-trigger > .detail-pack-values { width: 100%; }
-.product-detail-pack small { display: block; text-align: center; white-space: normal; overflow: visible; }
-.product-detail-pack b { font-family: 'Montserrat',sans-serif; font-size: 22px; line-height: 1.2; white-space: nowrap; text-align: right; }
 @media (max-width: 440px) {
-  .product-detail-pack .pack-dropdown-trigger > .detail-pack-values,
-  .product-detail-pack .pack-dropdown-option { gap: 6px; }
-  .product-detail-pack b { font-size: 19px; }
-  .product-detail-pack small { font-size: 10px; grid-column: auto; margin: 0; }
   .product-gallery-bookmark { top: 12px; left: 12px; }
 }
 .product-gallery-bookmark.active { background: var(--selected-bg); color: #fff; border-color: var(--selected-bg); }
@@ -630,12 +616,65 @@
   .header-main { padding-inline: 12px; gap: 6px; }
   .mobile-cart-toggle { padding-inline: 5px; }
   .product-summary { padding-inline: 14px; }
-  .product-detail-pack .pack-dropdown-trigger { padding-inline: 8px; }
-  .product-detail-pack .pack-dropdown-trigger strong,
-  .product-detail-pack .pack-dropdown-option strong { font-size: 14px; }
-  .product-detail-pack b { font-size: 18px; }
   .spec-row { grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: 10px; }
   .checkout-item { grid-template-columns: 52px minmax(0,1fr); padding: 14px; gap: 10px; }
   .checkout-section-head { flex-wrap: wrap; padding-inline: 14px; }
   .checkout-summary { padding: 18px; }
+}
+
+.product-summary > fieldset.product-pack-picker {
+  min-width: 0;
+  margin: 24px 0 0;
+  padding: 0;
+  border: 0;
+}
+.product-pack-picker legend {
+  margin-bottom: 8px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.pack-list { display: grid; gap: 8px; }
+.product-pack-picker .pack-list-option {
+  display: grid;
+  grid-template-columns: 20px minmax(0,1fr) minmax(76px,1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid var(--line);
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  padding: 10px 12px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.product-pack-picker .pack-list-option.selected {
+  border-color: var(--accent-dark);
+  background: color-mix(in srgb,var(--accent) 9%,var(--surface));
+  box-shadow: inset 3px 0 0 var(--accent-dark);
+}
+.pack-list-option input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent-dark); }
+.pack-list-option:focus-within { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+.pack-list-copy { display: grid; gap: 2px; min-width: 0; }
+.pack-list-copy > strong { font-family: 'Montserrat',sans-serif; font-size: 15px; }
+.pack-list-copy > small { color: var(--muted); font-size: 10px; }
+.pack-list-selected { visibility: hidden; font-size: 10px; font-weight: 700; color: var(--accent-dark); }
+.pack-list-option.selected .pack-list-selected { visibility: visible; }
+.pack-list-unit-price { font-size: 12px; text-align: center; white-space: nowrap; }
+.pack-list-total { font-family: 'Montserrat',sans-serif; font-size: 22px; text-align: right; white-space: nowrap; }
+.product-dose-price-hint { margin: 0; padding: 0 14px 2px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+@media (max-width: 760px) {
+  .product-dose-price-hint { padding-inline: 10px; font-size: 10px; }
+}
+@media (max-width: 440px) {
+  .product-pack-picker .pack-list-option { grid-template-columns: 20px minmax(0,1fr) 68px auto; gap: 6px; padding: 10px 8px; }
+  .pack-list-copy > strong { font-size: 14px; }
+  .pack-list-unit-price { font-size: 11px; }
+  .pack-list-total { font-size: 18px; }
 }

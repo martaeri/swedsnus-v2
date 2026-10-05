@@ -7,7 +7,13 @@
   function selection(button) {
     const scope=button.closest('.product-card,.product-summary');
     const picker=scope?.querySelector('[data-pack-picker]');
-    return { packQty:Number(picker?.dataset.packQty||1), total:Number(picker?.dataset.total||0), perDose:Number(picker?.dataset.perDose||0), ...(window.SwedsnusSubscriptions?.selection(scope)||{purchaseMode:'once',intervalWeeks:null}) };
+    return { packQty:Number(picker?.dataset.packQty||1), total:Number(picker?.dataset.total||0), unitPrice:Number(picker?.dataset.unitPrice||0), ...(window.SwedsnusSubscriptions?.selection(scope)||{purchaseMode:'once',intervalWeeks:null}) };
+  }
+
+  function unitLabel(item) {
+    const api=window.SwedsnusV2;
+    const value=Number(item.totalPrice||0)/Math.max(1,Number(item.packQty)||1);
+    return api?.unitPriceLabel?api.unitPriceLabel(value):`${value.toLocaleString('sv-SE',{maximumFractionDigits:2})} kr/st`;
   }
 
   function render() {
@@ -19,7 +25,7 @@
     const api=window.SwedsnusV2;
     const body=drawer.querySelector('[data-cart-items]');
     const total=drawer.querySelector('[data-cart-total]');
-    const itemHtml=item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.perDose?`<br><small>${Number(item.perDose).toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/dosa</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`;
+    const itemHtml=item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.totalPrice?`<br><small>${unitLabel(item)}</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`;
     const once=items.filter(item=>item.purchaseMode!=='subscription');
     const recurring=items.filter(item=>item.purchaseMode==='subscription');
     body.innerHTML=items.length?`${once.length?`<section class="cart-group"><h3>Engångsköp</h3>${once.map(itemHtml).join('')}</section>`:''}${recurring.length?`<section class="cart-group subscription-cart-group"><div class="cart-group-heading"><h3>Prenumerationer</h3><span>Återkommande</span></div>${recurring.map(itemHtml).join('')}</section>`:''}`:'<p>Varukorgen är tom.</p>';
@@ -36,13 +42,13 @@
     const fallback=api.packs(row).find(option=>option.packQty===selected.packQty)||api.packs(row)[0];
     const packQty=selected.packQty||fallback.packQty;
     const totalPrice=selected.total||fallback.total;
-    const perDose=selected.perDose||fallback.perDose;
+    const unitPrice=totalPrice/packQty;
     const id=api.key(row);
     const cartKey=`${id}::${packQty}::${selected.purchaseMode}::${selected.intervalWeeks||0}`;
     const items=read();
     const existing=items.find(item=>item.cartKey===cartKey);
     if(existing) existing.qty=(existing.qty||1)+1;
-    else items.push({cartKey,id,name:api.name(row),packQty,totalPrice,perDose,qty:1,purchaseMode:selected.purchaseMode,intervalWeeks:selected.intervalWeeks});
+    else items.push({cartKey,id,name:api.name(row),packQty,totalPrice,unitPrice,qty:1,purchaseMode:selected.purchaseMode,intervalWeeks:selected.intervalWeeks});
     write(items);
     document.querySelector('[data-cart-drawer]')?.classList.add('open');
   }
@@ -52,22 +58,22 @@
     if(!picker) return;
     picker.dataset.packQty=option.dataset.packQty;
     picker.dataset.total=option.dataset.total;
-    picker.dataset.perDose=option.dataset.perDose;
+    picker.dataset.unitPrice=option.dataset.unitPrice;
     picker.dataset.units=option.dataset.units;
     picker.querySelectorAll('[data-pack-option]').forEach(item=>item.classList.toggle('selected',item===option));
+    picker.querySelectorAll('[data-pack-radio]').forEach(input=>{
+      input.checked=input===option;
+      input.closest('.pack-list-option').classList.toggle('selected',input.checked);
+    });
     const api=window.SwedsnusV2;
-    const row=api?.find(picker.dataset.productId);
-    const suffix=row?.amount_dosor?'dosa':'st';
     const total=Number(option.dataset.total||0);
-    const perDose=Number(option.dataset.perDose||0);
-    picker.querySelector('[data-pack-label]').textContent=`${option.dataset.packQty}-pack`;
-    const doseSummary=row?.amount_dosor?`${option.dataset.units} dosor · `:'';
+    const unitPrice=Number(option.dataset.unitPrice||0);
+    const label=picker.querySelector('[data-pack-label]');
+    if(label) label.textContent=`${option.dataset.packQty}-pack`;
     const totalEl=picker.querySelector('[data-pack-total]');
     if(totalEl) totalEl.textContent=api?.money?api.money(total):`${total} kr`;
-    picker.querySelector('[data-pack-summary]').textContent=`${doseSummary}${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
-    const scope=picker.closest('.product-card,.product-summary');
-    if(scope?.querySelector('[data-selected-total]')) scope.querySelector('[data-selected-total]').textContent=api?.money?api.money(total):`${total} kr`;
-    if(scope?.querySelector('[data-selected-per-dose]')) scope.querySelector('[data-selected-per-dose]').textContent=`${perDose.toLocaleString('sv-SE',{minimumFractionDigits:2,maximumFractionDigits:2})} kr/${suffix}`;
+    const summary=picker.querySelector('[data-pack-summary]');
+    if(summary) summary.textContent=api.unitPriceLabel(unitPrice);
     const menu=picker.querySelector('[data-pack-menu]');
     const trigger=picker.querySelector('[data-pack-toggle]');
     if(menu) menu.hidden=true;
@@ -96,6 +102,10 @@
     }
   };
 
+  document.addEventListener('change',event=>{
+    const radio=event.target.closest('[data-pack-radio]');
+    if(radio) choosePack(radio);
+  });
   document.addEventListener('click',event=>{
     const packToggle=event.target.closest('[data-pack-toggle]');
     if(packToggle){

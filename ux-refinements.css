@@ -558,3 +558,84 @@
   font-weight: 700;
   text-transform: uppercase;
 }
+
+/* Mobile controls need room to shrink, scroll and remain easy to tap. */
+@media (max-width: 760px) {
+  .header-main { grid-template-columns: auto minmax(0,1fr) auto; }
+  .brand { width: 100%; max-width: 180px; min-width: 0; align-items: center; }
+  .brand-logo { width: 100%; }
+  .brand small { font-size: clamp(7px,2vw,9px); letter-spacing: .06em; }
+  .mobile-menu-toggle, .mobile-cart-toggle { min-height: 44px; }
+  .nav-bar.mobile-open {
+    max-height: var(--mobile-nav-height,calc(100dvh - 180px));
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding-bottom: env(safe-area-inset-bottom,0px);
+  }
+  .mobile-nav-group a { min-height: 44px; display: flex; align-items: center; }
+  .catalog-main, .product-summary, .checkout-item-main,
+  .account-panel, .subscription-card, .order-line > div { min-width: 0; }
+  .product-summary h1 { font-size: clamp(28px,8.8vw,38px); overflow-wrap: anywhere; }
+  .product-name, .spec-row dd, .cart-item strong,
+  .checkout-item h3, .order-line strong { overflow-wrap: anywhere; }
+  .spec-row dd { min-width: 0; }
+  .catalog-tools { flex-wrap: wrap; gap: 6px 12px; padding-block: 8px; }
+  .catalog-tools label { display: flex; align-items: center; gap: 8px; max-width: 100%; }
+  .catalog-tools select { min-width: 0; min-height: 44px; }
+  .product-card .bookmark { width: 44px; height: 44px; top: 7px; right: 7px; }
+  .product-card-bottom .add-cart,
+  .product-card-bottom .subscribe-card-add,
+  .pack-dropdown-trigger, .pack-dropdown-option,
+  .filter-option { min-height: 44px; }
+  .product-card-bottom { padding-inline: 10px; }
+  [data-mobile-filter-close], .subscription-modal-close,
+  .login-modal-close { width: 44px; height: 44px; }
+  .filter-option input { width: 20px; height: 20px; flex-shrink: 0; }
+  .header-search input, .catalog-tools select,
+  .variant-field select, .strength-variant-field select,
+  .subscription-modal-card select, .subscription-settings select,
+  .profile-form input, .address-form input,
+  .order-service input, .order-service select, .order-service textarea,
+  .faq-search input, .checkout-quantity input { font-size: 16px; }
+  .variant-field select, .strength-variant-field select { min-height: 44px; }
+  .subscription-modal, .login-modal { padding: 14px; }
+  .subscription-modal-card, .login-modal-card {
+    max-height: calc(100dvh - 28px);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: 24px 18px;
+  }
+  .subscription-modal-card h2, .login-modal-card h2 {
+    font-size: clamp(24px,7vw,32px);
+    overflow-wrap: anywhere;
+    padding-right: 36px;
+  }
+  .subscription-modal-summary { flex-wrap: wrap; gap: 6px 12px; }
+  .cart-drawer { height: 100dvh; z-index: 1150; }
+  .cart-head, .cart-foot { flex-shrink: 0; }
+  .cart-items { min-height: 0; overscroll-behavior-y: contain; }
+  .cart-foot { padding-bottom: max(16px,env(safe-area-inset-bottom,0px)); }
+  .cart-head button, .cart-item button { min-height: 44px; }
+  .cart-item { grid-template-columns: minmax(0,1fr) auto; }
+  .checkout-quantity { grid-template-columns: 44px 48px 44px; }
+  .checkout-quantity button, .checkout-quantity input { height: 44px; }
+  .checkout-remove { min-height: 44px; margin-top: 0; }
+  .account-hero, .order-detail-head, .order-card-head,
+  .account-section-head, .account-panel-head { flex-wrap: wrap; gap: 12px; }
+  .order-card-meta, .address-card { flex-wrap: wrap; }
+  .checkout-summary-row > span, .checkout-summary-row > strong { min-width: 0; }
+  .theme-overlay { bottom: max(10px,env(safe-area-inset-bottom,0px)); }
+}
+@media (max-width: 360px) {
+  .header-main { padding-inline: 12px; gap: 6px; }
+  .mobile-cart-toggle { padding-inline: 5px; }
+  .product-summary { padding-inline: 14px; }
+  .product-detail-pack .pack-dropdown-trigger { padding-inline: 8px; }
+  .product-detail-pack .pack-dropdown-trigger strong,
+  .product-detail-pack .pack-dropdown-option strong { font-size: 14px; }
+  .product-detail-pack b { font-size: 18px; }
+  .spec-row { grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: 10px; }
+  .checkout-item { grid-template-columns: 52px minmax(0,1fr); padding: 14px; gap: 10px; }
+  .checkout-section-head { flex-wrap: wrap; padding-inline: 14px; }
+  .checkout-summary { padding: 18px; }
+}

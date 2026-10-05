@@ -493,7 +493,7 @@
   left: 10px;
   max-width: calc(100% - 58px);
   padding: 6px 8px;
-  background: #0a5a7d;
+  background: #DE0711;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
   font-size: 9px;
@@ -502,7 +502,7 @@
   letter-spacing: .02em;
   white-space: nowrap;
 }
-.product-strength-label-extra { background: #8a4035; }
+.product-strength-label-extra { background: #FFEB00; color: #172027; }
 @media (max-width: 760px) {
   .product-strength-label {
     top: 7px;

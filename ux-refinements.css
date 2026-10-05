@@ -65,6 +65,9 @@
 }
 
 .pack-control { padding-bottom: 8px; }
+/* Standard cards end with pack selection and purchase; subscription cards keep their layout. */
+.product-card .pack-control + .product-card-bottom { padding-top: 0; }
+.product-card .pack-control { margin-top: auto; }
 .subscription-reveal { margin-bottom: 8px; }
 .product-card-bottom {
   display: block;

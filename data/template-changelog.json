@@ -3,6 +3,21 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-10-05-prenumerationsurval",
+      "date": "2026-10-05",
+      "type": "Funktion",
+      "title": "Datastyrt prenumerationsurval och lägre produktkort",
+      "pages": [
+        "Produktkort",
+        "Sortimentet",
+        "Prenumerera",
+        "Produktsidor",
+        "Mobil"
+      ],
+      "summary": "Prenumerationssortimentet styrs av subscription_available. Prenumerationsknappen har tagits bort från vanliga produktkort.",
+      "developerNote": "Endast yes tillåter prenumeration. Kontrollen används på produktsidor, i popupen och i varukorgen. Prenumerationssidans produktkort behåller sin utformning."
+    },
+    {
       "id": "2026-09-28-dosmarkor-produktkort",
       "date": "2026-09-28",
       "type": "Design",

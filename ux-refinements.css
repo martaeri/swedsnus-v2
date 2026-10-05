@@ -484,3 +484,18 @@
   background: transparent;
 }
 .product-strength-dots .variant-strength-meter i.filled { background: currentColor; }
+
+.product-strength-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  border: 1px solid var(--accent-dark);
+  padding: 3px 5px;
+  color: var(--accent-dark);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}

@@ -26,7 +26,14 @@
 
   const toggle = header.querySelector('[data-mobile-menu-toggle]');
   const nav = header.querySelector('[data-mobile-navigation]');
+  const updateMenuHeight = () => {
+    const viewportBottom = window.visualViewport
+      ? window.visualViewport.height + window.visualViewport.offsetTop
+      : window.innerHeight;
+    nav.style.setProperty('--mobile-nav-height', `${Math.max(0, viewportBottom - header.getBoundingClientRect().bottom)}px`);
+  };
   const setMenu = open => {
+    if (open) updateMenuHeight();
     nav.classList.toggle('mobile-open', open);
     toggle.classList.toggle('active', open);
     toggle.setAttribute('aria-expanded', String(open));
@@ -38,7 +45,18 @@
     if (!nav.classList.contains('mobile-open')) return;
     if (!header.contains(event.target)) setMenu(false);
   });
-  window.addEventListener('resize', () => { if (window.innerWidth > 760) setMenu(false); });
+  const resizeMenu = () => {
+    if (window.innerWidth > 760) setMenu(false);
+    else if (nav.classList.contains('mobile-open')) updateMenuHeight();
+  };
+  window.addEventListener('resize', resizeMenu);
+  window.visualViewport?.addEventListener('resize', resizeMenu);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav.classList.contains('mobile-open')) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
 
   document.dispatchEvent(new CustomEvent('swedsnus-v2:layout-ready'));
 })();

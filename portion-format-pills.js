@@ -1,13 +1,20 @@
 (() => {
   if (document.body.dataset.page !== 'portion') return;
 
-  const formats = [
-    ['premium', 'Premium', '18 × 33 mm'],
-    ['rebell', 'Rebell', '17 × 30 mm'],
-    ['compact', 'Compact', '16 × 30 mm'],
-    ['rx slim', 'RX Slim', '14 × 33 mm'],
-    ['mini', 'Mini', '12 × 29 mm']
-  ];
+  const formatOrder = ['premium', 'premium large', 'rebell', 'compact', 'rx slim', 'mini'];
+  const normalize = value => String(value || '').trim().toLowerCase();
+  function formatsFromProducts() {
+    const rows = window.SwedsnusV2?.state.rows.filter(row => row.site_section === 'Portionssnus') || [];
+    const formats = new Map();
+    rows.forEach(row => {
+      const value = normalize(row.format);
+      if (value && !formats.has(value)) formats.set(value, [value, String(row.format).trim(), row.format_dimensions || '']);
+    });
+    return [...formats.values()].sort((a,b) => {
+      const ai = formatOrder.indexOf(a[0]), bi = formatOrder.indexOf(b[0]);
+      return (ai < 0 ? formatOrder.length : ai) - (bi < 0 ? formatOrder.length : bi) || a[1].localeCompare(b[1], 'sv');
+    });
+  }
 
   let activeFormat = '';
   let replacing = false;
@@ -18,7 +25,7 @@
 
     cards.forEach(card => {
       const baseHidden = card.dataset.baseFilterHidden === 'true';
-      const formatMatches = !activeFormat || card.dataset.format === activeFormat;
+      const formatMatches = !activeFormat || card.dataset.portionFormat === activeFormat;
       card.hidden = baseHidden || !formatMatches;
     });
 
@@ -35,12 +42,7 @@
   }
 
   function refreshFilters() {
-    const search = document.querySelector('[data-product-search]');
-    if (search) {
-      search.dispatchEvent(new Event('input', { bubbles: true }));
-    } else {
-      rememberBaseFilterState();
-    }
+    document.dispatchEvent(new CustomEvent('swedsnus-v2:filters-refresh'));
   }
 
   function renderFormatPills() {
@@ -52,11 +54,8 @@
     replacing = true;
     existing?.remove();
 
-    const available = new Set(
-      [...document.querySelectorAll('.catalog-main .product-card')]
-        .map(card => card.dataset.format)
-        .filter(Boolean)
-    );
+    const formats = formatsFromProducts();
+    if (!formats.some(([value]) => value === activeFormat)) activeFormat = '';
 
     const root = document.createElement('section');
     root.className = 'series-filter-pills';
@@ -64,8 +63,7 @@
     root.dataset.portionFormatFilters = '';
     root.setAttribute('aria-label', 'Filtrera på portionsformat');
     root.innerHTML = formats
-      .filter(([value]) => available.has(value))
-      .map(([value, title, dimensions]) => `<button type="button" class="series-filter-pill" data-portion-format="${value}" aria-pressed="false"><span class="series-filter-pill-copy"><strong>${title}</strong><span>${dimensions}</span></span><span class="series-filter-pill-remove" aria-hidden="true">×</span></button>`)
+      .map(([value, title, dimensions]) => `<button type="button" class="series-filter-pill${value === activeFormat ? ' active' : ''}" data-portion-format="${window.SwedsnusV2.escapeHtml(value)}" aria-pressed="${value === activeFormat}"><span class="series-filter-pill-copy"><strong>${window.SwedsnusV2.escapeHtml(title)}</strong><span>${window.SwedsnusV2.escapeHtml(dimensions)}</span></span><span class="series-filter-pill-remove" aria-hidden="true">×</span></button>`)
       .join('');
 
     (tools || existing)?.before(root);
@@ -89,17 +87,7 @@
 
   document.addEventListener('swedsnus-v2:cards-rendered', renderFormatPills);
 
-  document.addEventListener('input', event => {
-    if (event.target.matches?.('[data-product-search]')) {
-      queueMicrotask(rememberBaseFilterState);
-    }
-  });
-
-  document.addEventListener('change', event => {
-    if (event.target.matches?.('[data-filter-group] input')) {
-      queueMicrotask(rememberBaseFilterState);
-    }
-  });
+  document.addEventListener('swedsnus-v2:filters-applied', rememberBaseFilterState);
 
   if (window.SwedsnusV2?.state.ready) queueMicrotask(renderFormatPills);
 })();

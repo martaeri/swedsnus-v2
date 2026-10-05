@@ -107,6 +107,7 @@
     });
     const countEl = document.querySelector('[data-result-count]');
     if(countEl) countEl.textContent = `${count} produkter`;
+    document.dispatchEvent(new CustomEvent('swedsnus-v2:filters-applied'));
   }
   function renderCatalog() {
     const api = window.SwedsnusV2;
@@ -270,6 +271,7 @@
     renderProduct();
   }
 
+  document.addEventListener('swedsnus-v2:filters-refresh', applyFilters);
   document.addEventListener('swedsnus-v2:products-ready', renderProductViews);
   if (window.SwedsnusV2?.state.ready) renderProductViews();
 })();

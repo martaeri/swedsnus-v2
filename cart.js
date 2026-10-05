@@ -1,7 +1,8 @@
 (() => {
   const KEY = 'swedsnus-v2-cart';
-  const read = () => { try { const value=JSON.parse(localStorage.getItem(KEY)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; } };
-  const write = items => { localStorage.setItem(KEY,JSON.stringify(items)); render(); document.dispatchEvent(new CustomEvent('swedsnus-v2:cart-changed')); };
+  const read = () => { try { const value=JSON.parse(localStorage.getItem(KEY)||'[]'); return Array.isArray(value)?value.filter(subscriptionAllowed):[]; } catch { return []; } };
+  const subscriptionAllowed = item => item.purchaseMode !== 'subscription' || !window.SwedsnusV2?.state.ready || Boolean(window.SwedsnusV2?.subscriptionEligible(window.SwedsnusV2.find(item.id)));
+  const write = items => { localStorage.setItem(KEY,JSON.stringify(items.filter(subscriptionAllowed))); render(); document.dispatchEvent(new CustomEvent('swedsnus-v2:cart-changed')); };
 
   function selection(button) {
     const scope=button.closest('.product-card,.product-summary');
@@ -31,6 +32,7 @@
     const row=api?.find(button.dataset.addCart);
     if(!row) return;
     const selected=selection(button);
+    if(selected.purchaseMode==='subscription'&&!api.subscriptionEligible(row)) return;
     const fallback=api.packs(row).find(option=>option.packQty===selected.packQty)||api.packs(row)[0];
     const packQty=selected.packQty||fallback.packQty;
     const totalPrice=selected.total||fallback.total;
@@ -77,7 +79,7 @@
     write,
     addItems: incoming => {
       const items=read();
-      incoming.forEach(next=>{
+      incoming.filter(next=>next.purchaseMode!=='subscription'||Boolean(window.SwedsnusV2?.subscriptionEligible(window.SwedsnusV2.find(next.id)))).forEach(next=>{
         const existing=items.find(item=>item.cartKey===next.cartKey);
         if(existing) existing.qty=(existing.qty||1)+(next.qty||1);
         else items.push({...next,qty:next.qty||1});
@@ -112,5 +114,7 @@
     const removeButton=event.target.closest('[data-cart-remove]');
     if(removeButton) window.SwedsnusCart.remove(removeButton.dataset.cartRemove);
   });
-  render();
+  document.addEventListener('swedsnus-v2:products-ready',()=>write(read()));
+  if(window.SwedsnusV2?.state.ready) write(read());
+  else render();
 })();

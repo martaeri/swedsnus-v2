@@ -13,3 +13,5 @@ The exporter also keeps the website helper fields used by the static frontend, p
 The website must never contain page-specific hardcoded product lists. Catalogs, cards, filters, product pages, saved products and cart records all resolve against the central product store.
 
 When the Excel workbook changes, regenerate the product snapshot from the workbook rather than editing individual JSON rows by hand.
+
+`subscription_available` is the sole subscription flag. Only `yes` (case-insensitive) enables subscriptions; `no`, empty cells and missing values disable them. White-snus placeholders without this field remain available for one-time purchases only.

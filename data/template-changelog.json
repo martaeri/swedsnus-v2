@@ -3,10 +3,26 @@
   "description": "Väsentliga ändringar som påverkar utvecklingen av den fullständiga webbplatsen. Mindre visuella justeringar och interna buggrättningar tas normalt inte med.",
   "entries": [
     {
+      "id": "2026-10-05-styrkepluppar-badges",
+      "date": "2026-10-05",
+      "type": "Design",
+      "title": "Styrkepluppar och badges för Strong och Extra Strong",
+      "pages": [
+        "Produktkort",
+        "Startsidan",
+        "Sortimentet",
+        "Prenumerera",
+        "Mobil"
+      ],
+      "summary": "Bytte styrkemarkören till fyllda och tomma pluppar och flyttade den från bilden till bredvid produktetiketten. Strong och Extra Strong har också fått varsin badge uppe till vänster på produktbilden, så det är lättare att se skillnad på dem.",
+      "developerNote": "Fyra pluppar totalt: Normal fyller två, Strong tre och Extra Strong alla fyra. Strong-badgen är röd (#DE0711) med vit text och Extra Strong är gul (#FFEB00) med mörk text. Normal får ingen badge och produkter utan styrka får ingen styrkemarkör. Gäller även korten på Prenumerera-sidan och mobilen.",
+      "important": true
+    },
+    {
       "id": "2026-10-05-prenumerationsurval",
       "date": "2026-10-05",
       "type": "Funktion",
-      "title": "Datastyrt prenumerationsurval och lägre produktkort",
+      "title": "Lite lägre produktkort och nytt prenumerationsurval",
       "pages": [
         "Produktkort",
         "Sortimentet",
@@ -14,8 +30,9 @@
         "Produktsidor",
         "Mobil"
       ],
-      "summary": "Prenumerationssortimentet styrs av subscription_available. Prenumerationsknappen har tagits bort från vanliga produktkort.",
-      "developerNote": "Endast yes tillåter prenumeration. Kontrollen används på produktsidor, i popupen och i varukorgen. Prenumerationssidans produktkort behåller sin utformning."
+      "summary": "Tog bort ”Prenumerera på produkten” från de vanliga produktkorten. Det gör korten lite lägre och ger mer plats åt förpackningsvalet och köpknappen. Korten på Prenumerera-sidan behåller sitt upplägg.",
+      "developerNote": "Nu är det subscription_available i produktdatan som bestämmer vilka produkter som går att prenumerera på. Yes betyder att produkten syns på Prenumerera-sidan och kan prenumereras på. No eller ett tomt värde betyder bara engångsköp. Samma koll gäller på produktsidan, i popupen och i varukorgen.",
+      "important": true
     },
     {
       "id": "2026-09-28-dosmarkor-produktkort",

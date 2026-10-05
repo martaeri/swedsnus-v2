@@ -466,3 +466,21 @@
     min-height: 44px;
   }
 }
+/* Strength sits beside the product tag without covering the image. */
+.product-card-labels {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+}
+.product-strength-dots { display: inline-flex; flex-shrink: 0; color: var(--accent-dark); }
+.product-strength-dots .variant-strength-meter { gap: 3px; margin: 0; }
+.product-strength-dots .variant-strength-meter i {
+  box-sizing: border-box;
+  width: 7px;
+  height: 7px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+}
+.product-strength-dots .variant-strength-meter i.filled { background: currentColor; }

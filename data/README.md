@@ -15,3 +15,7 @@ The website must never contain page-specific hardcoded product lists. Catalogs, 
 When the Excel workbook changes, regenerate the product snapshot from the workbook rather than editing individual JSON rows by hand.
 
 `subscription_available` is the sole subscription flag. Only `yes` (case-insensitive) enables subscriptions; `no`, empty cells and missing values disable them. White-snus placeholders without this field remain available for one-time purchases only.
+
+Prices labelled `kr/st` refer to one sellable package (burk or påse): pack total divided by packQty. Existing cart records use this calculation regardless of their old perDose field. Product pages show all packs as mutually exclusive radio options; the selected pack is also preselected in the subscription popup.
+
+Tobacco product cards currently show the requested template text “Från 15,65 kr dosan”. This is a fixed placeholder, not calculated from the current 333 kr template prices. Replace it with the lowest perDose across packs when final pricing is connected.

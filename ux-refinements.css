@@ -485,17 +485,29 @@
 }
 .product-strength-dots .variant-strength-meter i.filled { background: currentColor; }
 
+/* Filled strength badges sit in the image's top-left corner. */
 .product-strength-label {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 6px;
-  border: 1px solid var(--accent-dark);
-  padding: 3px 5px;
-  color: var(--accent-dark);
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
+  max-width: calc(100% - 58px);
+  padding: 6px 8px;
+  background: #0a5a7d;
+  color: #fff;
   font-family: 'Montserrat', sans-serif;
   font-size: 9px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: .02em;
   white-space: nowrap;
+}
+.product-strength-label-extra { background: #8a4035; }
+@media (max-width: 760px) {
+  .product-strength-label {
+    top: 7px;
+    left: 7px;
+    padding: 5px 6px;
+    font-size: 8px;
+  }
 }

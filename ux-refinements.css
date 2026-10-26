@@ -530,13 +530,12 @@
 /* Product detail controls share the card indicators but have more room. */
 .product-summary .product-strength-dots .variant-strength-meter i { width: 10px; height: 10px; }
 .product-gallery { position: relative; }
-.product-gallery-bookmark { position: absolute; z-index: 2; top: 16px; left: 16px; margin: 0; background: var(--surface); }
+.product-gallery-bookmark { top: 16px; left: 16px; right: auto; margin: 0; padding: 0; }
 .product-purchase-actions { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,200px),1fr)); gap: 10px; margin-top: 16px; }
 .product-purchase-actions > .btn { width: 100%; min-height: 48px; margin: 0; padding: 12px; }
 @media (max-width: 440px) {
   .product-gallery-bookmark { top: 12px; left: 12px; }
 }
-.product-gallery-bookmark.active { background: var(--selected-bg); color: #fff; border-color: var(--selected-bg); }
 
 /* Align all product purchase controls with the variant selectors. */
 .product-summary > .variant-panel,
@@ -696,10 +695,10 @@
 
 /* Compact the mobile cards while retaining the purchase-button text size. */
 @media (max-width: 760px) {
-  .product-card .bookmark { width: 24px; height: 24px; padding: 0; }
-  .product-card .bookmark svg { width: 10px; height: 10px; }
+  .product-card .bookmark, .product-gallery-bookmark { width: 24px; height: 24px; padding: 0; }
+  .product-card .bookmark svg, .product-gallery-bookmark svg { width: 18px; height: 18px; }
   /* Keep a little extra tap area around the smaller visible bookmark. */
-  .product-card .bookmark::before { content: ''; position: absolute; inset: -7px; }
+  .product-card .bookmark::before, .product-gallery-bookmark::before { content: ''; position: absolute; inset: -7px; }
   .product-card .product-quantity-label {
     right: 5px;
     bottom: 5px;
@@ -765,4 +764,35 @@ button, .btn, select, textarea, input:not([type="checkbox"]):not([type="radio"])
 .developer-log-head { border-radius: var(--radius-surface) var(--radius-surface) 0 0; }
 .developer-log-panel > footer, .developer-log-editor-panel > footer {
   border-radius: 0 0 var(--radius-surface) var(--radius-surface);
+}
+
+
+/* Compact product-page choices on mobile while keeping each whole row clickable. */
+@media (max-width: 760px) {
+  .product-summary .variant-panel { margin-top: 18px; }
+  .product-summary .variant-selectors { gap: 8px; padding-block: 10px; }
+  .product-summary .variant-field > span { margin-bottom: 4px; }
+  .product-summary .variant-field select,
+  .product-summary .strength-variant-field select {
+    height: 32px;
+    min-height: 32px;
+    padding: 0 26px 0 9px;
+    font-size: 12px;
+  }
+  .product-summary > fieldset.product-pack-picker { margin-top: 16px; }
+  .product-summary .product-pack-picker legend { margin-bottom: 6px; }
+  .product-summary .pack-list { gap: 5px; }
+  .product-summary .product-pack-picker .pack-list-option {
+    grid-template-columns: 16px minmax(0,1fr) minmax(56px,auto) auto;
+    min-height: 44px;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+  .product-summary .pack-list-option input { width: 16px; height: 16px; }
+  .product-summary .pack-list-copy { gap: 1px; }
+  .product-summary .pack-list-copy > strong { font-size: 13px; line-height: 1.15; }
+  .product-summary .pack-list-copy > small { font-size: 9px; line-height: 1.2; }
+  .product-summary .pack-list-selected { display: none; }
+  .product-summary .pack-list-unit-price { font-size: 10px; line-height: 1.2; }
+  .product-summary .pack-list-total { font-size: 16px; line-height: 1.2; }
 }

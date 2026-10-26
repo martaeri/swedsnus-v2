@@ -10,15 +10,15 @@
 }
 
 .product-grid, .product-rail {
-  gap: 1px;
-  background: color-mix(in srgb,var(--line) 70%,var(--surface));
+  gap: var(--product-card-gap);
+  background: transparent;
 }
 
 .home-product-carousel-viewport { position: relative; }
 .home-product-carousel-track {
   display: flex;
   grid-template-columns: none;
-  gap: 1px;
+  gap: var(--product-card-gap);
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-behavior: smooth;
@@ -28,7 +28,7 @@
 }
 .home-product-carousel-track::-webkit-scrollbar { display: none; }
 .home-product-carousel-track > .product-card {
-  flex: 0 0 calc((100% - 4px) / 5.3);
+  flex: 0 0 calc((100% - (var(--product-card-gap) * 5)) / 5.3);
   scroll-snap-align: start;
 }
 .home-product-carousel-controls {
@@ -366,10 +366,25 @@
   .catalog-layout { gap: 10px; padding-top: 12px; padding-bottom: 42px; }
   .catalog-tools { margin-bottom: 10px; }
 
-  body[data-page="home"] .hero-media { min-height: 190px; }
-  body[data-page="home"] .hero-copy { padding-top: 34px; padding-bottom: 30px; }
+  /* Offset the mobile .page gutters without widening the rest of the page. */
+  body[data-page="home"] .hero { margin-inline: -14px; }
+  body[data-page="home"] .hero-copy { padding: 20px 16px 18px; }
+  body[data-page="home"] .hero-copy .kicker { margin-bottom: 8px; font-size: 10px; line-height: 1.3; }
+  body[data-page="home"] .hero h1 {
+    max-width: none;
+    margin-bottom: 10px;
+    font-size: clamp(30px,8.5vw,40px);
+    line-height: 1.02;
+  }
+  body[data-page="home"] .hero-copy > p:not(.kicker) {
+    max-width: 46ch;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  body[data-page="home"] .hero-media { min-height: 160px; }
   .home-product-carousel-track { touch-action: pan-y pan-x; }
-  .home-product-carousel-track > .product-card { flex: 0 0 calc((100% - 1px) / 2.1); }
+  .home-product-carousel-track > .product-card { flex: 0 0 calc((100% - (var(--product-card-gap) * 2)) / 2.1); }
   .home-carousel-arrow {
     width: 30px;
     height: 44px;
@@ -712,8 +727,8 @@
   .product-card .product-card-bottom .add-cart { min-height: 30px; padding: 4px 8px; }
 }
 
-/* A slight radius for visible surfaces and controls, shared by every theme. */
-:root { --radius-surface: 3px; --radius-control: 2px; }
+/* Shared dimensions for card spacing and the subtle surface corners. */
+:root { --product-card-gap: 6px; --radius-surface: 3px; --radius-control: 2px; }
 .hero, .info-band, .split-feature,
 .product-grid, .product-rail, .product-card, .product-detail, .product-gallery,
 .product-content, .knowledge-grid, .nicotine-warning,

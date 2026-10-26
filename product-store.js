@@ -63,11 +63,12 @@
     });
   }
 
-  function packList(row) {
+  function packList(row, config = {}) {
     const id = escapeHtml(key(row));
     const options = packs(row);
-    const first = options[0];
-    return `<div class="pack-list" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-unit-price="${first.unitPrice}" data-units="${first.units}">${options.map(option => `<label class="pack-list-option${option.packQty===1?' selected':''}"><input type="radio" name="pack-${id}" value="${option.packQty}" data-pack-radio data-pack-qty="${option.packQty}" data-total="${option.total}" data-unit-price="${option.unitPrice}" data-units="${option.units}"${option.packQty===1?' checked':''}><span class="pack-list-copy"><strong>${option.label}</strong>${row.amount_dosor?`<small>${option.units} dosor</small>`:''}<span class="pack-list-selected" aria-hidden="true">Valt</span></span><span class="pack-list-unit-price">${unitPriceLabel(option.unitPrice)}</span><strong class="pack-list-total">${money(option.total)}</strong></label>`).join('')}</div>`;
+    const first = options.find(option => option.packQty === Number(config.selectedPackQty)) || options[0];
+    const radioName = escapeHtml(`${config.namePrefix || 'pack'}-${key(row)}`);
+    return `<div class="pack-list" data-pack-picker data-product-id="${id}" data-pack-qty="${first.packQty}" data-total="${first.total}" data-unit-price="${first.unitPrice}" data-units="${first.units}">${options.map(option => `<label class="pack-list-option${option.packQty===first.packQty?' selected':''}"><input type="radio" name="${radioName}" value="${option.packQty}" data-pack-radio data-pack-qty="${option.packQty}" data-total="${option.total}" data-unit-price="${option.unitPrice}" data-units="${option.units}"${option.packQty===first.packQty?' checked':''}><span class="pack-list-copy"><strong>${option.label}</strong>${row.amount_dosor?`<small>${option.units} dosor</small>`:''}<span class="pack-list-selected" aria-hidden="true">Valt</span></span><span class="pack-list-unit-price">${unitPriceLabel(option.unitPrice)}</span><strong class="pack-list-total">${money(option.total)}</strong></label>`).join('')}</div>`;
   }
 
   function packMenu(row) {

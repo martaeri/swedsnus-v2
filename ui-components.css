@@ -57,6 +57,7 @@
 .subscription-modal-summary { display: flex; justify-content: space-between; gap: 16px; border-block: 1px solid var(--line); padding: 14px 0; font-size: 12px; }
 .subscription-modal-card form > .btn { width: 100%; }
 .subscription-modal-card form > p { margin: 0; color: var(--muted); font-size: 10px; }
+.subscription-pack-picker { display: none; min-width: 0; margin: 0; padding: 0; border: 0; }
 
 .variant-panel { max-width: 520px; margin: 26px 0 6px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--line); }
 .variant-panel-head { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }

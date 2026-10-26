@@ -18,6 +18,8 @@ When the Excel workbook changes, regenerate the product snapshot from the workbo
 
 Prices labelled `kr/st` refer to one sellable package (burk or påse): pack total divided by packQty. Existing cart records use this calculation regardless of their old perDose field. Product pages show all packs as mutually exclusive radio options; the selected pack is also preselected in the subscription popup.
 
+On mobile, the subscription popup reuses `packList(row, config)` with its own radio-name prefix and the selected pack from the product page. Its radio list and the desktop select stay in sync, including the price summary and submitted quantity, so resizing the popup preserves the choice.
+
 Product-card pack menus are moved to `document.body` while open and use the Popover API's top layer when supported. The selected row replaces the closed trigger visually and is marked with a filled circle and `aria-selected`; other rows have empty circles. The original picker keeps the cart selection even while its menu is detached. Closing restores the menu to that picker. Page/rail scrolling dismisses it; the popup stays inside the visual viewport on resize. Run `node tools/test-pack-overlay.cjs` and `node tools/test-pack-selection.cjs` to check both card overlays and product-page selections.
 
 Tobacco product cards currently show the requested template text “Från 15,65 kr dosan”. This is a fixed placeholder, not calculated from the current 333 kr template prices. Replace it with the lowest perDose across packs when final pricing is connected.

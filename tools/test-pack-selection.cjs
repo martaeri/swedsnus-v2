@@ -16,7 +16,7 @@ const element = () => {
       toggle(value, selected) { selected ? classes.add(value) : classes.delete(value); },
       contains: value => classes.has(value),
     },
-    focus() {}, setAttribute() {},
+    focus() { this.focused = true; }, setAttribute() {},
     querySelector: () => null, querySelectorAll: () => [],
   };
 };
@@ -64,16 +64,47 @@ async function main() {
   const modal = element(), modalName = element(), modalPrice = element();
   modal.hidden = true;
   const select = element();
-  let selectHtml = '';
+  let selectHtml = '', selectOptions = [];
   Object.defineProperty(select, 'innerHTML', {
     get: () => selectHtml,
     set(html) {
       selectHtml = html;
-      const options = [...html.matchAll(/<option([^>]*)>/g)].map(match => ({ value: attrs(match[1]).value, dataset: dataAttrs(attrs(match[1])), selected: match[1].includes(' selected') }));
-      select.selectedOptions = [options.find(option => option.selected) || options[0]];
+      selectOptions = [...html.matchAll(/<option([^>]*)>/g)].map(match => ({ value: attrs(match[1]).value, dataset: dataAttrs(attrs(match[1])), selected: match[1].includes(' selected') }));
+      select.selectedOptions = [selectOptions.find(option => option.selected) || selectOptions[0]];
     },
   });
-  modal.querySelector = selector => selector === '[data-subscription-pack]' || selector === 'select' ? select : selector === '[data-subscription-modal-price]' ? modalPrice : modalName;
+  Object.defineProperty(select, 'value', {
+    get: () => select.selectedOptions[0]?.value,
+    set(value) { select.selectedOptions = selectOptions.filter(option => option.value === value); },
+  });
+  select.closest = selector => selector === '[data-subscription-pack]' ? select : selector === '[data-subscription-modal]' ? modal : null;
+  const modalList = element();
+  let modalPicker, modalRadios;
+  Object.defineProperty(modalList, 'innerHTML', {
+    set(html) {
+      modalPicker = element();
+      modalPicker.dataset = dataAttrs(attrs(html.match(/<div([^>]*)>/)[1]));
+      modalRadios = [...html.matchAll(/<input([^>]*)>/g)].map(match => {
+        const input = element(), label = element();
+        input.dataset = dataAttrs(attrs(match[1]));
+        input.name = attrs(match[1]).name;
+        input.checked = match[1].includes(' checked');
+        label.classList.toggle('selected', input.checked);
+        input.closest = selector => ['[data-pack-radio]', '[data-subscription-pack-list] [data-pack-radio]'].includes(selector) ? input : selector === '[data-pack-picker]' ? modalPicker : selector === '.pack-list-option' ? label : selector === '[data-subscription-modal]' ? modal : null;
+        input.label = label;
+        return input;
+      });
+      modalPicker.querySelectorAll = selector => selector === '[data-pack-radio]' ? modalRadios : [];
+    },
+  });
+  modal.querySelector = selector => {
+    if (selector === '[data-subscription-pack]' || selector === 'select') return select;
+    if (selector === '[data-subscription-modal-price]') return modalPrice;
+    if (selector === '[data-subscription-pack-list]') return modalList;
+    if (selector === '[data-subscription-pack-list] [data-pack-picker]') return modalPicker;
+    if (selector === '[data-subscription-pack-list] [data-pack-radio]:checked') return modalRadios.find(input => input.checked);
+    return modalName;
+  };
   roots.set('[data-subscription-modal]', modal);
   run('subscriptions.js');
   run('catalog.js');
@@ -112,6 +143,23 @@ async function main() {
   assert.equal(select.selectedOptions[0].value, '2');
   assert.equal(modalPrice.textContent, api.money(api.packs(row)[1].total));
   assert(!modal.hidden);
+  assert.equal(modalPicker.dataset.packQty, '2');
+  assert.equal(modalRadios.filter(input => input.checked).length, 1);
+  assert(modalRadios[1].checked);
+  assert(modalRadios.every(input => input.name.startsWith('subscription-pack-')));
+  fire('change', modalRadios[2]);
+  assert.equal(select.value, '3');
+  assert.equal(modalPicker.dataset.packQty, '3');
+  assert.equal(modalPrice.textContent, api.money(pack3.total));
+  assert.equal(picker.dataset.packQty, '2', 'popup radio names and state are independent of the product-page picker');
+  select.value = '1';
+  fire('change', select);
+  assert(modalRadios[0].checked);
+  assert.equal(modalRadios.filter(input => input.checked).length, 1);
+  assert.equal(modalRadios.filter(input => input.label.classList.contains('selected')).length, 1);
+  assert.equal(modalPrice.textContent, api.money(api.packs(row)[0].total));
+  select.value = '2';
+  fire('change', select);
   const form = {
     elements: { packQty: select, intervalWeeks: { value: '2' } },
     matches: selector => selector === '[data-subscription-modal-form]',
@@ -123,6 +171,16 @@ async function main() {
   assert.equal(recurring.packQty, 2);
   assert.equal(recurring.intervalWeeks, 2);
   assert.equal(recurring.totalPrice, api.packs(row)[1].total);
+  assert(modal.hidden);
+  ctx.window.matchMedia = () => ({ matches: true });
+  fire('click', clickButton('subscriptionOpen', id));
+  assert(modalRadios[1].focused, 'mobile popup focuses the visible radio list');
+  fire('change', modalRadios[2]);
+  fire('submit', form);
+  const mobileRecurring = ctx.window.SwedsnusCart.read().find(item => item.purchaseMode === 'subscription' && item.packQty === 3);
+  assert.equal(mobileRecurring.totalPrice, pack3.total);
+  assert.equal(mobileRecurring.unitPrice, pack3.unitPrice);
+  assert.equal(mobileRecurring.intervalWeeks, 2);
   assert(modal.hidden);
   modal.hidden = true;
   const ineligible = api.state.rows.find(item => !api.subscriptionEligible(item));
@@ -148,6 +206,6 @@ async function main() {
   ctx.window.SwedsnusV2 = undefined;
   run('cart.js');
   assert(cartBody.innerHTML.includes('323 kr/st'));
-  console.log('PASS: exclusive radio selection, cart totals, subscription handoff, blocked subscriptions, legacy cart/checkout unit prices and tobacco-only hints.');
+  console.log('PASS: exclusive radios, cart totals, subscription handoff, synced mobile/desktop popup choices and focus, blocked subscriptions, legacy unit prices and tobacco-only hints.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -13,10 +13,8 @@
 .pack-dropdown-option span { font-size: 12px; font-weight: 700; }
 .pack-dropdown-option small { color: var(--muted); font-size: 10px; }
 .pack-option-copy { display: grid; gap: 1px; }
-.pack-option-state { display: grid; justify-items: center; color: var(--accent-dark); visibility: hidden; }
-.pack-option-state b { font-size: 18px; line-height: 1; }
-.pack-option-state small { color: inherit; font-size: 8px; font-weight: 700; }
-.pack-dropdown-option.selected .pack-option-state { visibility: visible; }
+.pack-option-state { display: block; width: 13px; height: 13px; justify-self: center; border: 1.5px solid var(--muted); border-radius: 50%; background: transparent; }
+.pack-dropdown-option.selected .pack-option-state { border-color: var(--accent-dark); background: var(--accent-dark); }
 .pack-dropdown-option:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: -3px; }
 .pack-dose-count { color: var(--muted); font-weight: 600 !important; }
 .pack-option-price { display: grid; justify-items: end; }

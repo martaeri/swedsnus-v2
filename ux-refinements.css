@@ -711,3 +711,43 @@
   .product-card .product-card-bottom { padding-bottom: 6px; }
   .product-card .product-card-bottom .add-cart { min-height: 30px; padding: 4px 8px; }
 }
+
+/* A slight radius for visible surfaces and controls, shared by every theme. */
+:root { --radius-surface: 3px; --radius-control: 2px; }
+.hero, .info-band, .split-feature,
+.product-grid, .product-rail, .product-card, .product-detail, .product-gallery,
+.product-content, .knowledge-grid, .nicotine-warning,
+.checkout-items-panel, .checkout-summary, .checkout-recurring,
+.account-summary, .account-service-grid, .order-card, .account-panel, .address-card,
+.subscription-card, .subscription-next, .subscription-notice,
+.faq-help, .faq-empty, .subscription-modal-card, .login-modal-card,
+.cart-drawer, .filter-sidebar, .theme-overlay,
+.developer-log-panel, .developer-log-editor-panel, .developer-log-entry {
+  border-radius: var(--radius-surface);
+}
+/* Clip only these static composites so their child backgrounds follow the edge. */
+.hero, .info-band, .split-feature, .product-content, .knowledge-grid,
+.account-summary, .account-service-grid { overflow: clip; }
+.product-card .product-image { border-radius: var(--radius-surface) var(--radius-surface) 0 0; }
+.product-image > img, .product-gallery > img { border-radius: inherit; }
+.checkout-item-image, .order-line-image { border-radius: var(--radius-surface); }
+
+button, .btn, select, textarea, input:not([type="checkbox"]):not([type="radio"]),
+.header-search input, .faq-search input,
+.pack-control select, .product-pack-picker select,
+.variant-field select, .strength-variant-field select,
+.subscription-interval select, .subscription-modal-card select,
+.order-service select, .order-service textarea, .profile-form input, .address-form input,
+.developer-log-editor select, .developer-log-editor textarea,
+.series-filter-pill, .pack-dropdown-menu, .checkout-quantity,
+.product-pack-picker .pack-list-option, .purchase-choice-options > label > span,
+.product-summary .purchase-choice,
+.product-strength-label, .product-quantity-label, .status-badge,
+.header-count, .mobile-nav-count, .mobile-filter-toggle b, .faq-group-head > span,
+.developer-log-panel kbd, .developer-log-editor-panel kbd {
+  border-radius: var(--radius-control);
+}
+.developer-log-head { border-radius: var(--radius-surface) var(--radius-surface) 0 0; }
+.developer-log-panel > footer, .developer-log-editor-panel > footer {
+  border-radius: 0 0 var(--radius-surface) var(--radius-surface);
+}

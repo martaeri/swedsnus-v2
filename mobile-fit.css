@@ -44,6 +44,29 @@
     line-height: 1.05;
   }
   .section-head h2 { font-size: clamp(24px,7.5vw,30px); }
+  .product-summary > h1 { margin-bottom: 10px; }
+  .product-summary > .product-intro {
+    max-width: 60ch;
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .product-intro-mobile-extra { display: inline; }
+  .product-spec-panel .spec-list { margin-top: 0; border-top: 0; }
+  .product-gallery-bookmark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+  .product-gallery-bookmark svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    transform: translateY(1px);
+  }
   .nav-inner a { white-space: normal; }
   .product-card-labels, .cart-group-heading, .cart-head,
   .subscription-card-head, .subscription-settings, .subscription-actions,

@@ -210,6 +210,7 @@ h1,h2,h3,h4 { font-family: 'Montserrat', Arial, sans-serif; letter-spacing: -.02
 .product-gallery { background: var(--media); min-height: 620px; display: grid; place-items: center; border-right: 1px solid var(--line); font-family: 'Montserrat'; text-transform: uppercase; color: var(--media-muted); }
 .product-summary { padding: 50px; }
 .product-summary h1 { font-size: 52px; text-transform: uppercase; line-height: .95; }
+.product-intro-mobile-extra { display: none; }
 .product-pack-picker { max-width: 440px; margin-top: 24px; }
 .product-pack-picker select { min-height: 42px; font-size: 12px; }
 .product-summary .price { font: 700 32px 'Montserrat'; margin: 18px 0; }

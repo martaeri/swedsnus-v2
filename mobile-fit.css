@@ -1,0 +1,110 @@
+/* Fit mobile content by allowing it to shrink and wrap, without clipping the page. */
+@media (max-width: 760px) {
+  body { overflow-wrap: anywhere; }
+  main, .page, .section, .catalog-main, .catalog-layout,
+  .checkout-layout, .profile-layout, .order-detail-layout,
+  .product-content, .knowledge-grid, .account-page,
+  .account-nav, .faq-categories, .series-filter-pills { min-width: 0; max-width: 100%; }
+
+  .hero, .product-detail, .split-feature, .product-content, .knowledge-grid,
+  .checkout-layout, .account-summary, .account-service-grid,
+  .profile-layout, .order-detail-layout, .form-grid, .subscription-next {
+    grid-template-columns: minmax(0,1fr);
+  }
+  .info-band, .footer-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hero > *, .info-band > *, .split-feature > *, .product-grid > *,
+  .product-detail > *, .product-content > *, .knowledge-grid > *, .footer-grid > *,
+  .checkout-layout > *, .checkout-item > *, .account-summary > *,
+  .account-service-grid > *, .profile-layout > *, .order-detail-layout > *,
+  .form-grid > *, .subscription-next > *, .subscription-line > *, .spec-row > *,
+  .header-main > *, .faq-layout > *, .faq-group-head > *,
+  .subscription-modal-card form > *, .login-modal-card > * { min-width: 0; }
+
+  /* Child backgrounds follow their corners without an overflow mask. */
+  .hero, .info-band, .split-feature, .product-content, .knowledge-grid,
+  .account-summary, .account-service-grid { overflow: visible; }
+  .hero > *, .info-band > *, .split-feature > *, .product-content > *,
+  .knowledge-grid > *, .account-summary > *, .account-service-grid > * { border-radius: inherit; }
+
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+    min-width: 0;
+    max-width: 100%;
+  }
+  fieldset { min-inline-size: 0; }
+  .btn, button { max-width: 100%; white-space: normal; }
+  textarea { resize: vertical; }
+  img, video, iframe, svg { max-width: 100%; }
+  img, video { height: auto; }
+  pre { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+  table { width: 100%; max-width: 100%; table-layout: fixed; }
+
+  .catalog-hero h1, .text-page h1, .faq-hero h1, .checkout-head h1,
+  .account-login h1, .account-hero h1, .order-detail-head h1 {
+    font-size: clamp(28px,9vw,44px);
+    line-height: 1.05;
+  }
+  .section-head h2 { font-size: clamp(24px,7.5vw,30px); }
+  .nav-inner a { white-space: normal; }
+  .product-card-labels, .cart-group-heading, .cart-head,
+  .subscription-card-head, .subscription-settings, .subscription-actions,
+  .order-actions, .address-card > div:last-child,
+  .developer-log-head, .developer-log-panel > footer,
+  .developer-log-editor-panel > footer { flex-wrap: wrap; }
+  .product-card .product-tag { min-width: 0; }
+  .product-card .product-strength-label { white-space: normal; }
+  .product-quantity-label { flex-wrap: wrap; white-space: normal; }
+
+  .pack-dropdown-trigger > span:first-child { min-width: 0; }
+  .pack-dropdown-trigger strong, .pack-trigger-price b,
+  .pack-list-unit-price, .pack-list-total { white-space: normal; }
+  .pack-dropdown-trigger small {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+  .checkout-item { grid-template-columns: 72px minmax(0,1fr); }
+  .checkout-item-side { min-width: 0; flex-wrap: wrap; gap: 6px; }
+  .checkout-quantity {
+    max-width: 100%;
+    grid-template-columns: minmax(32px,44px) minmax(32px,48px) minmax(32px,44px);
+  }
+  .checkout-quantity input { width: 100%; }
+  .order-line { grid-template-columns: 55px minmax(0,1fr); }
+  .subscription-line { grid-template-columns: minmax(0,1fr) auto; }
+
+  .subscription-modal, .login-modal {
+    grid-template-columns: minmax(0,1fr);
+    justify-items: center;
+  }
+  .subscription-modal-card, .login-modal-card { min-width: 0; max-width: 100%; }
+  .subscription-modal-card form, .developer-log-entry, .developer-log-editor form,
+  .cart-group, .cart-item > *, .cart-foot > * { min-width: 0; }
+  .developer-log-head > div { min-width: 0; flex: 1 1 120px; }
+  .developer-log-entries, .developer-log-editor-body { min-height: 0; }
+
+  /* Closed panels stay inside the viewport and leave the accessibility tree. */
+  .cart-drawer {
+    transform: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s ease;
+  }
+  .cart-drawer.open { opacity: 1; visibility: visible; pointer-events: auto; }
+  .theme-overlay { right: 10px; max-width: calc(100% - 20px); }
+  .theme-overlay-content { min-width: 0; flex-wrap: wrap; }
+  .theme-overlay.collapsed { transform: none; }
+  .theme-overlay.collapsed .theme-overlay-content { display: none; }
+}
+
+@media (max-width: 440px) {
+  .product-grid, .product-rail, .catalog-main .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .info-band, .footer-grid { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 360px) {
+  .checkout-item { grid-template-columns: 52px minmax(0,1fr); }
+}
+@media (max-width: 340px) {
+  .product-card .pack-dropdown-trigger > span:first-child { grid-template-columns: minmax(0,1fr); gap: 2px; }
+  .product-card .pack-trigger-price { justify-items: start; text-align: left; }
+}

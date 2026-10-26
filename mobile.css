@@ -152,8 +152,6 @@
   .pack-dropdown-trigger { min-height: 42px; padding: 6px 8px; }
   .pack-dropdown-trigger > span:first-child { display: block; }
   .pack-dropdown-trigger small { display: block; margin-top: 2px; }
-  .pack-dropdown-option { grid-template-columns: 52px 1fr; }
-  .pack-dropdown-option small { grid-column: 2; }
   .info-band { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .theme-overlay select { width: 132px; font-size: 10px; }

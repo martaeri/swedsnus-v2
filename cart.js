@@ -53,14 +53,80 @@
     document.querySelector('[data-cart-drawer]')?.classList.add('open');
   }
 
+  let activePackMenu = null;
+  let packMenuId = 0;
+
+  function closePackMenu(restoreFocus = false) {
+    if(!activePackMenu) return;
+    const {picker,menu,trigger}=activePackMenu;
+    activePackMenu=null;
+    if(typeof menu.hidePopover==='function' && menu.matches(':popover-open')) menu.hidePopover();
+    menu.hidden=true;
+    menu.removeAttribute('popover');
+    menu.removeAttribute('style');
+    picker.append(menu);
+    picker.classList.remove('is-open');
+    trigger.setAttribute('aria-expanded','false');
+    if(restoreFocus && trigger.isConnected) trigger.focus({preventScroll:true});
+  }
+
+  function positionPackMenu() {
+    if(!activePackMenu) return;
+    const {picker,menu,trigger}=activePackMenu;
+    if(!picker.isConnected || !trigger.getClientRects().length){ closePackMenu(); return; }
+    const rect=trigger.getBoundingClientRect();
+    const viewport=window.visualViewport;
+    const left=viewport?.offsetLeft||0, top=viewport?.offsetTop||0;
+    const width=viewport?.width||window.innerWidth;
+    const height=viewport?.height||window.innerHeight;
+    if(rect.bottom<=top || rect.top>=top+height || rect.right<=left || rect.left>=left+width){ closePackMenu(); return; }
+    // The menu lives outside the card, so it cannot inherit the rail's clipping.
+    // Align the selected row with the closed control, then keep it on screen.
+    const menuWidth=Math.min(Math.max(rect.width,220),width-16);
+    menu.style.width=`${menuWidth}px`;
+    menu.style.maxHeight=`${Math.max(44,height-16)}px`;
+    menu.style.left=`${Math.max(left+8,Math.min(rect.left,left+width-menuWidth-8))}px`;
+    const selected=menu.querySelector('[aria-selected="true"]');
+    const selectedOffset=selected?selected.getBoundingClientRect().top-menu.getBoundingClientRect().top:0;
+    const menuHeight=menu.getBoundingClientRect().height;
+    menu.style.top=`${Math.max(top+8,Math.min(rect.top-selectedOffset,top+height-menuHeight-8))}px`;
+  }
+
+  function openPackMenu(trigger) {
+    if(activePackMenu?.trigger===trigger){ closePackMenu(true); return; }
+    closePackMenu();
+    const picker=trigger.closest('[data-pack-picker]');
+    const menu=picker?.querySelector('[data-pack-menu]');
+    if(!menu) return;
+    if(!menu.id) menu.id=`pack-menu-${++packMenuId}`;
+    trigger.setAttribute('aria-controls',menu.id);
+    trigger.setAttribute('aria-expanded','true');
+    activePackMenu={picker,menu,trigger};
+    document.body.append(menu);
+    menu.hidden=false;
+    // Use the browser's top layer where available; the body portal also works
+    // in browsers without Popover API support.
+    if(typeof menu.showPopover==='function'){
+      menu.setAttribute('popover','manual');
+      menu.showPopover();
+    }
+    picker.classList.add('is-open');
+    positionPackMenu();
+    menu.querySelector('[aria-selected="true"]')?.focus({preventScroll:true});
+  }
+
   function choosePack(option) {
-    const picker=option.closest('[data-pack-picker]');
+    const menu=option.closest('[data-pack-menu]');
+    const picker=option.closest('[data-pack-picker]')||(activePackMenu?.menu===menu?activePackMenu.picker:null);
     if(!picker) return;
     picker.dataset.packQty=option.dataset.packQty;
     picker.dataset.total=option.dataset.total;
     picker.dataset.unitPrice=option.dataset.unitPrice;
     picker.dataset.units=option.dataset.units;
-    picker.querySelectorAll('[data-pack-option]').forEach(item=>item.classList.toggle('selected',item===option));
+    (menu||picker).querySelectorAll('[data-pack-option]').forEach(item=>{
+      item.classList.toggle('selected',item===option);
+      item.setAttribute('aria-selected',String(item===option));
+    });
     picker.querySelectorAll('[data-pack-radio]').forEach(input=>{
       input.checked=input===option;
       input.closest('.pack-list-option').classList.toggle('selected',input.checked);
@@ -74,10 +140,7 @@
     if(totalEl) totalEl.textContent=api?.money?api.money(total):`${total} kr`;
     const summary=picker.querySelector('[data-pack-summary]');
     if(summary) summary.textContent=api.unitPriceLabel(unitPrice);
-    const menu=picker.querySelector('[data-pack-menu]');
-    const trigger=picker.querySelector('[data-pack-toggle]');
-    if(menu) menu.hidden=true;
-    if(trigger) trigger.setAttribute('aria-expanded','false');
+    if(menu) closePackMenu(true);
   }
 
   window.SwedsnusCart = {
@@ -106,17 +169,44 @@
     const radio=event.target.closest('[data-pack-radio]');
     if(radio) choosePack(radio);
   });
+  document.addEventListener('keydown',event=>{
+    const trigger=event.target.closest('[data-pack-toggle]');
+    if(!activePackMenu){
+      if(trigger && ['ArrowDown','ArrowUp'].includes(event.key)){ event.preventDefault(); openPackMenu(trigger); }
+      return;
+    }
+    if(event.key==='Escape'){ event.preventDefault(); closePackMenu(true); return; }
+    if(event.key==='Tab'){ closePackMenu(true); return; }
+    if(!activePackMenu.menu.contains(event.target)) return;
+    const options=[...activePackMenu.menu.querySelectorAll('[data-pack-option]')];
+    const index=options.indexOf(event.target.closest('[data-pack-option]'));
+    let next;
+    if(event.key==='ArrowDown') next=(index+1)%options.length;
+    if(event.key==='ArrowUp') next=(index-1+options.length)%options.length;
+    if(event.key==='Home') next=0;
+    if(event.key==='End') next=options.length-1;
+    if(next!==undefined){ event.preventDefault(); options[next].focus({preventScroll:true}); }
+  });
+  document.addEventListener('focusin',event=>{
+    if(activePackMenu && event.target!==activePackMenu.trigger && !activePackMenu.menu.contains(event.target)) closePackMenu();
+  });
+  // Page/rail scrolling dismisses the popup; scrolling its own options does not.
+  document.addEventListener('scroll',event=>{
+    if(activePackMenu && !activePackMenu.menu.contains(event.target)) closePackMenu();
+  },true);
+  window.addEventListener('resize',positionPackMenu);
+  window.visualViewport?.addEventListener('resize',positionPackMenu);
+  window.visualViewport?.addEventListener('scroll',positionPackMenu);
+  document.addEventListener('swedsnus-v2:filters-applied',()=>closePackMenu());
   document.addEventListener('click',event=>{
     const packToggle=event.target.closest('[data-pack-toggle]');
     if(packToggle){
-      const picker=packToggle.closest('[data-pack-picker]');
-      const menu=picker?.querySelector('[data-pack-menu]');
-      if(menu){ const opening=menu.hidden; document.querySelectorAll('[data-pack-menu]').forEach(other=>other.hidden=true); menu.hidden=!opening; packToggle.setAttribute('aria-expanded',String(opening)); }
+      openPackMenu(packToggle);
       return;
     }
     const packOption=event.target.closest('[data-pack-option]');
     if(packOption){ choosePack(packOption); return; }
-    if(!event.target.closest('[data-pack-picker]')) document.querySelectorAll('[data-pack-menu]').forEach(menu=>menu.hidden=true);
+    closePackMenu();
     const addButton=event.target.closest('[data-add-cart]');
     if(addButton){ event.preventDefault(); add(addButton); }
     if(event.target.closest('[data-cart-toggle]')) document.querySelector('[data-cart-drawer]')?.classList.toggle('open');

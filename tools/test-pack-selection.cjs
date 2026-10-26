@@ -31,7 +31,7 @@ const doc = {
   querySelectorAll: () => [],
 };
 const ctx = vm.createContext({
-  window: {}, document: doc, console, URLSearchParams, location: { search: '' },
+  window: { addEventListener() {} }, document: doc, console, URLSearchParams, location: { search: '' },
   CustomEvent: class { constructor(type) { this.type = type; } },
   localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) },
   fetch: async url => ({ ok: true, json: async () => JSON.parse(fs.readFileSync(path.join(repo, url), 'utf8')) }),

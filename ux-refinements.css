@@ -678,3 +678,36 @@
   .pack-list-unit-price { font-size: 11px; }
   .pack-list-total { font-size: 18px; }
 }
+
+/* Compact the mobile cards while retaining the purchase-button text size. */
+@media (max-width: 760px) {
+  .product-card .bookmark { width: 24px; height: 24px; padding: 0; }
+  .product-card .bookmark svg { width: 10px; height: 10px; }
+  /* Keep a little extra tap area around the smaller visible bookmark. */
+  .product-card .bookmark::before { content: ''; position: absolute; inset: -7px; }
+  .product-card .product-quantity-label {
+    right: 5px;
+    bottom: 5px;
+    max-width: calc(100% - 10px);
+    padding: 2px 4px;
+    gap: 3px;
+  }
+  .product-card .product-quantity-label strong { font-size: 11px; }
+  .product-card .product-quantity-label > span { font-size: 8px; }
+  .product-card .product-image { margin-bottom: 8px; }
+  .product-card .product-card-main { padding-bottom: 6px; }
+  .product-card .product-name { margin-bottom: 6px; }
+  .product-card .pack-control { padding-block: 4px; }
+  .product-card .pack-dropdown-trigger {
+    min-height: 32px;
+    padding: 3px 7px;
+    gap: 6px;
+    line-height: 1.1;
+  }
+  .product-card .pack-dropdown-trigger > span:first-child { gap: 6px; }
+  .product-card .pack-dropdown-trigger strong { font-size: 11px; }
+  .product-card .pack-trigger-price b { font-size: 12px; }
+  .product-card .pack-dropdown-trigger small { margin-top: 0; font-size: 8px; }
+  .product-card .product-card-bottom { padding-bottom: 6px; }
+  .product-card .product-card-bottom .add-cart { min-height: 30px; padding: 4px 8px; }
+}

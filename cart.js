@@ -1,5 +1,7 @@
 (() => {
   const KEY = 'swedsnus-v2-cart';
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const TRASH_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6"/></svg>';
   const read = () => { try { const value=JSON.parse(localStorage.getItem(KEY)||'[]'); return Array.isArray(value)?value.filter(subscriptionAllowed):[]; } catch { return []; } };
   const subscriptionAllowed = item => item.purchaseMode !== 'subscription' || !window.SwedsnusV2?.state.ready || Boolean(window.SwedsnusV2?.subscriptionEligible(window.SwedsnusV2.find(item.id)));
   const write = items => { localStorage.setItem(KEY,JSON.stringify(items.filter(subscriptionAllowed))); render(); document.dispatchEvent(new CustomEvent('swedsnus-v2:cart-changed')); };
@@ -25,7 +27,12 @@
     const api=window.SwedsnusV2;
     const body=drawer.querySelector('[data-cart-items]');
     const total=drawer.querySelector('[data-cart-total]');
-    const itemHtml=item=>`<div class="cart-item"><div><strong>${api?.escapeHtml(item.name)||item.name}</strong><br><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<br><span class="subscription-tag">${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.totalPrice?`<br><small>${unitLabel(item)}</small>`:''}</div><div>${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}<br><button type="button" data-cart-remove="${item.cartKey}">Ta bort</button></div></div>`;
+    const itemHtml=item=>{
+      const row=api?.find(item.id);
+      const name=escapeHtml(item.name);
+      const image=row?`<a class="cart-item-media" href="${api.url(row)}" aria-label="Visa ${name}">${api.media(row,'cart-item-image')}</a>`:'<div class="cart-item-media"><div class="cart-item-image"><span class="product-image-placeholder">Produktbild</span></div></div>';
+      return `<article class="cart-item">${image}<div class="cart-item-content"><strong>${name}</strong><span>${item.packQty||1}-pack · ${item.qty||1} st</span>${item.purchaseMode==='subscription'?`<span class="subscription-tag">${window.SwedsnusSubscriptions.intervalLabel(item.intervalWeeks)}</span>`:''}${item.totalPrice?`<small>${unitLabel(item)}</small>`:''}</div><div class="cart-item-actions"><strong class="cart-item-total">${api?.money?api.money(item.totalPrice*(item.qty||1)):`${item.totalPrice*(item.qty||1)} kr`}</strong><button class="cart-item-remove" type="button" data-cart-remove="${escapeHtml(item.cartKey)}" aria-label="Ta bort ${name}" title="Ta bort produkt">${TRASH_ICON}</button></div></article>`;
+    };
     const once=items.filter(item=>item.purchaseMode!=='subscription');
     const recurring=items.filter(item=>item.purchaseMode==='subscription');
     body.innerHTML=items.length?`${once.length?`<section class="cart-group"><h3>Engångsköp</h3>${once.map(itemHtml).join('')}</section>`:''}${recurring.length?`<section class="cart-group subscription-cart-group"><div class="cart-group-heading"><h3>Prenumerationer</h3><span>Återkommande</span></div>${recurring.map(itemHtml).join('')}</section>`:''}`:'<p>Varukorgen är tom.</p>';

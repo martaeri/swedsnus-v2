@@ -138,6 +138,15 @@ async function main() {
   assert.equal(items[0].unitPrice, pack3.unitPrice);
   assert(cartBody.innerHTML.includes(api.unitPriceLabel(pack3.unitPrice)));
   assert(!cartBody.innerHTML.includes('kr/dosa'));
+  assert(cartBody.innerHTML.indexOf('class="cart-item-media"') < cartBody.innerHTML.indexOf('class="cart-item-content"'), 'cart image comes before the product text');
+  assert(cartBody.innerHTML.includes(api.media(row, 'cart-item-image')), 'cart uses the same image and fallback as the product catalog');
+  assert(cartBody.innerHTML.includes(`href="${api.url(row)}"`));
+  assert(cartBody.innerHTML.includes(`aria-label="Ta bort ${api.escapeHtml(api.name(row))}"`));
+  assert.match(cartBody.innerHTML, /class="cart-item-remove"[^>]*><svg/);
+  fire('click', clickButton('cartRemove', items[0].cartKey));
+  assert.equal(ctx.window.SwedsnusCart.read().length, 0, 'trash button removes the selected cart row');
+  assert(cartBody.innerHTML.includes('Varukorgen är tom.'));
+  fire('click', clickButton('addCart', id));
   fire('change', radios[1]);
   fire('click', clickButton('subscriptionOpen', id));
   assert.equal(select.selectedOptions[0].value, '2');
@@ -206,6 +215,7 @@ async function main() {
   ctx.window.SwedsnusV2 = undefined;
   run('cart.js');
   assert(cartBody.innerHTML.includes('323 kr/st'));
-  console.log('PASS: exclusive radios, cart totals, subscription handoff, synced mobile/desktop popup choices and focus, blocked subscriptions, legacy unit prices and tobacco-only hints.');
+  assert(cartBody.innerHTML.includes('class="cart-item-image"'), 'saved carts render an image placeholder before the product API is available');
+  console.log('PASS: exclusive radios, cart images and trash removal, cart totals, subscription handoff, synced mobile/desktop popup choices and focus, blocked subscriptions, legacy unit prices and tobacco-only hints.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

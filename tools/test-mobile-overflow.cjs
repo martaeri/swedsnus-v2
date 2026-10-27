@@ -5,7 +5,7 @@ const http = require('node:http');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const repo = path.resolve(__dirname, '..');
-const widths = (process.env.WIDTHS || '280,320,360,390,430,540,760').split(',').map(Number);
+const widths = (process.env.WIDTHS || '280,320,360,390,430,440,540,760').split(',').map(Number);
 const manifest = JSON.parse(fs.readFileSync(path.join(repo, 'data/products.json')));
 const rows = manifest.parts.flatMap(file => JSON.parse(fs.readFileSync(path.join(repo, file))));
 const eligible = rows.find(row => String(row.subscription_available).toLowerCase() === 'yes');
@@ -38,7 +38,7 @@ async function inspect(page, name, failures) {
   const issues = await page.evaluate(() => {
     const viewport = document.documentElement.clientWidth;
     const describe = el => `${el.tagName.toLowerCase()}${el.className && typeof el.className === 'string' ? '.' + el.className.trim().replace(/\s+/g, '.') : ''}`;
-    const intentional = '.home-product-carousel-track,.series-filter-pills,.account-nav,.faq-categories,.developer-log-filters';
+    const intentional = '.home-product-carousel-track,.account-nav,.faq-categories,.developer-log-filters';
     const issues = [];
     if (document.documentElement.scrollWidth > viewport + 2) issues.push(`page width ${document.documentElement.scrollWidth} > ${viewport}`);
     for (const el of document.querySelectorAll('body *')) {
@@ -95,6 +95,27 @@ async function main() {
           await page.keyboard.press('Escape');
         }
         if (entry.file === 'portion.html') {
+          const pills = page.locator('[data-portion-format]');
+          for (let i = 0; i < await pills.count(); i++) {
+            const pill = pills.nth(i);
+            const format = await pill.getAttribute('data-portion-format');
+            await pill.scrollIntoViewIfNeeded();
+            const before = await pill.boundingBox();
+            await pill.click();
+            assert.equal(await pill.getAttribute('aria-pressed'), 'true');
+            const after = await pill.boundingBox();
+            assert(Math.abs(after.width - before.width) < .5 && Math.abs(after.height - before.height) < .5, `${name} ${format}: selecting a filter must not resize it`);
+            const textFits = await pill.evaluate(button => {
+              const label = button.querySelector('.series-filter-pill-copy strong');
+              const copy = label.parentElement.getBoundingClientRect();
+              const range = document.createRange();
+              range.selectNodeContents(label);
+              return [...range.getClientRects()].every(rect => rect.left >= copy.left - 2 && rect.right <= copy.right + 2 && rect.top >= copy.top - 2 && rect.bottom <= copy.bottom + 2);
+            });
+            assert(textFits, `${name} ${format}: the full active filter label must fit`);
+            await inspect(page, name + ` active ${format}`, failures);
+            await pill.click();
+          }
           await page.locator('[data-mobile-filter-toggle]').click();
           await inspect(page, name + ' filters', failures);
           await page.locator('[data-mobile-filter-close]').click();

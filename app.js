@@ -16,7 +16,7 @@
     const drawer = document.createElement('aside');
     drawer.className = 'cart-drawer';
     drawer.dataset.cartDrawer = '';
-    drawer.innerHTML = `<div class="cart-head"><strong>Varukorg</strong><button type="button" data-cart-close>Stäng</button></div><div class="cart-items" data-cart-items></div><div class="cart-foot"><div class="catalog-tools"><span>Totalt</span><strong data-cart-total>0 kr</strong></div><a class="btn primary cart-checkout-link" href="checkout.html">Till kassan</a></div>`;
+    drawer.innerHTML = `<div class="cart-head"><strong>Varukorg</strong><button class="cart-close" type="button" data-cart-close><span>Stäng</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="cart-items" data-cart-items></div><div class="cart-foot"><div class="catalog-tools"><span>Totalt</span><strong data-cart-total>0 kr</strong></div><a class="btn primary cart-checkout-link" href="checkout.html">Till kassan</a></div>`;
     document.body.append(drawer);
     await load('product-store.js');
     await load('subscriptions.js');

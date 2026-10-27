@@ -36,8 +36,8 @@
   .hero-copy > p:not(.kicker) { font-size: 14px; }
   .hero-media { min-height: 260px; }
   .button-row .btn { flex: 1 1 150px; }
-  .info-band { grid-template-columns: 1fr 1fr; }
-  .info-band article { padding: 16px 14px; }
+  .info-band { grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
+  .info-band article { padding: 16px 14px; border: 0; border-radius: 0; }
   .section { padding: 42px 0; }
   .section-head { align-items: flex-start; margin-bottom: 18px; }
   .section-head h2 { font-size: 30px; }

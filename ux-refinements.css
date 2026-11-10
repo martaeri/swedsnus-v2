@@ -52,8 +52,8 @@
   line-height: 1;
   box-shadow: 0 4px 14px rgba(0,0,0,.08);
 }
-.home-carousel-arrow.prev { transform: translateX(-50%); }
-.home-carousel-arrow.next { transform: translateX(50%); }
+.home-carousel-arrow.prev { transform: translateX(max(-50%, calc(-1 * var(--page-gutter)))); }
+.home-carousel-arrow.next { transform: translateX(min(50%, var(--page-gutter))); }
 .home-carousel-arrow:hover:not(:disabled) {
   background: var(--ink);
   color: white;

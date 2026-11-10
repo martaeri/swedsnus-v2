@@ -22,7 +22,10 @@
     await load('subscriptions.js');
     await load('catalog.js');
     if(document.body.dataset.page==='portion') await load('portion-format-pills.js');
-    if(document.body.dataset.page==='home') await load('home-carousel.js');
+    if(document.body.dataset.page==='home') {
+      await load('home-carousel.js');
+      await load('home-title-fit.js');
+    }
     await load('product-images.js');
     await load('cart.js');
     await load('account.js');

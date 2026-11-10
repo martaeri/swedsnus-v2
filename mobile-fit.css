@@ -128,45 +128,90 @@
   .checkout-item { grid-template-columns: 52px minmax(0,1fr); }
 }
 
-/* Home titles keep a readable size and balance lines at word boundaries. */
+/*
+ * Share one size per title role across all mobile pages. Breakpoint overrides
+ * below update each role together; rem keeps the scale relative to text size.
+ */
 @media (max-width: 760px) {
-  body[data-page="home"] .section-head { flex-direction: column; }
-  body[data-page="home"] main h1,
-  body[data-page="home"] main h2,
-  body[data-page="home"] .knowledge-grid h3,
-  body[data-page="home"] .info-band strong,
-  body[data-page="home"] .site-footer h3 {
+  body {
+    --title-page-size: 2rem;
+    --title-section-size: 1.5rem;
+    --title-panel-size: 1.5rem;
+    --title-card-size: 1.25rem;
+    --title-product-size: 1rem;
+  }
+  .section-head { flex-direction: column; }
+  body[data-page] :is(main, .subscription-modal-card, .login-modal-card, .cart-drawer) :is(h1, h2, h3, h4),
+  body[data-page] .info-band strong,
+  body[data-page] .site-footer h3,
+  body[data-page] .faq-item summary,
+  body[data-page] :is(.cart-item-content, .order-line) strong {
     min-width: 0;
-    width: 100%;
+    max-width: 100%;
     white-space: normal;
-    /* Emergency wrapping keeps enlarged text inside its container. */
+    /* Balance at word boundaries; only break an oversized word as a last
+       resort when text enlargement makes it wider than the container. */
     overflow-wrap: break-word;
     word-break: normal;
     hyphens: none;
     text-wrap: balance;
   }
-  body[data-page="home"] .hero h1 { font-size: 2rem; line-height: 1.15; }
-  body[data-page="home"] main h2 { font-size: 1.5rem; line-height: 1.25; }
-  body[data-page="home"] .knowledge-grid h3 { font-size: 1.25rem; line-height: 1.25; }
-  body[data-page="home"] .info-band strong { font-size: .9375rem; }
-  body[data-page="home"] .site-footer h3 { font-size: 1rem; }
-  body[data-page="home"] .product-name {
+  body[data-page] :is(main, .subscription-modal-card, .login-modal-card) h1 {
+    font-size: var(--title-page-size);
+    line-height: 1.15;
+  }
+  body[data-page] :is(main, .subscription-modal-card, .login-modal-card) h2 {
+    font-size: var(--title-section-size);
+    line-height: 1.25;
+  }
+  /* Panels have less text width after padding, so they share a smaller role. */
+  body[data-page] :is(.account-panel, .account-service-grid, .faq-group-head, .product-content,
+    .product-spec-panel, .subscription-modal-card, .login-modal-card) h2 {
+    font-size: var(--title-panel-size);
+  }
+  body[data-page] main h3 { font-size: var(--title-card-size); line-height: 1.25; }
+  body[data-page] :is(.product-card .product-name, .checkout-item h3) {
+    font-size: var(--title-product-size);
+    line-height: 1.25;
+  }
+  body[data-page] main h4,
+  body[data-page] .site-footer h3,
+  body[data-page] .cart-drawer h3 { font-size: 1rem; line-height: 1.3; }
+  /* A shrinkable text column keeps enlarged questions clear of the plus icon. */
+  body[data-page] .faq-item summary {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 24px;
     font-size: 1rem;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: normal;
-    hyphens: none;
-    text-wrap: balance;
   }
+  body[data-page] .info-band strong { font-size: .9375rem; }
+  /* Let heading wrappers shrink and move panel actions below the title,
+     leaving the full row available for readable, balanced heading text. */
+  .account-panel-head > div, .faq-group-head > div { min-width: 0; }
+  .account-panel-head > div { flex: 1 1 100%; }
+  .account-hero > div, .account-section-head > div,
+  .order-detail-head > div { min-width: 0; max-width: 100%; }
 }
 @media (max-width: 480px) {
-  body[data-page="home"] .product-name { font-size: .9375rem; }
+  body {
+    --title-page-size: 1.75rem;
+    --title-panel-size: 1.25rem;
+    --title-product-size: .9375rem;
+  }
+  /* Give long product names room without shrinking them below 14px.
+     The matching image margins preserve the full-width card image. */
+  .product-card-main { padding-inline: 8px; }
+  .product-card .product-image { margin-inline: -8px; }
 }
 @media (max-width: 360px) {
-  body[data-page="home"] .hero h1 { font-size: 1.75rem; }
-  body[data-page="home"] main h2 { font-size: 1.25rem; }
-  body[data-page="home"] .knowledge-grid h3 { font-size: 1.125rem; }
-  body[data-page="home"] .product-name { font-size: .921875rem; }
+  body {
+    --title-page-size: 1.625rem;
+    --title-section-size: 1.25rem;
+    --title-panel-size: 1.125rem;
+    --title-card-size: 1.125rem;
+    --title-product-size: .875rem;
+  }
+  .product-card-main { padding-inline: 4px; }
+  .product-card .product-image { margin-inline: -4px; }
 }
 @media (max-width: 340px) {
   .product-card .pack-dropdown-trigger > span:first-child { grid-template-columns: minmax(0,1fr); gap: 2px; }

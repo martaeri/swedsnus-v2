@@ -2,6 +2,15 @@
 .guide-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 32px; }
 .guide-selector .btn { flex: 1 1 8rem; }
 .guide-section { margin-block: 40px; scroll-margin-top: 24px; }
+/* Keep native table semantics and two readable columns at every viewport. */
+.guide-amounts { width: 100%; table-layout: fixed; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); }
+.guide-amounts caption { padding-bottom: 12px; text-align: left; font-weight: 600; }
+.guide-amounts th, .guide-amounts td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.guide-amounts thead { background: var(--bg); }
+.guide-amounts th:first-child { width: 56%; }
+.guide-amounts th { font-weight: 700; }
+.guide-table-detail { display: block; margin-top: 4px; font-size: .9375rem; font-weight: 400; }
+.guide-amount { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .guide-note { padding: 20px; margin-block: 28px; border-left: 4px solid var(--accent); background: var(--surface); }
 .guide-note > :first-child { margin-top: 0; }
 .guide-note > :last-child { margin-bottom: 0; }
@@ -19,5 +28,6 @@
 
 @media (max-width: 760px) {
   .guide-options { grid-template-columns: minmax(0,1fr); }
+  .guide-amounts th, .guide-amounts td { padding: 12px 10px; }
   .guide-options > article { padding: 20px 16px; }
 }

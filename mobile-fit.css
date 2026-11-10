@@ -128,7 +128,7 @@
   .checkout-item { grid-template-columns: 52px minmax(0,1fr); }
 }
 
-/* Home titles share one fitted size per level; product names wrap at spaces. */
+/* Home titles keep a readable size and balance lines at word boundaries. */
 @media (max-width: 760px) {
   body[data-page="home"] .section-head { flex-direction: column; }
   body[data-page="home"] main h1,
@@ -138,26 +138,35 @@
   body[data-page="home"] .site-footer h3 {
     min-width: 0;
     width: 100%;
-    white-space: nowrap;
-    overflow-wrap: normal;
-    word-break: normal;
-    hyphens: none;
-  }
-  body[data-page="home"] .hero h1 { font-size: var(--home-title-h1, clamp(30px,8.5vw,40px)); }
-  body[data-page="home"] main h2 { font-size: var(--home-title-h2, clamp(24px,7.5vw,30px)); }
-  body[data-page="home"] .knowledge-grid h3 { font-size: var(--home-title-h3, 22px); }
-  body[data-page="home"] .info-band strong { font-size: var(--home-title-info, 15px); }
-  body[data-page="home"] .site-footer h3 { font-size: var(--home-title-footer, 16px); }
-  body[data-page="home"] .product-name {
-    font-size: var(--home-title-product, 16px);
     white-space: normal;
-    overflow-wrap: normal;
+    /* Emergency wrapping keeps enlarged text inside its container. */
+    overflow-wrap: break-word;
     word-break: normal;
     hyphens: none;
+    text-wrap: balance;
+  }
+  body[data-page="home"] .hero h1 { font-size: 2rem; line-height: 1.15; }
+  body[data-page="home"] main h2 { font-size: 1.5rem; line-height: 1.25; }
+  body[data-page="home"] .knowledge-grid h3 { font-size: 1.25rem; line-height: 1.25; }
+  body[data-page="home"] .info-band strong { font-size: .9375rem; }
+  body[data-page="home"] .site-footer h3 { font-size: 1rem; }
+  body[data-page="home"] .product-name {
+    font-size: 1rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+    text-wrap: balance;
   }
 }
 @media (max-width: 480px) {
-  body[data-page="home"] .product-name { font-size: var(--home-title-product, 15px); }
+  body[data-page="home"] .product-name { font-size: .9375rem; }
+}
+@media (max-width: 360px) {
+  body[data-page="home"] .hero h1 { font-size: 1.75rem; }
+  body[data-page="home"] main h2 { font-size: 1.25rem; }
+  body[data-page="home"] .knowledge-grid h3 { font-size: 1.125rem; }
+  body[data-page="home"] .product-name { font-size: .921875rem; }
 }
 @media (max-width: 340px) {
   .product-card .pack-dropdown-trigger > span:first-child { grid-template-columns: minmax(0,1fr); gap: 2px; }

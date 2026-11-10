@@ -11,7 +11,7 @@
 .guide-amounts th { font-weight: 700; }
 .guide-table-detail { display: block; margin-top: 4px; font-size: .9375rem; font-weight: 400; }
 .guide-amount { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.guide-note { padding: 20px; margin-block: 28px; border-left: 4px solid var(--accent); background: var(--surface); }
+.guide-note { padding: 16px; margin-block: 16px 0; border-left: 4px solid var(--accent); background: var(--surface); }
 .guide-note > :first-child { margin-top: 0; }
 .guide-note > :last-child { margin-bottom: 0; }
 .guide-steps { display: grid; gap: 24px; padding-inline-start: 1.75rem; }

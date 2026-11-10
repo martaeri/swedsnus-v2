@@ -128,7 +128,10 @@
   .checkout-item { grid-template-columns: 52px minmax(0,1fr); }
 }
 
-/* A shared mobile type scale: page, section, panel, card and product titles. */
+/*
+ * Share one size per title role across all mobile pages. Breakpoint overrides
+ * below update each role together; rem keeps the scale relative to text size.
+ */
 @media (max-width: 760px) {
   body {
     --title-page-size: 2rem;
@@ -146,7 +149,8 @@
     min-width: 0;
     max-width: 100%;
     white-space: normal;
-    /* Words stay whole when they fit; enlarged text can still reflow. */
+    /* Balance at word boundaries; only break an oversized word as a last
+       resort when text enlargement makes it wider than the container. */
     overflow-wrap: break-word;
     word-break: normal;
     hyphens: none;
@@ -160,6 +164,7 @@
     font-size: var(--title-section-size);
     line-height: 1.25;
   }
+  /* Panels have less text width after padding, so they share a smaller role. */
   body[data-page] :is(.account-panel, .account-service-grid, .faq-group-head, .product-content,
     .product-spec-panel, .subscription-modal-card, .login-modal-card) h2 {
     font-size: var(--title-panel-size);
@@ -172,12 +177,15 @@
   body[data-page] main h4,
   body[data-page] .site-footer h3,
   body[data-page] .cart-drawer h3 { font-size: 1rem; line-height: 1.3; }
+  /* A shrinkable text column keeps enlarged questions clear of the plus icon. */
   body[data-page] .faq-item summary {
     display: grid;
     grid-template-columns: minmax(0,1fr) 24px;
     font-size: 1rem;
   }
   body[data-page] .info-band strong { font-size: .9375rem; }
+  /* Let heading wrappers shrink and move panel actions below the title,
+     leaving the full row available for readable, balanced heading text. */
   .account-panel-head > div, .faq-group-head > div { min-width: 0; }
   .account-panel-head > div { flex: 1 1 100%; }
   .account-hero > div, .account-section-head > div,
@@ -189,6 +197,8 @@
     --title-panel-size: 1.25rem;
     --title-product-size: .9375rem;
   }
+  /* Give long product names room without shrinking them below 14px.
+     The matching image margins preserve the full-width card image. */
   .product-card-main { padding-inline: 8px; }
   .product-card .product-image { margin-inline: -8px; }
 }

@@ -259,9 +259,9 @@
     padding: 13px 2px;
     font-size: 15px;
     font-weight: 700;
+    border-bottom: 0;
   }
-  .nav-inner > .nav-main-link:first-child,
-  .nav-inner > .nav-main-link:nth-last-child(3) { border-bottom: 0; }
+  .nav-inner > .nav-main-link + .nav-main-link { border-top: 1px solid var(--line); }
   .mobile-nav-group {
     display: grid;
     margin: 3px 0 6px;

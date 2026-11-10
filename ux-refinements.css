@@ -262,6 +262,7 @@
     border-bottom: 0;
   }
   .nav-inner > .nav-main-link + .nav-main-link { border-top: 1px solid var(--line); }
+  .nav-inner > .nav-main-link[href="guide.html"] + .nav-main-link[href="faq.html"] { border-top: 0; }
   .mobile-nav-group {
     display: grid;
     margin: 3px 0 6px;

@@ -127,6 +127,47 @@
 @media (max-width: 360px) {
   .checkout-item { grid-template-columns: 52px minmax(0,1fr); }
 }
+
+/* Home titles keep a readable size and balance lines at word boundaries. */
+@media (max-width: 760px) {
+  body[data-page="home"] .section-head { flex-direction: column; }
+  body[data-page="home"] main h1,
+  body[data-page="home"] main h2,
+  body[data-page="home"] .knowledge-grid h3,
+  body[data-page="home"] .info-band strong,
+  body[data-page="home"] .site-footer h3 {
+    min-width: 0;
+    width: 100%;
+    white-space: normal;
+    /* Emergency wrapping keeps enlarged text inside its container. */
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+    text-wrap: balance;
+  }
+  body[data-page="home"] .hero h1 { font-size: 2rem; line-height: 1.15; }
+  body[data-page="home"] main h2 { font-size: 1.5rem; line-height: 1.25; }
+  body[data-page="home"] .knowledge-grid h3 { font-size: 1.25rem; line-height: 1.25; }
+  body[data-page="home"] .info-band strong { font-size: .9375rem; }
+  body[data-page="home"] .site-footer h3 { font-size: 1rem; }
+  body[data-page="home"] .product-name {
+    font-size: 1rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+    text-wrap: balance;
+  }
+}
+@media (max-width: 480px) {
+  body[data-page="home"] .product-name { font-size: .9375rem; }
+}
+@media (max-width: 360px) {
+  body[data-page="home"] .hero h1 { font-size: 1.75rem; }
+  body[data-page="home"] main h2 { font-size: 1.25rem; }
+  body[data-page="home"] .knowledge-grid h3 { font-size: 1.125rem; }
+  body[data-page="home"] .product-name { font-size: .921875rem; }
+}
 @media (max-width: 340px) {
   .product-card .pack-dropdown-trigger > span:first-child { grid-template-columns: minmax(0,1fr); gap: 2px; }
   .product-card .pack-trigger-price { justify-items: start; text-align: left; }

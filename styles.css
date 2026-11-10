@@ -172,7 +172,7 @@ h1,h2,h3,h4 { font-family: 'Montserrat', Arial, sans-serif; letter-spacing: -.02
 .subscribe-card-add:hover { background: var(--action-hover); }
 .bookmark { position: absolute; z-index: 2; top: 10px; right: 10px; border: 1px solid var(--line); background: var(--bookmark-bg); width: 34px; height: 34px; display: grid; place-items: center; color: var(--ink); }
 .bookmark svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; }
-.bookmark:hover, .bookmark.active { background: var(--selected-bg); color: white; border-color: var(--selected-bg); }
+.bookmark.active { background: var(--selected-bg); color: white; border-color: var(--selected-bg); }
 .bookmark.active svg { fill: currentColor; }
 
 .split-feature { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); background: var(--surface); margin: 64px 0; }

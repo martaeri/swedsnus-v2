@@ -7,16 +7,26 @@
 .guide-amounts caption { padding-bottom: 12px; text-align: left; font-weight: 600; }
 .guide-amounts th, .guide-amounts td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .guide-amounts thead { background: var(--bg); }
-.guide-amounts th:first-child { width: 56%; }
+.guide-amounts th:first-child { width: 43%; }
 .guide-amounts th { font-weight: 700; }
+/* Keep variants together without divider lines or full product-row spacing. */
+.guide-amounts .guide-amount-group > tr > :is(th,td) { border-bottom: 0; }
+.guide-amounts .guide-amount-group-heading > th { width: auto; padding-bottom: 4px; }
+.guide-amounts .guide-amount-variant > :is(th,td) { padding-top: 4px; padding-bottom: 4px; }
+.guide-amounts .guide-amount-variant > th { padding-inline-start: 24px; font-weight: 400; }
+.guide-amounts .guide-amount-variant:last-child > :is(th,td) { padding-bottom: 12px; }
 .guide-table-detail { display: block; margin-top: 4px; font-size: .9375rem; font-weight: 400; }
 .guide-amount { white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Keep grams inline after dl; wrap the complete parenthesis when space is tight. */
+.guide-weight { font-size: .9375rem; white-space: nowrap; }
 .guide-note { padding: 16px; margin-block: 16px 0; border-left: 4px solid var(--accent); background: var(--surface); }
 .guide-note > :first-child { margin-top: 0; }
 .guide-note > :last-child { margin-bottom: 0; }
-.guide-steps { display: grid; gap: 24px; padding-inline-start: 1.75rem; }
-.guide-steps > li { padding-inline-start: .25rem; }
-.guide-steps > li::marker { font: 700 1.125rem 'Montserrat',sans-serif; color: var(--accent); }
+/* Number the heading while leaving paragraphs and tables flush with the page.
+   The HTML keeps an ordered list with role=list for assistive technology. */
+.guide-steps { display: grid; gap: 24px; padding: 0; list-style: none; counter-reset: guide-step; }
+.guide-steps > li { min-width: 0; counter-increment: guide-step; }
+.guide-steps > li > h3::before { content: counter(guide-step) '. '; color: var(--accent); }
 .guide-steps h3 { margin-bottom: 8px; }
 .guide-steps p:last-child { margin-bottom: 0; }
 .guide-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; margin-block: 32px; }

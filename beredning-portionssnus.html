@@ -30,7 +30,7 @@
             <!-- Start with the instruction. Product quantities belong in step one;
                  keep the original table values and the aroma-in-water guidance.
                  Flavour differences stay in the intro; mixing guidance is in step two. -->
-            <ol class="guide-steps">
+            <ol class="guide-steps" role="list">
               <li>
                 <h3>Mät upp vätskan</h3>
                 <p>Välj din produkt i tabellen. Det högre värdet är maxmängden. Börja med lite mindre vatten.</p>
@@ -40,15 +40,22 @@
                   <tbody>
                     <tr>
                       <th scope="row">Instant Portion</th>
-                      <td><strong class="guide-amount">1,1–1,2 dl</strong><span class="guide-table-detail">110–120 g</span></td>
+                      <td><strong class="guide-amount">1,1–1,2 dl</strong> <span class="guide-weight">(110–120 g)</span></td>
                     </tr>
-                    <tr>
-                      <th scope="row">Super Dry<span class="guide-table-detail">Fat Boy &amp; Buster</span></th>
-                      <td><strong class="guide-amount">1,5–1,6 dl</strong><span class="guide-table-detail">150–160 g</span></td>
+                  </tbody>
+                  <!-- One product heading groups both Super Dry variants;
+                       each variant keeps its own quantity and row header. -->
+                  <tbody class="guide-amount-group">
+                    <tr class="guide-amount-group-heading">
+                      <th scope="rowgroup" colspan="2">Super Dry</th>
                     </tr>
-                    <tr>
-                      <th scope="row">Super Dry<span class="guide-table-detail">Notch</span></th>
-                      <td><strong class="guide-amount">1,1–1,2 dl</strong><span class="guide-table-detail">110–120 g</span></td>
+                    <tr class="guide-amount-variant">
+                      <th scope="row">Fat Boy &amp; Buster</th>
+                      <td><strong class="guide-amount">1,5–1,6 dl</strong> <span class="guide-weight">(150–160 g)</span></td>
+                    </tr>
+                    <tr class="guide-amount-variant">
+                      <th scope="row">Notch</th>
+                      <td><strong class="guide-amount">1,1–1,2 dl</strong> <span class="guide-weight">(110–120 g)</span></td>
                     </tr>
                   </tbody>
                 </table>
@@ -67,7 +74,7 @@
 
           <section class="guide-section" id="forvaring" aria-labelledby="forvaring-title">
             <h2 id="forvaring-title">Förvaring</h2>
-            <p>Förvara alltid fuktade portioner i kylskåp för att låta dem mogna och hålla dem färska. För Instant Portion rekommenderas cirka fyra dygn till en vecka för bästa resultat.</p>
+            <p>Låt portionerna mogna i kylskåp i cirka fyra dygn till en vecka för bästa resultat. Förvara dem även därefter kylt för att hålla dem färska.</p>
             <p>Ofuktat snus förvaras i tillsluten förpackning, inte över rumstemperatur. Det behöver inte kylförvaras före beredning.</p>
           </section>
 

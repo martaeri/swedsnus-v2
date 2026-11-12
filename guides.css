@@ -1,20 +1,25 @@
 /* Shared guide layout; heading sizes and colours come from the site theme. */
-.guide-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 32px; }
+.guide-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 20px; }
 .guide-selector .btn { flex: 1 1 8rem; }
-.guide-section { margin-block: 40px; scroll-margin-top: 24px; }
+.guide-section { margin-block: 28px; scroll-margin-top: 24px; }
+.guide-page .guide-section > h2 { margin: 0 0 12px; }
 /* Keep native table semantics and two readable columns at every viewport. */
 .guide-amounts { width: 100%; table-layout: fixed; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); }
-.guide-amounts caption { padding-bottom: 12px; text-align: left; font-weight: 600; }
-.guide-amounts th, .guide-amounts td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.guide-amounts caption { padding-bottom: 8px; text-align: left; font-weight: 600; }
+.guide-amounts th, .guide-amounts td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .guide-amounts thead { background: var(--bg); }
 .guide-amounts th:first-child { width: 43%; }
 .guide-amounts th { font-weight: 700; }
+/* Let the package-size heading set its natural width instead of breaking words. */
+.guide-amounts--sizes { table-layout: auto; }
+.guide-amounts--sizes th:first-child { width: auto; }
+.guide-amounts--sizes thead th:first-child { white-space: nowrap; }
 /* Keep variants together without divider lines or full product-row spacing. */
 .guide-amounts .guide-amount-group > tr > :is(th,td) { border-bottom: 0; }
-.guide-amounts .guide-amount-group-heading > th { width: auto; padding-bottom: 4px; }
-.guide-amounts .guide-amount-variant > :is(th,td) { padding-top: 4px; padding-bottom: 4px; }
-.guide-amounts .guide-amount-variant > th { padding-inline-start: 24px; font-weight: 400; }
-.guide-amounts .guide-amount-variant:last-child > :is(th,td) { padding-bottom: 12px; }
+.guide-amounts .guide-amount-group-heading > th { width: auto; padding-bottom: 0; }
+.guide-amounts .guide-amount-variant > :is(th,td) { padding-top: 1px; padding-bottom: 1px; }
+.guide-amounts .guide-amount-variant > th { padding-inline-start: 16px; font-weight: 400; }
+.guide-amounts .guide-amount-variant:last-child > :is(th,td) { padding-bottom: 6px; }
 .guide-table-detail { display: block; margin-top: 4px; font-size: .9375rem; font-weight: 400; }
 .guide-amount { white-space: nowrap; font-variant-numeric: tabular-nums; }
 /* Keep grams inline after dl; wrap the complete parenthesis when space is tight. */
@@ -22,12 +27,13 @@
 .guide-note { padding: 16px; margin-block: 16px 0; border-left: 4px solid var(--accent); background: var(--surface); }
 .guide-note > :first-child { margin-top: 0; }
 .guide-note > :last-child { margin-bottom: 0; }
-/* Number the heading while leaving paragraphs and tables flush with the page.
-   The HTML keeps an ordered list with role=list for assistive technology. */
-.guide-steps { display: grid; gap: 24px; padding: 0; list-style: none; counter-reset: guide-step; }
+/* Put the number directly into the instruction, without a separate heading.
+   The ordered list retains its semantics and all content stays full width. */
+.guide-steps { display: grid; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; counter-reset: guide-step; }
 .guide-steps > li { min-width: 0; counter-increment: guide-step; }
-.guide-steps > li > h3::before { content: counter(guide-step) '. '; color: var(--accent); }
-.guide-steps h3 { margin-bottom: 8px; }
+.guide-steps > li > p:first-child::before { content: counter(guide-step) '. '; font-weight: 700; color: var(--accent); }
+.guide-steps > li > p, .guide-steps .guide-note > p { margin-bottom: 8px; }
+.guide-steps .guide-note { margin: 8px 0 0; padding: 0; border: 0; background: none; }
 .guide-steps p:last-child { margin-bottom: 0; }
 .guide-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; margin-block: 32px; }
 .guide-options > article { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-surface,3px); background: var(--surface); }
@@ -38,6 +44,6 @@
 
 @media (max-width: 760px) {
   .guide-options { grid-template-columns: minmax(0,1fr); }
-  .guide-amounts th, .guide-amounts td { padding: 12px 10px; }
+  .guide-amounts th, .guide-amounts td { padding: 8px 10px; }
   .guide-options > article { padding: 20px 16px; }
 }
